@@ -52,15 +52,21 @@ public class GameManager : MonoBehaviour
     public void UnloadScene()
     {
         SceneManager.UnloadSceneAsync("UITransition");
+
     }
 
     public void UnloadGameScenes()
     {
         Scene targetScene = SceneManager.GetSceneByName("ReleaseFishMG");
+        Scene targetScene2 = SceneManager.GetSceneByName( "LevelSelect");
 
         if (targetScene.IsValid())
         {
             SceneManager.UnloadSceneAsync(targetScene);
+        }
+        if (targetScene2.IsValid())
+        {
+            SceneManager.UnloadSceneAsync(targetScene2);
         }
     }
 

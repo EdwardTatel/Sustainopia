@@ -23,7 +23,6 @@ public class NetFish : MonoBehaviour
             if(rb != null) rb.AddForce(jumpDirection * jumpForce, ForceMode.Impulse); 
         }
     }
-    
     void OnMouseDown()
     {
         screenPoint = Camera.main.WorldToScreenPoint(transform.position);

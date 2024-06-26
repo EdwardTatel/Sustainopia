@@ -1,14 +1,19 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class SpawnFish : MonoBehaviour
 {
-    public GameObject prefab1; 
+    public GameObject prefab1;
     public GameObject prefab2;
     public GameObject gameManager;
-    private int numberOfObjects = 10; 
-    private Vector3 minXMaxX = new Vector3(-10f, 10f); 
-    private Vector3 minYMaxY = new Vector3(3f, 5f);
-    private Vector3 minZMaxZ = new Vector3(-5f, 5f); 
+    private int numberOfObjects = 10;
+    private Vector2 minXMaxX = new Vector2(-10f, 10f);
+    private Vector2 minYMaxY = new Vector2(3f, 5f);
+    private Vector2 minZMaxZ = new Vector2(-5f, 5f);
+
+    private List<Vector3> spawnPositions = new List<Vector3>();
+    private float minDistance = 4f; // Minimum distance between spawned objects
+
     void Start()
     {
         SpawnObjects();
@@ -16,8 +21,8 @@ public class SpawnFish : MonoBehaviour
 
     void SpawnObjects()
     {
-        int numPrefab1 = (int)(numberOfObjects * 0.7f); 
-        int numPrefab2 = numberOfObjects - numPrefab1; 
+        int numPrefab1 = (int)(numberOfObjects * 0.7f);
+        int numPrefab2 = numberOfObjects - numPrefab1;
 
         for (int i = 0; i < numPrefab1; i++)
         {
@@ -26,6 +31,7 @@ public class SpawnFish : MonoBehaviour
 
             GameObject newObject = Instantiate(prefab1, spawnPosition, spawnRotation);
             newObject.transform.SetParent(gameManager.transform, false);
+            spawnPositions.Add(spawnPosition);
         }
 
         for (int i = 0; i < numPrefab2; i++)
@@ -35,6 +41,7 @@ public class SpawnFish : MonoBehaviour
 
             GameObject newObject = Instantiate(prefab2, spawnPosition, spawnRotation);
             newObject.transform.SetParent(gameManager.transform, false);
+            spawnPositions.Add(spawnPosition);
         }
     }
 
@@ -59,6 +66,11 @@ public class SpawnFish : MonoBehaviour
             }
         }
 
+        if (!positionFound)
+        {
+            Debug.LogWarning("Could not find a valid spawn position after " + maxAttempts + " attempts.");
+        }
+
         return spawnPosition;
     }
 
@@ -70,10 +82,9 @@ public class SpawnFish : MonoBehaviour
 
     bool IsPositionTooClose(Vector3 checkPosition)
     {
-        Collider[] colliders = Physics.OverlapSphere(checkPosition, 4f); 
-        foreach (Collider collider in colliders)
+        foreach (Vector3 position in spawnPositions)
         {
-            if (collider.gameObject != null && collider.gameObject != gameObject)
+            if (Vector3.Distance(position, checkPosition) < minDistance)
             {
                 return true; 
             }
