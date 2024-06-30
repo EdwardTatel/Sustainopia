@@ -68,7 +68,6 @@ public class SpawnFish : MonoBehaviour
 
         if (!positionFound)
         {
-            Debug.LogWarning("Could not find a valid spawn position after " + maxAttempts + " attempts.");
         }
 
         return spawnPosition;

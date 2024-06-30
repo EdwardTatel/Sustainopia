@@ -36,6 +36,7 @@ public class NetFish : MonoBehaviour
         transform.position = new Vector3(curPosition.x, 4, curPosition.z);
     }
 
+    
     private Vector3 GetMouseWorldPos()
     {
         Vector3 mousePos = Input.mousePosition;

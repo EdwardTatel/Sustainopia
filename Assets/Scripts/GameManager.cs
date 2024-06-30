@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
 {
     public Camera camecamera;
     public Animator animator;
+    private int microGameNumber = 1;
+
     public enum UISelect
     {
         ReleaseFishInst,
@@ -17,12 +19,13 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        animator.Play("SDGImagePop");
+       
     }
 
     void Update()
     {
-        if(Camera.main != null) camecamera = Camera.main;
+        animator.SetInteger("microGame", microGameNumber);
+        if (Camera.main != null) camecamera = Camera.main;
     }
     public void DisableCanvas()
     {
@@ -47,7 +50,28 @@ public class GameManager : MonoBehaviour
     }
     public void LoadMicroGame()
     {
-        SceneManager.LoadSceneAsync("ReleaseFishMG",LoadSceneMode.Additive);
+        switch(microGameNumber) {
+            case 1:
+                SceneManager.LoadSceneAsync("ReleaseFishMG", LoadSceneMode.Additive);
+                microGameNumber++;
+                break;
+            case 2:
+                SceneManager.LoadSceneAsync("WoodConstructionMG", LoadSceneMode.Additive);
+                microGameNumber++;
+                break;
+            case 3:
+                SceneManager.LoadSceneAsync("RemoveInvasiveSpeciesMG", LoadSceneMode.Additive);
+                microGameNumber++;
+                break;
+            default:
+                break;
+        }
+            
+
+    }
+    public void LoadSecondMicroGame()
+    {
+        SceneManager.LoadSceneAsync("WoodConstructionMG", LoadSceneMode.Additive);
     }
     public void UnloadScene()
     {
@@ -58,7 +82,8 @@ public class GameManager : MonoBehaviour
     public void UnloadGameScenes()
     {
         Scene targetScene = SceneManager.GetSceneByName("ReleaseFishMG");
-        Scene targetScene2 = SceneManager.GetSceneByName( "LevelSelect");
+        Scene targetScene2 = SceneManager.GetSceneByName("WoodConstructionMG");
+        Scene targetScene3 = SceneManager.GetSceneByName( "LevelSelect");
 
         if (targetScene.IsValid())
         {
@@ -67,6 +92,10 @@ public class GameManager : MonoBehaviour
         if (targetScene2.IsValid())
         {
             SceneManager.UnloadSceneAsync(targetScene2);
+        }
+        if (targetScene3.IsValid())
+        {
+            SceneManager.UnloadSceneAsync(targetScene3);
         }
     }
 

@@ -14,7 +14,7 @@ public class ReleaseFishMGManager : MonoBehaviour
 
     void Start()
     {
-       SDGText = GameObject.Find("SDGText (1)").GetComponent<TextMeshProUGUI>();
+       SDGText = GameObject.Find("LifeBelowWaterDoneText").GetComponent<TextMeshProUGUI>();
        SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();
     }
 
@@ -22,7 +22,7 @@ public class ReleaseFishMGManager : MonoBehaviour
     {
         RemoveNullReferences();
         CollectFishObjects();
-        CheckFishList();
+        WinCondition();
     }
 
     void CollectFishObjects()
@@ -43,7 +43,7 @@ public class ReleaseFishMGManager : MonoBehaviour
         fishList.RemoveAll(obj => obj == null);
     }
 
-    private void CheckFishList()
+    private void WinCondition()
     {
         if (fishList.Count <= 6 && !gameDone)
         {
@@ -55,14 +55,14 @@ public class ReleaseFishMGManager : MonoBehaviour
             if (bigFishCount >= 5)
             {
                 SDGText.text = "Population Preserved!";
-                SDGImageAnimator.SetTrigger("RunDone");
+                SDGImageAnimator.Play("ReleaseFishMGDone");
             }
 
 
             else
             {
                 SDGText.text = "Population at Risk!";
-                SDGImageAnimator.SetTrigger("RunDone");
+                SDGImageAnimator.Play("ReleaseFishMGDone");
             }
             gameDone = true;
         }
