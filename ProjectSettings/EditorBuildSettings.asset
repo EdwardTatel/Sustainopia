@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WoodConstructionMG.unity
     guid: d474e104fd815f44e86c65f334904cfe
+  - enabled: 1
+    path: Assets/Scenes/RemoveInvasiveSpeciesMG.unity
+    guid: 11ee833f11056f9478f0f1785cdaacef
   m_configObjects: {}

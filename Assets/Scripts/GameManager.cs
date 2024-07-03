@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
                 break;
             case 3:
                 SceneManager.LoadSceneAsync("RemoveInvasiveSpeciesMG", LoadSceneMode.Additive);
-                microGameNumber++;
+                microGameNumber = 1;
                 break;
             default:
                 break;
@@ -83,7 +83,9 @@ public class GameManager : MonoBehaviour
     {
         Scene targetScene = SceneManager.GetSceneByName("ReleaseFishMG");
         Scene targetScene2 = SceneManager.GetSceneByName("WoodConstructionMG");
-        Scene targetScene3 = SceneManager.GetSceneByName( "LevelSelect");
+        Scene targetScene3 = SceneManager.GetSceneByName("RemoveInvasiveSpeciesMG");
+        Scene targetScene4 = SceneManager.GetSceneByName( "LevelSelect");
+
 
         if (targetScene.IsValid())
         {
@@ -96,6 +98,10 @@ public class GameManager : MonoBehaviour
         if (targetScene3.IsValid())
         {
             SceneManager.UnloadSceneAsync(targetScene3);
+        }
+        if (targetScene4.IsValid())
+        {
+            SceneManager.UnloadSceneAsync(targetScene4);
         }
     }
 

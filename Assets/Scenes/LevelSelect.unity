@@ -160,7 +160,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -16.2228, y: -4.903579}
+  m_AnchoredPosition: {x: -16.2, y: -4.903579}
   m_SizeDelta: {x: 422, y: 657}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &16761753
@@ -437,7 +437,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 101
-  m_Sprite: {fileID: 21300000, guid: 824087a79df8eda4c967775573b1fd56, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 08653bf9d5759ac46a8ca587f6b9e6fb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -704,7 +704,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 101
-  m_Sprite: {fileID: 21300000, guid: 824087a79df8eda4c967775573b1fd56, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 08653bf9d5759ac46a8ca587f6b9e6fb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1161,7 +1161,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 84.76117
+  orthographic size: 84.5821
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2549,7 +2549,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 101
-  m_Sprite: {fileID: 21300000, guid: 824087a79df8eda4c967775573b1fd56, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 10cad095bf5c55a4599db486b361aac6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3990,11 +3990,11 @@ MonoBehaviour:
     sentences:
     - Welcome to "City 1"! I'm the mayor! We welcome you with open arms President
       "Player Name"!
-    - We heard about your endeavor on making Sustainopia a sustainable country, so
-      we prepared a list of what you can help us with. Since we are a coastal city,
-      our main export is fish!
-    - 'For the past few years we were doing good, but recently the number of catches
-      seem to get fewer and fewer as the years go by. '
+    - 'We heard about your endeavor on making Sustainopia a sustainable country,
+      so we prepared a list of what you can help us with. '
+    - 'Since we are a coastal city, our main export is fish! and we''ve been doing
+      good for the past few years, but recently the number of catches seem to get
+      fewer and fewer as the years go by. '
     - We suspect that it's because of the people not following proper fishing guidelines
       like letting go of catch when they aren't matured yet. These make the fish
       unable to live a full cycle and reproduce normally.
