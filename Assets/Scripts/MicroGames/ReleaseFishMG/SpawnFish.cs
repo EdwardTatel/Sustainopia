@@ -7,15 +7,19 @@ public class SpawnFish : MonoBehaviour
     public GameObject prefab2;
     public GameObject gameManager;
     private int numberOfObjects = 10;
-    private Vector2 minXMaxX = new Vector2(-10f, 10f);
+    private Vector2 minXMaxX = new Vector2(10f, 30f);
     private Vector2 minYMaxY = new Vector2(3f, 5f);
-    private Vector2 minZMaxZ = new Vector2(-5f, 5f);
+    private Vector2 minZMaxZ = new Vector2(5f, 15f);
 
     private List<Vector3> spawnPositions = new List<Vector3>();
     private float minDistance = 4f; // Minimum distance between spawned objects
 
+    private LinearCongruentialGenerator lcg;
+
     void Start()
     {
+        // Initialize the LCG with a seed
+        lcg = new LinearCongruentialGenerator((long)System.DateTime.Now.Ticks);
         SpawnObjects();
     }
 
@@ -53,9 +57,9 @@ public class SpawnFish : MonoBehaviour
 
         for (int attempt = 0; attempt < maxAttempts; attempt++)
         {
-            float randomX = Random.Range(minXMaxX.x, minXMaxX.y);
-            float randomY = Random.Range(minYMaxY.x, minYMaxY.y);
-            float randomZ = Random.Range(minZMaxZ.x, minZMaxZ.y);
+            float randomX = lcg.NextFloat(minXMaxX.x, minXMaxX.y);
+            float randomY = lcg.NextFloat(minYMaxY.x, minYMaxY.y);
+            float randomZ = lcg.NextFloat(minZMaxZ.x, minZMaxZ.y);
 
             spawnPosition = new Vector3(randomX, randomY, randomZ);
 
@@ -68,6 +72,7 @@ public class SpawnFish : MonoBehaviour
 
         if (!positionFound)
         {
+            // Handle case where a valid position is not found after maxAttempts
         }
 
         return spawnPosition;
@@ -75,7 +80,7 @@ public class SpawnFish : MonoBehaviour
 
     Quaternion GetRandomYRotation()
     {
-        float randomYRotation = Random.Range(0f, 360f);
+        float randomYRotation = lcg.NextFloat(0f, 360f);
         return Quaternion.Euler(90f, randomYRotation, 0f);
     }
 
@@ -85,10 +90,10 @@ public class SpawnFish : MonoBehaviour
         {
             if (Vector3.Distance(position, checkPosition) < minDistance)
             {
-                return true; 
+                return true;
             }
         }
 
-        return false; 
+        return false;
     }
 }

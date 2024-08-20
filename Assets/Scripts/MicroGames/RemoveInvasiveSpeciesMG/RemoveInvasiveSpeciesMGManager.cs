@@ -17,23 +17,13 @@ public class RemoveInvasiveSpeciesMGManager : MonoBehaviour
     {
         SDGText = GameObject.Find("LifeOnLandDoneText").GetComponent<TextMeshProUGUI>();
         SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();
-        CollectSpeciesObjects();
     }
-
     private void Update()
     {
         RemoveNullReferences();
         WinCondition();
     }
 
-    void CollectSpeciesObjects()
-    {
-        GameObject[] speciesArray = GameObject.FindGameObjectsWithTag("NonInvasive");
-        speciesList.AddRange(speciesArray);
-
-        GameObject[] invasivespeciesArray = GameObject.FindGameObjectsWithTag("Invasive");
-        invasiveSpeciesList.AddRange(invasivespeciesArray);
-    }
 
     void RemoveNullReferences()
     {
@@ -64,7 +54,7 @@ public class RemoveInvasiveSpeciesMGManager : MonoBehaviour
                 gameDone = true;
                 SDGImageAnimator.Play("RemoveInvasiveSpeciesMGDone");
             }
-            else if (speciesList.Count < 6)
+            else if (speciesList.Count < 25)
             {
                 SDGText.text = "Biodiversity Loss!";
                 gameDone = true;
