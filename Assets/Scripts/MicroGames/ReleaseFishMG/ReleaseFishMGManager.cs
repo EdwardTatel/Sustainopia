@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -6,16 +5,21 @@ using UnityEngine;
 public class ReleaseFishMGManager : MonoBehaviour
 {
     public List<GameObject> fishList = new List<GameObject>();
-    [SerializeField] private int bigFishCount = 0;
+    private int bigFishCount = 0;
     private TextMeshProUGUI SDGText;
     private Animator SDGImageAnimator;
     private bool gameDone = false;
+    private int fishCountTarget;
 
 
     void Start()
     {
+       MicroGameVariables.gameFailed = false;
        SDGText = GameObject.Find("LifeBelowWaterDoneText").GetComponent<TextMeshProUGUI>();
        SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();
+       SetDifficulty();
+       GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();
+       MicroGameVariables.ShowUI();
     }
 
     void Update()
@@ -43,30 +47,64 @@ public class ReleaseFishMGManager : MonoBehaviour
         fishList.RemoveAll(obj => obj == null);
     }
 
+    private void SetDifficulty()
+    {
+        switch (MicroGameVariables.GetDifficulty())
+        {
+            case MicroGameVariables.levels.hard:
+                fishCountTarget = 6;
+                break;
+            case MicroGameVariables.levels.medium:
+                fishCountTarget = 5;
+                break;
+            default:
+                fishCountTarget = 3;
+                break;
+        }
+    }
     private void WinCondition()
     {
-        if (fishList.Count <= 6 && !gameDone)
+        if (!gameDone)
         {
-            foreach(GameObject fish in fishList)
+            if (MicroGameVariables.gameFailed == true)
             {
-                if (fish.name == "BigFish(Clone)") bigFishCount++;
+                GameFailed();
+                gameDone = true;
             }
-
-            if (bigFishCount >= 5)
-            {
-                SDGText.text = "Population Preserved!";
-                SDGImageAnimator.Play("ReleaseFishMGDone");
-            }
-
-
             else
             {
-                SDGText.text = "Population at Risk!";
-                SDGImageAnimator.Play("ReleaseFishMGDone");
-            }
-            gameDone = true;
-        }
+                if (fishList.Count <= fishCountTarget)
+                {
+                    foreach (GameObject fish in fishList)
+                    {
+                        if (fish.name == "BigFish(Clone)") bigFishCount++;
+                    }
 
-        
+                    if (bigFishCount >= fishList.Count)
+                    {
+                        GameWon();
+                    }
+                    else
+                    {
+                        GameFailed();
+                    }
+                    gameDone = true;
+
+                }
+            }
+        }
+    }
+    public void GameFailed()
+    {
+        SDGText.text = "Population at Risk!";
+        SDGImageAnimator.Play("ReleaseFishMGDone");
+        MicroGameVariables.HideUI();
+        MicroGameVariables.DeductLife();
+    }
+    public void GameWon()
+    {
+        SDGText.text = "Population Preserved!";
+        SDGImageAnimator.Play("ReleaseFishMGDone");
+        MicroGameVariables.HideUI();
     }
 }

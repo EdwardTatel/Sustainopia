@@ -44,6 +44,7 @@ public class SpawnSpecies : MonoBehaviour
             {
                 Debug.Log("1st");
                 GameObject prefab = Instantiate(species1Prefab, selectedSpawnObjects[i].transform.position, selectedSpawnObjects[i].transform.rotation);
+                GetComponent<RemoveInvasiveSpeciesMGManager>().invasiveSpeciesList.Add(prefab);
                 GetComponent<RemoveInvasiveSpeciesMGManager>().speciesList.Add(prefab);
             }
             else if (i > (selectedSpawnObjects.Count - 5) / 2)

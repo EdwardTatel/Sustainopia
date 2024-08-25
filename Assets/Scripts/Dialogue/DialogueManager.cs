@@ -60,7 +60,7 @@ public class DialogueManager : MonoBehaviour
 
     void EndDialogue()
     {
-        FindObjectOfType<MicroGameManager>().LoadUIScene();
+        FindObjectOfType<StartSequence>().LoadUIScene();
         animator.SetBool("IsOpen", false);
     }
    

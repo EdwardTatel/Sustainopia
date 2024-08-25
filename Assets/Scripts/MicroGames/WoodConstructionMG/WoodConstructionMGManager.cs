@@ -5,7 +5,7 @@ using TMPro;
 using Unity.VisualScripting.FullSerializer.Internal;
 using UnityEngine;
 
-public class GenerateMaterials : MonoBehaviour
+public class WoodConstructionMGManager : MonoBehaviour
 {
     public enum MaterialType
     {
@@ -32,6 +32,7 @@ public class GenerateMaterials : MonoBehaviour
 
     void Start()
     {
+        MicroGameVariables.gameFailed = false;
         SDGText = GameObject.Find("ClimateActionDoneText").GetComponent<TextMeshProUGUI>();
         SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();
         GenerateMaterialList();
@@ -39,11 +40,13 @@ public class GenerateMaterials : MonoBehaviour
         InstantiateAndAssignMaterial();
         PutHouseBlocksToList();
         StartCoroutine(PutHouseBlocksToList());
+        GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();
+        MicroGameVariables.ShowUI();
     }
 
     void GenerateMaterialList()
     {
-        int totalItems = 10;
+        int totalItems = 7;
         int woodCount = (int)(totalItems * 0.66f);
         int concreteCount = totalItems - woodCount;
 
@@ -113,7 +116,8 @@ public class GenerateMaterials : MonoBehaviour
                     Destroy(currentMaterialInstance);
                 }
 
-                currentMaterialInstance = Instantiate(materialPrefab,materialsParent);
+                currentMaterialInstance = Instantiate(materialPrefab);
+                currentMaterialInstance.transform.SetParent(materialsParent.transform, true);
                 Transform materialSpriteTransform = currentMaterialInstance.transform.Find("MaterialSprite");
                 if (materialSpriteTransform != null)
                 {
@@ -129,18 +133,27 @@ public class GenerateMaterials : MonoBehaviour
 
     void Update()
     {
-        unbuiltHouseBlocks = GetComponent<BuildTower>().HouseBlocks.Count;
-        if (currentMaterialInstance == null)
+        if (!gameDone)
         {
-            InstantiateAndAssignMaterial();
+            unbuiltHouseBlocks = GetComponent<BuildTower>().HouseBlocks.Count;
+            if (MicroGameVariables.gameFailed == true)
+            {
+                GameUnfinished();
+                gameDone = true;
+            }
+            else
+            {
+                if (currentMaterialInstance == null)
+                {
+                    InstantiateAndAssignMaterial();
+                }
+                if ((materialQueue.Count <= 0 || unbuiltHouseBlocks <= 0) && !gameDone)
+                {
+                    StartCoroutine(WinCondition());
+                }
+            }
         }
-        if ((materialQueue.Count <= 0 || unbuiltHouseBlocks <= 0) && !gameDone)
-        {
-            StartCoroutine(WinCondition());
-        }
-
     }
-
 
     IEnumerator WinCondition()
     {
@@ -165,25 +178,41 @@ public class GenerateMaterials : MonoBehaviour
         Debug.Log(winConditionCounter);
         if (buildingNotFinished)
         {
-            SDGText.text = "Building Unfinished!";
-            SDGImageAnimator.Play("WoodConstructionMGDone");
+            GameUnfinished();
         }
         else
         {
-            if (winConditionCounter >= 6)
+            if (winConditionCounter >= 3)
             {
-                SDGText.text = "Neutral Carbon Construction!";
-                SDGImageAnimator.Play("WoodConstructionMGDone");
+                GameWon();
             }
             else
             {
-                SDGText.text = "Unsustainable Construction!";
-                SDGImageAnimator.Play("WoodConstructionMGDone");
+                GameFailed();
             }
         }
         gameDone = true;
     }
+    public void GameFailed()
+    {
+        SDGText.text = "Unsustainable Construction!";
+        SDGImageAnimator.Play("WoodConstructionMGDone");
+        MicroGameVariables.HideUI();
+        MicroGameVariables.DeductLife();
+    }
+    public void GameWon()
+    {
+        SDGText.text = "Neutral Carbon Construction!";
+        SDGImageAnimator.Play("WoodConstructionMGDone");
+        MicroGameVariables.HideUI();
+    }
 
+    public void GameUnfinished() { 
+        SDGText.text = "Building Unfinished!";
+        SDGImageAnimator.Play("WoodConstructionMGDone");
+        MicroGameVariables.HideUI();
+        MicroGameVariables.DeductLife();
+    }
 
 
 }

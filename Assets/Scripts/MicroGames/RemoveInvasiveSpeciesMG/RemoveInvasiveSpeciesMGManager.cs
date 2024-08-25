@@ -15,8 +15,11 @@ public class RemoveInvasiveSpeciesMGManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        MicroGameVariables.gameFailed = false;
         SDGText = GameObject.Find("LifeOnLandDoneText").GetComponent<TextMeshProUGUI>();
         SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();
+        GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();
+        MicroGameVariables.ShowUI();
     }
     private void Update()
     {
@@ -48,22 +51,41 @@ public class RemoveInvasiveSpeciesMGManager : MonoBehaviour
     {
         if (!gameDone)
         {
-            if (invasiveSpeciesList.Count <= 0)
+            if (MicroGameVariables.gameFailed == true)
             {
-                SDGText.text = "Biodiversity Protected!";
+                GameFailed();
                 gameDone = true;
-                SDGImageAnimator.Play("RemoveInvasiveSpeciesMGDone");
             }
-            else if (speciesList.Count < 25)
+            else
             {
-                SDGText.text = "Biodiversity Loss!";
-                gameDone = true;
-                SDGImageAnimator.Play("RemoveInvasiveSpeciesMGDone");
-
+                if (invasiveSpeciesList.Count <= 0)
+                {
+                    GameWon();
+                    gameDone = true;
+                }
+                else if (speciesList.Count < 13)
+                {
+                    GameFailed();
+                    gameDone = true;
+                }
             }
-
-            
         }
         
     }
+    void GameFailed()
+    {
+        SDGText.text = "Biodiversity Loss!";
+        SDGImageAnimator.Play("RemoveInvasiveSpeciesMGDone");
+        MicroGameVariables.HideUI();
+        MicroGameVariables.DeductLife();
+    }
+    void GameWon()
+    {
+        SDGText.text = "Biodiversity Protected!";
+        SDGImageAnimator.Play("RemoveInvasiveSpeciesMGDone");
+        MicroGameVariables.HideUI();
+    }
+
 }
+
+    

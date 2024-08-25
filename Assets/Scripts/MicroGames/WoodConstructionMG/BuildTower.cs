@@ -22,7 +22,7 @@ public class BuildTower : MonoBehaviour
     {
         currentHouseBlock = GameObject.Find("HouseBlock");
         currentHouseBlock.GetComponent<Animator>().SetTrigger("Current");
-        houseBlockQuantity = 5;
+        houseBlockQuantity = 3;
         InitializeStack();
         NextQueueItem();
     }
