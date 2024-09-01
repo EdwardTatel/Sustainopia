@@ -8,6 +8,11 @@ TagManager:
   - NonInvasive
   - Invasive
   - SpeciesSpawn
+  - Spawn
+  - Planted
+  - Placeable
+  - Pentomino
+  - PanelChecker
   layers:
   - Default
   - TransparentFX
@@ -17,7 +22,7 @@ TagManager:
   - UI
   - Fish
   - GameObject
-  - 
+  - PuzzlePiece
   - 
   - 
   - 
