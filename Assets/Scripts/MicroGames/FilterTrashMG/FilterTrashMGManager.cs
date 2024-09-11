@@ -19,11 +19,11 @@ public class FilterTrashMGManager : MonoBehaviour
     void Start()
     {
         MicroGameVariables.gameFailed = false;
-        SDGText = GameObject.Find("LifeBelowWaterDoneText").GetComponent<TextMeshProUGUI>();
-        SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();
+        /*SDGText = GameObject.Find("LifeBelowWaterDoneText").GetComponent<TextMeshProUGUI>();
+        SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();*/
         GenerateObjects();
         StartCoroutine(SpawnTrash());
-        GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();
+        /*GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();*/
         MicroGameVariables.ShowUI();
     }
 

@@ -1,12 +1,17 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class RandomSpawner : MonoBehaviour
 {
     [Header("Spawn Settings")]
     public GameObject prefabToSpawn;  // The prefab to spawn
-    public Vector2 xRange = new Vector2(-5, 5);  // Range of X coordinates for spawning
-    public Vector2 yRange = new Vector2(-5, 5);  // Range of Y coordinates for spawning
-    public int numberOfSpawns = 10;  // Number of prefabs to spawn
+    public Vector3[] localSpawnAreaPoints = new Vector3[4];  // Define the 4 corners of the spawn area (relative to object)
+    public int numberOfSpawns = 10;   // Number of prefabs to spawn
+    public float zOffset = 0f;        // Offset in the z-direction
+    public float minSpawnDistance = 1.5f; // Minimum distance between spawned objects
+    public int maxAttempts = 10;      // Maximum attempts to find a valid spawn location
+
+    private List<Vector3> spawnedPositions = new List<Vector3>(); // Store already spawned positions
 
     private void Start()
     {
@@ -17,30 +22,76 @@ public class RandomSpawner : MonoBehaviour
     {
         for (int i = 0; i < numberOfSpawns; i++)
         {
-            // Generate random X and Y within the specified ranges
-            float randomX = Random.Range(xRange.x, xRange.y);
-            float randomY = Random.Range(yRange.x, yRange.y);
+            Vector3 spawnPosition = Vector3.zero;
+            bool validPositionFound = false;
 
-            // Create the spawn position
-            Vector3 spawnPosition = new Vector3(randomX, randomY, 0);
+            // Try finding a valid position within the maximum number of attempts
+            for (int attempt = 0; attempt < maxAttempts; attempt++)
+            {
+                // Generate a random local position within the spawn area
+                Vector3 localSpawnPosition = GetRandomPointInSpawnArea();
+                spawnPosition = transform.TransformPoint(localSpawnPosition); // Convert to world position
 
-            // Instantiate the prefab at the spawn position
-            Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity);
+                // Check if the new spawn position is far enough from all previously spawned objects
+                if (IsPositionValid(spawnPosition))
+                {
+                    validPositionFound = true;
+                    break;
+                }
+            }
+
+            // If a valid position is found, instantiate the object and store its position
+            if (validPositionFound)
+            {
+                Instantiate(prefabToSpawn, spawnPosition, transform.rotation);
+                spawnedPositions.Add(spawnPosition);
+            }
         }
     }
 
-    // Draw the spawn range in the Scene view
+    // Function to get a random point within the custom spawn area
+    private Vector3 GetRandomPointInSpawnArea()
+    {
+        float randomT1 = Random.Range(0f, 1f);
+        float randomT2 = Random.Range(0f, 1f);
+
+        Vector3 pointA = Vector3.Lerp(localSpawnAreaPoints[0], localSpawnAreaPoints[1], randomT1);
+        Vector3 pointB = Vector3.Lerp(localSpawnAreaPoints[3], localSpawnAreaPoints[2], randomT1);
+        Vector3 randomPoint = Vector3.Lerp(pointA, pointB, randomT2);
+
+        randomPoint.z += zOffset;
+        return randomPoint;
+    }
+
+    // Check if the new spawn position is far enough from all previously spawned objects
+    private bool IsPositionValid(Vector3 newPosition)
+    {
+        foreach (Vector3 pos in spawnedPositions)
+        {
+            if (Vector3.Distance(newPosition, pos) < minSpawnDistance)
+            {
+                return false; // Too close to another object
+            }
+        }
+        return true; // Valid position
+    }
+
+    // Draw the spawn area in the Scene view
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
 
-        // Calculate the center of the spawn area
-        Vector3 center = new Vector3((xRange.x + xRange.y) / 2, (yRange.x + yRange.y) / 2, 0);
+        if (localSpawnAreaPoints.Length >= 4)
+        {
+            Vector3 worldPoint0 = transform.TransformPoint(localSpawnAreaPoints[0]);
+            Vector3 worldPoint1 = transform.TransformPoint(localSpawnAreaPoints[1]);
+            Vector3 worldPoint2 = transform.TransformPoint(localSpawnAreaPoints[2]);
+            Vector3 worldPoint3 = transform.TransformPoint(localSpawnAreaPoints[3]);
 
-        // Calculate the size of the spawn area
-        Vector3 size = new Vector3(xRange.y - xRange.x, yRange.y - yRange.x, 0);
-
-        // Draw the rectangle representing the spawn area
-        Gizmos.DrawWireCube(center, size);
+            Gizmos.DrawLine(worldPoint0, worldPoint1);
+            Gizmos.DrawLine(worldPoint1, worldPoint2);
+            Gizmos.DrawLine(worldPoint2, worldPoint3);
+            Gizmos.DrawLine(worldPoint3, worldPoint0);
+        }
     }
 }
