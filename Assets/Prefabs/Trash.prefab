@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2999216681276134810}
   - component: {fileID: 2999216681276134821}
   - component: {fileID: 2999216681276134811}
+  - component: {fileID: 8028249369719254061}
   m_Layer: 0
   m_Name: Trash
   m_TagString: Untagged
@@ -97,6 +98,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b3395a466e6b7446b75b27eca3b06b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
   swayAmplitude: 1
   swayFrequency: 1
+--- !u!65 &8028249369719254061
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2999216681276134820}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 9.6, y: 9.600002, z: 0.20000005}
+  m_Center: {x: 0, y: 0, z: 0}

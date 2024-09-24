@@ -12,15 +12,15 @@ EditorBuildSettings:
     path: Assets/Scenes/UITransition.unity
     guid: cbec6846e9b355c45b086627728f5078
   - enabled: 1
-    path: Assets/Scenes/ReleaseFishMG.unity
+    path: Assets/Scenes/LifeBelowWater/ReleaseFishMG.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/WoodConstructionMG.unity
+    path: Assets/Scenes/ClimateAction/WoodConstructionMG.unity
     guid: d474e104fd815f44e86c65f334904cfe
   - enabled: 1
-    path: Assets/Scenes/RemoveInvasiveSpeciesMG.unity
+    path: Assets/Scenes/LifeOnLand/RemoveInvasiveSpeciesMG.unity
     guid: 11ee833f11056f9478f0f1785cdaacef
   - enabled: 1
-    path: Assets/Scenes/FilterTrashMG.unity
+    path: Assets/Scenes/LifeBelowWater/FilterTrashMG.unity
     guid: 2706f525a186f044698f56eec8ece5ce
   m_configObjects: {}

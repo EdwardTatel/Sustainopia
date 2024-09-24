@@ -21,9 +21,13 @@ public class TrashObject : MonoBehaviour
     {
         // Move the object along the -z axis
         transform.Translate(new Vector3(0, -1, 0) * speed * Time.deltaTime);
-
         // Sway the object on the x axis with an offset
         float sway = Mathf.Sin(Time.time * swayFrequency + swayOffset) * swayAmplitude;
         transform.position = new Vector3(initialPosition.x + sway, transform.position.y, transform.position.z);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        Destroy(gameObject);
     }
 }
