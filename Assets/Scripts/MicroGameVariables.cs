@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public static class MicroGameVariables
@@ -10,6 +11,8 @@ public static class MicroGameVariables
     public static bool gameFailed;
     private static int gamesFinished = 0;
     public static bool _showUI = false;
+    private static int tries = 2;
+
     public static bool showUI
     {
         get { return _showUI; }
@@ -22,7 +25,18 @@ public static class MicroGameVariables
             }
         }
     }
-
+    public static void resetTries()
+    {
+        tries = 2;
+    }
+    public static void deductTries()
+    {
+        tries--;
+    }
+    public static int getTries()
+    {
+        return tries;
+    }
     public static System.Action<bool> OnShowUIChange;
     public enum levels { easy, hard, medium }
 

@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class CarMovement : MonoBehaviour
 {
-    public float moveSpeed = 10f; 
-    public float rotationSpeed = 10f; 
+    public float moveSpeed = 10f;
+    public float rotationSpeed = 10f;
+    public Transform cameraTransform; // Assign the main camera in the Inspector
 
     void Update()
     {
@@ -28,11 +29,22 @@ public class CarMovement : MonoBehaviour
             moveX = 1f;
         }
 
-        Vector3 move = new Vector3(moveX, 0, moveZ).normalized * moveSpeed * Time.deltaTime;
+        // Get the camera's forward and right direction, ignoring the Y axis (flattened)
+        Vector3 forward = cameraTransform.forward;
+        forward.y = 0f;
+        forward.Normalize();
 
+        Vector3 right = cameraTransform.right;
+        right.y = 0f;
+        right.Normalize();
+
+        // Create a movement vector relative to the camera's orientation
+        Vector3 move = (forward * moveZ + right * moveX).normalized * moveSpeed * Time.deltaTime;
+
+        // Apply the movement to the car
         transform.Translate(move, Space.World);
 
-        
+        // Rotate the car towards the movement direction if there is any input
         if (move != Vector3.zero)
         {
             Quaternion toRotation = Quaternion.LookRotation(move, Vector3.up);
