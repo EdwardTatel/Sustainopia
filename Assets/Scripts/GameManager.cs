@@ -52,19 +52,15 @@ public class GameManager : MonoBehaviour
     {
         switch(microGameNumber) {
             case 1:
-                SceneManager.LoadSceneAsync("ReleaseFishMG", LoadSceneMode.Additive);
+                SceneManager.LoadSceneAsync("PlantTreesMG", LoadSceneMode.Additive);
                 microGameNumber++;
                 break;
             case 2:
-                SceneManager.LoadSceneAsync("WoodConstructionMG", LoadSceneMode.Additive);
+                SceneManager.LoadSceneAsync("ReleaseFishMG", LoadSceneMode.Additive);
                 microGameNumber++;
                 break;
             case 3:
-                SceneManager.LoadSceneAsync("RemoveInvasiveSpeciesMG", LoadSceneMode.Additive);
-                microGameNumber++;
-                break;
-            case 4:
-                SceneManager.LoadSceneAsync("FilterTrashMG", LoadSceneMode.Additive);
+                SceneManager.LoadSceneAsync("FillSolarPanelMG", LoadSceneMode.Additive);
                 microGameNumber = 1;
                 break;
             default:
@@ -85,16 +81,25 @@ public class GameManager : MonoBehaviour
 
     public void UnloadGameScenes()
     {
-        Scene targetScene = SceneManager.GetSceneByName("ReleaseFishMG");
-        Scene targetScene2 = SceneManager.GetSceneByName("WoodConstructionMG");
-        Scene targetScene3 = SceneManager.GetSceneByName("RemoveInvasiveSpeciesMG");
-        Scene targetScene4 = SceneManager.GetSceneByName("FilterTrashMG");
-        Scene targetScene5 = SceneManager.GetSceneByName( "LevelSelect");
+        Scene targetScene1 = SceneManager.GetSceneByName("ReleaseFishMG");
+        Scene targetScene2 = SceneManager.GetSceneByName("FilterTrashMG");
+        Scene targetScene3 = SceneManager.GetSceneByName("IllegalFishingMG");
+
+        Scene targetScene4 = SceneManager.GetSceneByName("WoodConstructionMG");
+        Scene targetScene5 = SceneManager.GetSceneByName("SegregateTrashMG");
+        Scene targetScene6 = SceneManager.GetSceneByName("FillSolarPanelMG");
+
+        Scene targetScene7 = SceneManager.GetSceneByName("RemoveInvasiveSpeciesMG");
+        Scene targetScene8 = SceneManager.GetSceneByName("CatchPoachersMG");
+        Scene targetScene9 = SceneManager.GetSceneByName("PlantTreesMG");
 
 
-        if (targetScene.IsValid())
+        Scene targetScene10 = SceneManager.GetSceneByName("LevelSelect");
+
+
+        if (targetScene1.IsValid())
         {
-            SceneManager.UnloadSceneAsync(targetScene);
+            SceneManager.UnloadSceneAsync(targetScene1);
         }
         if (targetScene2.IsValid())
         {
@@ -111,6 +116,26 @@ public class GameManager : MonoBehaviour
         if (targetScene5.IsValid())
         {
             SceneManager.UnloadSceneAsync(targetScene5);
+        }
+        if (targetScene6.IsValid())
+        {
+            SceneManager.UnloadSceneAsync(targetScene6);
+        }
+        if (targetScene7.IsValid())
+        {
+            SceneManager.UnloadSceneAsync(targetScene7);
+        }
+        if (targetScene8.IsValid())
+        {
+            SceneManager.UnloadSceneAsync(targetScene8);
+        }
+        if (targetScene9.IsValid())
+        {
+            SceneManager.UnloadSceneAsync(targetScene9);
+        }
+        if (targetScene10.IsValid())
+        {
+            SceneManager.UnloadSceneAsync(targetScene10);
         }
     }
 

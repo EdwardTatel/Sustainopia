@@ -19,6 +19,10 @@ TagManager:
   - Ewaste
   - Organic
   - Recyclable
+  - PiecesArea
+  - Fisher
+  - Poacher
+  - SoilHole
   layers:
   - Default
   - TransparentFX

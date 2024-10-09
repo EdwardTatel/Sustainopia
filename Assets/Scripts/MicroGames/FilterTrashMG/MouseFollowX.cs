@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class MouseFollowX : MonoBehaviour
 {
-    public float speed = 10f; // Adjust the speed of movement
+    private float speed = 10f; // Adjust the speed of movement
     public float xOffset = 0f; // Offset the position if needed
-
+    
     void Update()
     {
         MoveObjectWithMouse();

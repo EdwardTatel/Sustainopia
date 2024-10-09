@@ -1,37 +1,85 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime.Collections;
 using UnityEngine;
 
 public class FilterTrashMGManager : MonoBehaviour
 {
     public GameObject trashObject; // The prefab to instantiate
     public GameObject fishObject;
+    public GameObject endObject;
     public Transform spawnPoint; // The point where the object will be instantiated
     private int trashQuantity = 5;
-
     private TextMeshProUGUI SDGText;
     private Animator SDGImageAnimator;
+    public GameObject endChecker = null;
+    private GameObject lastObject = null;
+    private bool gameDone = false;
+    private bool endCheck = false;
 
+    public bool gameFailed = false;
+    public List<GameObject> objectsList = new List<GameObject>();
     private List<objectType> objectList = new List<objectType>();
     enum objectType { trash, fish }
     void Start()
     {
+        Cursor.visible = false;
+        MicroGameVariables.SetDifficulty("easy");
         MicroGameVariables.gameFailed = false;
-        /*SDGText = GameObject.Find("LifeBelowWaterDoneText").GetComponent<TextMeshProUGUI>();
-        SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();*/
+        SDGText = GameObject.Find("LifeBelowWaterDoneText").GetComponent<TextMeshProUGUI>();
+        SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();
         GenerateObjects();
         StartCoroutine(SpawnTrash());
-        /*GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();*/
+        GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();
         MicroGameVariables.ShowUI();
+    }
+
+
+    private void Update()
+    {
+        RemoveNullReferences();
+        if (endChecker != null)
+        {
+            if (endChecker.gameObject.transform.position.z <= -48.54f)
+            {
+                WinCondition();
+            }
+        }
+        if (endCheck)
+        {
+            if (lastObject == null)
+            {
+                WinCondition();
+                endCheck = false;
+            }
+                
+        }
     }
 
     void GenerateObjects()
     {
-        int objectQuantity = 7;
-        int trashCount = (int)(objectQuantity * 0.66f);
-        int fishCount = objectQuantity - trashCount;
+        int trashCount = 2;
+        int fishCount = 1;
+        switch (MicroGameVariables.GetDifficulty())
+        {
+            case MicroGameVariables.levels.medium:
+                trashCount = 2;
+                fishCount = 2;
+                break;
+            case MicroGameVariables.levels.hard:
+                trashCount = 3;
+                fishCount = 2;
+                break;
+            default:
+                trashCount = 2;
+                fishCount = 1;
+                break;
+        }
+        
+        
 
 
         for (int i = 0; i < trashCount; i++)
@@ -59,36 +107,61 @@ public class FilterTrashMGManager : MonoBehaviour
 
     IEnumerator SpawnTrash()
     {
-        float timer;
-        switch (MicroGameVariables.GetDifficulty())
-        {
-            case MicroGameVariables.levels.medium:
-                timer = Random.Range(1, 2);
-                break;
-            case MicroGameVariables.levels.hard:
-                timer = Random.Range(.5f, 1);
-                break;
-            default:
-                timer = Random.Range(1,2);
-                break;
-        }
+        float timer = 1;
 
-        foreach(objectType type in objectList)
+        int index = 0;
+        int lastIndex = objectList.Count - 1;
+        foreach (objectType type in objectList)
         {
-            Instantiate((type == objectType.trash) ? trashObject : fishObject, spawnPoint.position + new Vector3(Random.Range(-30, 30),0,0), Quaternion.Euler(90, 0, 0));
+            GameObject listedObject = Instantiate ((type == objectType.trash) ? trashObject : fishObject, spawnPoint.position + new Vector3(Random.Range(-59, 44),0,0), Quaternion.Euler(90, 0, 0));
+            objectsList.Add(listedObject);
+            if (index == lastIndex)
+            {
+                lastObject = listedObject;
+                endChecker = Instantiate(endObject, spawnPoint.position + new Vector3(0, 0, 0), Quaternion.Euler(90, 0, 0));
+                endCheck = true;
+            }
+            index++;
             yield return new WaitForSeconds(timer);
         }
     }
+
+    void RemoveNullReferences()
+    {
+        for (int i = objectsList.Count - 1; i >= 0; i--)
+        {
+            if (objectsList[i] == null)
+            {
+                objectsList.RemoveAt(i);
+            }
+        }
+    }
+
+    void WinCondition()
+    {
+        if (!gameDone)
+        {
+            foreach (GameObject listedObject in objectsList)
+            {
+                if (listedObject.name == "Trash(Clone)") gameFailed = true;
+            }
+            if (gameFailed) GameFailed();
+            else GameWon(); 
+            gameDone = true;
+        }
+
+    }
+
     public void GameFailed()
     {
-        SDGText.text = "Clean Waters!";
+        SDGText.text = "Dirty Waters!";
         SDGImageAnimator.Play("ReleaseFishMGDone");
         MicroGameVariables.HideUI();
         MicroGameVariables.DeductLife();
     }
     public void GameWon()
     {
-        SDGText.text = "Dirty Waters!";
+        SDGText.text = "Clean Waters!";
         SDGImageAnimator.Play("ReleaseFishMGDone");
         MicroGameVariables.HideUI();
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 public class SpawnTrash : MonoBehaviour
 {
     public GameObject trashPrefab; // Assign your trash prefab in the Inspector
-    public int numberOfTrash = 10; // Number of trash objects to spawn
+    public int numberOfTrash = 6; // Number of trash objects to spawn
 
     // Define the range for spawning (editable in the Inspector)
     public float xMin = -5f;
@@ -26,7 +26,24 @@ public class SpawnTrash : MonoBehaviour
 
     void Start()
     {
+        SetDifficulty();
         SpawnTrashObjects();
+    }
+
+    private void SetDifficulty()
+    {
+        switch (MicroGameVariables.GetDifficulty())
+        {
+            case MicroGameVariables.levels.hard:
+                numberOfTrash = 6;
+                break;
+            case MicroGameVariables.levels.medium:
+                numberOfTrash = 5;
+                break;
+            default:
+                numberOfTrash = 3;
+                break;
+        }
     }
 
     void SpawnTrashObjects()

@@ -3,14 +3,13 @@ using UnityEngine;
 public class CheckLight : MonoBehaviour
 {
     private Camera mainCamera;        // Reference to the main camera
-    public float checkDuration = 4f;  // Time in seconds before the object disappears
+    public float checkDuration = 2f;  // Time in seconds before the object disappears
     private float timer = 0f;
     private bool isClear = false;
 
     void Start()
     {
         mainCamera = GameObject.Find("GameCamera").GetComponent<Camera>();
-        transform.rotation = FaceCameraRotation();
     }
 
     void Update()
@@ -43,19 +42,7 @@ public class CheckLight : MonoBehaviour
         }
     }
 
-    private Quaternion FaceCameraRotation()
-    {
-        // Get the direction from the object to the camera
-        Vector3 directionToCamera = mainCamera.transform.position - transform.position;
-
-        // Adjust the rotation to face the camera
-        Quaternion rotation = Quaternion.LookRotation(directionToCamera);
-
-        // Set the Y-axis rotation to 0
-        rotation = Quaternion.Euler(rotation.eulerAngles.x, 0, rotation.eulerAngles.z);
-
-        return rotation;
-    }
+    
 
 
 

@@ -8,7 +8,7 @@ public static class MicroGameVariables
     private static int lives = 3;
     private static int timer;
     private static levels difficulty = levels.easy;
-    public static bool gameFailed;
+    public static bool gameFailed = false;
     private static int gamesFinished = 0;
     public static bool _showUI = false;
     private static int tries = 2;
@@ -60,6 +60,26 @@ public static class MicroGameVariables
     public static void HideUI()
     {
         MicroGameVariables.showUI = false;
+    }
+
+    public static void SetDifficulty(string difficultystring)
+    {
+            switch (difficultystring)
+            {
+                case "easy":
+                    difficulty = levels.easy;
+                    break;
+                case "medium":
+                    difficulty = levels.medium;
+                    break;
+                case "hard":
+                    difficulty = levels.hard;
+                    break;
+            default:
+                    difficulty = levels.easy;
+                    break;
+            }
+
     }
     public static void DifficultyChange()
     {

@@ -32,10 +32,6 @@ public class SpotlightCheck : MonoBehaviour
         RaycastHit hit;
         if (Physics.Linecast(objectPosition, cameraPosition, out hit))
         {
-            // Log the hit information
-            Debug.Log("Hit object: " + hit.transform.name);
-            Debug.Log("Hit point: " + hit.point);
-            Debug.Log("Hit distance: " + hit.distance);
 
             // If a hit is detected, cancel the destruction coroutine if it's running
             if (destructionCoroutine != null)
@@ -49,7 +45,7 @@ public class SpotlightCheck : MonoBehaviour
             // If nothing is hit, start the destruction coroutine if it's not already running
             if (destructionCoroutine == null)
             {
-                destructionCoroutine = StartCoroutine(DestroyAfterTime(4f));
+                destructionCoroutine = StartCoroutine(DestroyAfterTime(2f));
             }
         }
     }
@@ -58,7 +54,6 @@ public class SpotlightCheck : MonoBehaviour
     IEnumerator DestroyAfterTime(float time)
     {
         yield return new WaitForSeconds(time); // Wait for the specified time
-        Debug.Log("No hit detected for " + time + " seconds. Destroying object.");
-        Destroy(gameObject); // Destroy the object
+        gameObject.SetActive(false); // Destroy the object
     }
 }

@@ -28,10 +28,9 @@ public class SegregateTrashMGManager : MonoBehaviour
         // Randomize the tag assignments
         AssignRandomTags();
         MicroGameVariables.gameFailed = false;
-        /*SDGText = GameObject.Find("LifeBelowWaterDoneText").GetComponent<TextMeshProUGUI>();
+        SDGText = GameObject.Find("ClimateActionDoneText").GetComponent<TextMeshProUGUI>();
         SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();
-        SetDifficulty(); 
-        GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();*/
+        GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();
         MicroGameVariables.ShowUI();
         StartCoroutine(CollectTrashAfterStart());
     }
@@ -119,56 +118,47 @@ public class SegregateTrashMGManager : MonoBehaviour
         trashList.RemoveAll(obj => obj == null);
     }
 
-    /*private void SetDifficulty()
-    {
-        switch (MicroGameVariables.GetDifficulty())
-        {
-            case MicroGameVariables.levels.hard:
-                fishCountTarget = 6;
-                break;
-            case MicroGameVariables.levels.medium:
-                fishCountTarget = 5;
-                break;
-            default:
-                fishCountTarget = 3;
-                break;
-        }
-    }*/
-
+    
     private void WinCondition()
-    {   
-        if (trashCollected && !gameDone)
+    {
+        if (!gameDone)
         {
-            Debug.Log("HUH!");
-            if (MicroGameVariables.getTries() <= 0)
+            if (MicroGameVariables.gameFailed)
             {
-                Debug.Log("FAILER!");
-                /*GameFailed();*/
+                GameFailed();
                 gameDone = true;
             }
-            else if(trashList.Count <= 0) 
+            if (trashCollected)
             {
-                Debug.Log("Wonners!");
-                /*GameWon();*/
-                gameDone = true;
+                if (MicroGameVariables.getTries() <= 0)
+                {
+                    Debug.Log("FAILER!");
+                    GameFailed();
+                    gameDone = true;
+                }
+                else if (trashList.Count <= 0)
+                {
+                    Debug.Log("Wonners!");
+                    GameWon();
+                    gameDone = true;
+                }
             }
         }
     }
     public void GameFailed()
     {
-        SDGText.text = "Population at Risk!";
-        SDGImageAnimator.Play("ReleaseFishMGDone");
+        SDGText.text = "Dirty Environment!";
+        SDGImageAnimator.Play("WoodConstructionMGDone");
         MicroGameVariables.HideUI();
         MicroGameVariables.DeductLife();
-        MicroGameVariables.resetTries();
     }
     public void GameWon()
     {
-        SDGText.text = "Population Preserved!";
-        SDGImageAnimator.Play("ReleaseFishMGDone");
+        SDGText.text = "Clean Environment!";
+        SDGImageAnimator.Play("WoodConstructionMGDone");
         MicroGameVariables.HideUI();
-        MicroGameVariables.resetTries();
     }
+
 
 
 }

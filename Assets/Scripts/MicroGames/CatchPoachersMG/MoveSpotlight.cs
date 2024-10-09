@@ -6,26 +6,34 @@ public class MoveSpotlight : MonoBehaviour
 
     void Start()
     {
-        // Get the main camera (parent)
+        // Get the main camera
         mainCamera = Camera.main;
     }
 
     void Update()
     {
-        // Get the mouse position in world space and convert it to the camera's local space
-        Vector3 mousePosition = GetMouseWorldPosition();
-        Vector3 localMousePosition = mainCamera.transform.InverseTransformPoint(mousePosition);
+        // Get the mouse position in screen space and clamp it to stay on the screen
+        Vector3 clampedScreenPosition = GetClampedMouseScreenPosition();
 
-        // Update the object's local position based on the mouse's local position
-        transform.localPosition = new Vector3(localMousePosition.x, localMousePosition.y, transform.localPosition.z);
+        // Convert the clamped screen position to world space
+        Vector3 worldPosition = mainCamera.ScreenToWorldPoint(clampedScreenPosition);
+
+        // Set the object's position based on the clamped world position
+        transform.position = new Vector3(worldPosition.x, worldPosition.y, transform.position.z);
     }
 
-    // Helper function to convert the mouse position to world space
-    private Vector3 GetMouseWorldPosition()
+    // Helper function to get and clamp the mouse position in screen space
+    private Vector3 GetClampedMouseScreenPosition()
     {
         Vector3 mouseScreenPosition = Input.mousePosition;
-        mouseScreenPosition.z = Mathf.Abs(mainCamera.transform.position.z - transform.position.z); // Set Z to distance from camera
 
-        return mainCamera.ScreenToWorldPoint(mouseScreenPosition);
+        // Clamp the mouse's X and Y position to stay within the screen boundaries
+        mouseScreenPosition.x = Mathf.Clamp(mouseScreenPosition.x, 0, Screen.width);
+        mouseScreenPosition.y = Mathf.Clamp(mouseScreenPosition.y, 0, Screen.height);
+
+        // Set Z to the distance from the camera to the object
+        mouseScreenPosition.z = Mathf.Abs(mainCamera.transform.position.z - transform.position.z);
+
+        return mouseScreenPosition;
     }
 }

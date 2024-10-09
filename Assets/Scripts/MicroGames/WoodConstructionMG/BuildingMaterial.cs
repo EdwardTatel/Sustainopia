@@ -37,8 +37,13 @@ public class BuildingMaterial : MonoBehaviour
             gameManager.GetComponent<BuildTower>().LinecastEnable = false;
             Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
             Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
-            transform.position = new Vector3(curPosition.x, curPosition.y, 171.9f);
-            
+
+            // Clamp the Y position to ensure it doesn't go below the specified minY
+            float minY = -1.17f; // Adjust this value to set the floor level
+            float clampedY = Mathf.Max(curPosition.y, minY);
+
+            // Set the position with the clamped Y value
+            transform.position = new Vector3(curPosition.x, clampedY, 171.9f);
         }
         else if (Input.GetMouseButtonUp(0))
         {

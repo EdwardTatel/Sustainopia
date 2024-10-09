@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TrashObject : MonoBehaviour
 {
-    private float speed = 10f; // Speed of movement along the -z axis
+    private float speed = 13f; // Speed of movement along the -z axis
     public float swayAmplitude = 1f; // How much it sways on the x axis
     public float swayFrequency = 1f; // How fast it sways
 
@@ -13,11 +13,25 @@ public class TrashObject : MonoBehaviour
 
     void Start()
     {
+        switch (MicroGameVariables.GetDifficulty())
+        {
+            case MicroGameVariables.levels.medium:
+                speed = 14;
+                break;
+            case MicroGameVariables.levels.hard:
+                speed = 16;
+                break;
+            default:
+                speed = 12;
+                break;
+        }
         initialPosition = transform.position;
         swayOffset = Random.Range(-50f, 50f * Mathf.PI); // Random offset for each object
     }
 
-    void Update()
+    
+
+void Update()
     {
         // Move the object along the -z axis
         transform.Translate(new Vector3(0, -1, 0) * speed * Time.deltaTime);
@@ -28,6 +42,7 @@ public class TrashObject : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        if (gameObject.name == "TrashFish(Clone)") GameObject.Find("GameManager").GetComponent<FilterTrashMGManager>().gameFailed = true;
         Destroy(gameObject);
     }
 }

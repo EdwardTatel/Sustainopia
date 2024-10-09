@@ -12,7 +12,6 @@ public class RotateAroundPivot : MonoBehaviour
 
     private void Start()
     {
-        Cursor.visible = false;
         // Initialize lastMousePosition to the current mouse position
         lastMousePosition = Input.mousePosition;
     }

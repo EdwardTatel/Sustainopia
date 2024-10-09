@@ -32,6 +32,8 @@ public class WoodConstructionMGManager : MonoBehaviour
 
     void Start()
     {
+
+        Cursor.visible = true;
         MicroGameVariables.gameFailed = false;
         SDGText = GameObject.Find("ClimateActionDoneText").GetComponent<TextMeshProUGUI>();
         SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();

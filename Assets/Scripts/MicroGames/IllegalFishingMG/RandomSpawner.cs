@@ -5,22 +5,45 @@ public class RandomSpawner : MonoBehaviour
 {
     [Header("Spawn Settings")]
     public GameObject prefabToSpawn;  // The prefab to spawn
-    public Vector3[] localSpawnAreaPoints = new Vector3[4];  // Define the 4 corners of the spawn area (relative to object)
-    public int numberOfSpawns = 10;   // Number of prefabs to spawn
+    public GameObject prefabToSpawn2;
+    private int dynamiteFisherCount;
+    private int normalFisherCount;
+    public Vector3[] localSpawnAreaPoints = new Vector3[4];  // Define the 4 corners of the spawn area (relative to object) // Number of prefabs to spawn
     public float zOffset = 0f;        // Offset in the z-direction
     public float minSpawnDistance = 1.5f; // Minimum distance between spawned objects
     public int maxAttempts = 10;      // Maximum attempts to find a valid spawn location
+    private GameObject fishersParent;
 
     private List<Vector3> spawnedPositions = new List<Vector3>(); // Store already spawned positions
 
     private void Start()
     {
+        fishersParent = GameObject.Find("Fishers");
+        SetDifficulty();
         SpawnObjects();
     }
 
+    private void SetDifficulty()
+    {
+        switch (MicroGameVariables.GetDifficulty())
+        {
+            case MicroGameVariables.levels.hard:
+                dynamiteFisherCount = 4;
+                normalFisherCount = 7;
+                break;
+            case MicroGameVariables.levels.medium:
+                dynamiteFisherCount = 3;
+                normalFisherCount = 5;
+                break;
+            default:
+                dynamiteFisherCount = 2;
+                normalFisherCount = 3;
+                break;
+        }
+    }
     private void SpawnObjects()
     {
-        for (int i = 0; i < numberOfSpawns; i++)
+        for (int i = 0; i < dynamiteFisherCount + normalFisherCount; i++)
         {
             Vector3 spawnPosition = Vector3.zero;
             bool validPositionFound = false;
@@ -43,7 +66,10 @@ public class RandomSpawner : MonoBehaviour
             // If a valid position is found, instantiate the object and store its position
             if (validPositionFound)
             {
-                Instantiate(prefabToSpawn, spawnPosition, transform.rotation);
+                GameObject childObject;
+                if(i <= dynamiteFisherCount) childObject = Instantiate(prefabToSpawn, spawnPosition, transform.rotation);
+                else childObject = Instantiate(prefabToSpawn2, spawnPosition, transform.rotation);
+                childObject.transform.SetParent(fishersParent.transform);
                 spawnedPositions.Add(spawnPosition);
             }
         }

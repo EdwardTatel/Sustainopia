@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using DentedPixel;
 using System.Runtime.CompilerServices;
-using UnityEditor.Search;
 
 public class MicroGameManager : MonoBehaviour
 {
@@ -27,7 +26,7 @@ public class MicroGameManager : MonoBehaviour
     }
     public void AnimateBar()
     {
-        tweenId = LeanTween.scaleX(bar, 0, MicroGameVariables.GetTimerDuration()).setOnComplete(GameFailed).id;
+        tweenId = LeanTween.scaleX(bar, 0, MicroGameVariables.GetTimerDuration()).setOnComplete(CheckWinCondition).id;
     }
 
     public void CancelTimerBarAnimate()
@@ -35,7 +34,7 @@ public class MicroGameManager : MonoBehaviour
         LeanTween.cancel(tweenId);
         ResetTimer();
     }
-    public void GameFailed()
+    public void CheckWinCondition()
     {
         MicroGameVariables.gameFailed = true;
         MicroGameVariables.HideUI();

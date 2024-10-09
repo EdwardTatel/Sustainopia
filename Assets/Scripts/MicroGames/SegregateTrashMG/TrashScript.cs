@@ -1,4 +1,3 @@
-using DentedPixel.LTExamples;
 using UnityEngine;
 
 public class TrashScript : MonoBehaviour
@@ -8,12 +7,13 @@ public class TrashScript : MonoBehaviour
 
     private Animation animationComponent;
 
+    // Set the minimum Y level to prevent clipping (you can adjust this value as needed)
+    public float minY = 0.4253356f;
+
     void Start()
     {
         // Get the Animator component
         animationComponent = GetComponent<Animation>();
-
-        // Set the initial position to ensure the object starts at the correct Z position
     }
 
     private void OnMouseDown()
@@ -29,7 +29,12 @@ public class TrashScript : MonoBehaviour
     {
         // Update the object's position based on the mouse position and the offset
         Vector3 newPosition = GetMouseWorldPosition() + offset;
-        transform.position = new Vector3(newPosition.x, newPosition.y, transform.position.z); // Restrict movement to X and Y only
+
+        // Ensure the Y position doesn't go below the specified minimum Y level
+        float clampedY = Mathf.Max(newPosition.y, minY);
+
+        // Apply the clamped position (restricted to X and clamped Y only, Z remains unchanged)
+        transform.position = new Vector3(newPosition.x, clampedY, transform.position.z);
     }
 
     private Vector3 GetMouseWorldPosition()
@@ -38,6 +43,4 @@ public class TrashScript : MonoBehaviour
         Vector3 mouseScreenPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z);
         return Camera.main.ScreenToWorldPoint(mouseScreenPosition);
     }
-
-    
 }

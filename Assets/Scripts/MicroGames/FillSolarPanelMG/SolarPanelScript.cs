@@ -23,7 +23,6 @@ public class SolarPanelScript : MonoBehaviour
         mousePosition.z = mainCamera.transform.position.y - transform.parent.position.y;
         mousePosition = mainCamera.ScreenToWorldPoint(mousePosition);
         offset = transform.parent.position - new Vector3(mousePosition.x, transform.parent.position.y, mousePosition.z);
-
     }
         
     void OnMouseDrag()
@@ -38,7 +37,5 @@ public class SolarPanelScript : MonoBehaviour
     {
         snapPieceScript.SnapToPlace();
     }
-
-
 
 }       

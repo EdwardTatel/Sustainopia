@@ -14,6 +14,7 @@ public class ReleaseFishMGManager : MonoBehaviour
 
     void Start()
     {
+        Cursor.visible = true;
        MicroGameVariables.gameFailed = false;
        SDGText = GameObject.Find("LifeBelowWaterDoneText").GetComponent<TextMeshProUGUI>();
        SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();

@@ -21,7 +21,7 @@ public class CameraMove : MonoBehaviour
         }
 
         // Start with the first position
-        ChangeCameraPosition();
+         ChangeCameraPosition();
     }
 
     void ChangeCameraPosition()
@@ -40,7 +40,7 @@ public class CameraMove : MonoBehaviour
     public void CheckSoilObjects()
     {
         // Get the objects in the current spawn point's PlantTreesMG component
-        List<GameObject> list = spawnList[listIterator - 1].GetComponent<PlantTreesMG>().spawnedObjects;
+        List<GameObject> list = spawnList[listIterator - 1].GetComponent<SpawnObjects>().spawnedObjects;
 
         // Check if all objects have the "Planted" tag
         bool allPlanted = list.All(obj => obj.CompareTag("Planted"));
@@ -48,7 +48,8 @@ public class CameraMove : MonoBehaviour
         // If all objects are planted, change the camera position
         if (allPlanted)
         {
-            ChangeCameraPosition();
+            if (listIterator < spawnList.Count) ChangeCameraPosition();
+            else GameObject.Find("GameManager").GetComponent<PlantTreesMG>().gameWon = true;
         }
     }
 }
