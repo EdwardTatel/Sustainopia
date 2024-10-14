@@ -28,15 +28,15 @@ public class RandomSpawner : MonoBehaviour
         switch (MicroGameVariables.GetDifficulty())
         {
             case MicroGameVariables.levels.hard:
-                dynamiteFisherCount = 4;
-                normalFisherCount = 7;
-                break;
-            case MicroGameVariables.levels.medium:
                 dynamiteFisherCount = 3;
                 normalFisherCount = 5;
                 break;
-            default:
+            case MicroGameVariables.levels.medium:
                 dynamiteFisherCount = 2;
+                normalFisherCount = 4;
+                break;
+            default:
+                dynamiteFisherCount = 1;
                 normalFisherCount = 3;
                 break;
         }
@@ -67,7 +67,7 @@ public class RandomSpawner : MonoBehaviour
             if (validPositionFound)
             {
                 GameObject childObject;
-                if(i <= dynamiteFisherCount) childObject = Instantiate(prefabToSpawn, spawnPosition, transform.rotation);
+                if(i < dynamiteFisherCount) childObject = Instantiate(prefabToSpawn, spawnPosition, transform.rotation);
                 else childObject = Instantiate(prefabToSpawn2, spawnPosition, transform.rotation);
                 childObject.transform.SetParent(fishersParent.transform);
                 spawnedPositions.Add(spawnPosition);

@@ -198,20 +198,20 @@ public class WoodConstructionMGManager : MonoBehaviour
     public void GameFailed()
     {
         SDGText.text = "Unsustainable Construction!";
-        SDGImageAnimator.Play("WoodConstructionMGDone");
+        SDGImageAnimator.Play("ClimateActionDone");
         MicroGameVariables.HideUI();
         MicroGameVariables.DeductLife();
     }
     public void GameWon()
     {
         SDGText.text = "Neutral Carbon Construction!";
-        SDGImageAnimator.Play("WoodConstructionMGDone");
+        SDGImageAnimator.Play("ClimateActionDone");
         MicroGameVariables.HideUI();
     }
 
     public void GameUnfinished() { 
         SDGText.text = "Building Unfinished!";
-        SDGImageAnimator.Play("WoodConstructionMGDone");
+        SDGImageAnimator.Play("ClimateActionDone");
         MicroGameVariables.HideUI();
         MicroGameVariables.DeductLife();
     }

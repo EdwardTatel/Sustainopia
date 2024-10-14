@@ -154,15 +154,17 @@ public class FilterTrashMGManager : MonoBehaviour
 
     public void GameFailed()
     {
+        MicroGameVariables.setGameStats(2, false);
         SDGText.text = "Dirty Waters!";
-        SDGImageAnimator.Play("ReleaseFishMGDone");
+        SDGImageAnimator.Play("LifeBelowWaterDone");
         MicroGameVariables.HideUI();
         MicroGameVariables.DeductLife();
     }
     public void GameWon()
     {
+        MicroGameVariables.setGameStats(2, true);
         SDGText.text = "Clean Waters!";
-        SDGImageAnimator.Play("ReleaseFishMGDone");
+        SDGImageAnimator.Play("LifeBelowWaterDone");
         MicroGameVariables.HideUI();
     }
 

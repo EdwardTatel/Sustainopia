@@ -1,15 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Security;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public Camera camecamera;
+    public Camera gamecamera;
     public Animator animator;
-    private int microGameNumber = 1;
-
+    [SerializeField] private TextMeshProUGUI LifeBelowWaterText;
+    [SerializeField] private TextMeshProUGUI ClimateActionText;
+    [SerializeField] private TextMeshProUGUI LifeOnLandText;
+    private int lastIndex = 1;
+    private int MGNum = MicroGameVariables.MGNum;
     public enum UISelect
     {
         ReleaseFishInst,
@@ -19,13 +20,12 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-       
     }
 
     void Update()
     {
-        animator.SetInteger("microGame", microGameNumber);
-        if (Camera.main != null) camecamera = Camera.main;
+        animator.SetInteger("microGame", MicroGameVariables.SDGNum);
+        if (Camera.main != null) gamecamera = Camera.main;
     }
     public void DisableCanvas()
     {
@@ -48,30 +48,88 @@ public class GameManager : MonoBehaviour
         }
 
     }
-    public void LoadMicroGame()
+    public void LoadGame(int sdgNum)
     {
-        switch(microGameNumber) {
-            case 1:
-                SceneManager.LoadSceneAsync("PlantTreesMG", LoadSceneMode.Additive);
-                microGameNumber++;
-                break;
+
+        switch (sdgNum) {
+            
             case 2:
-                SceneManager.LoadSceneAsync("ReleaseFishMG", LoadSceneMode.Additive);
-                microGameNumber++;
+                string[] scenes1 = new string[] { "SegregateTrashMG", "FillSolarPanelMG", "WoodConstructionMG" };
+                SceneManager.LoadSceneAsync(scenes1[MicroGameVariables.MGNum], LoadSceneMode.Additive);
                 break;
             case 3:
-                SceneManager.LoadSceneAsync("FillSolarPanelMG", LoadSceneMode.Additive);
-                microGameNumber = 1;
+                string[] scenes2 = new string[] { "PlantTreesMG", "RemoveInvasiveSpeciesMG", "CatchPoachersMG" };
+                SceneManager.LoadSceneAsync(scenes2[MicroGameVariables.MGNum], LoadSceneMode.Additive);
                 break;
             default:
+                string[] scenes3 = new string[] { "ReleaseFishMG", "FilterTrashMG", "IllegalFishingMG" };
+                SceneManager.LoadSceneAsync(scenes3[MicroGameVariables.MGNum], LoadSceneMode.Additive);
                 break;
         }
-            
+
+        if (MicroGameVariables.MGNum == 2)
+        {
+            MicroGameVariables.DifficultyChange();
+            MicroGameVariables.MGNum = 0; 
+        }
+        else MicroGameVariables.MGNum++; 
 
     }
-    public void LoadSecondMicroGame()
+
+    public void ChangeGame(int sdgNum)
     {
-        SceneManager.LoadSceneAsync("WoodConstructionMG", LoadSceneMode.Additive);
+        switch (sdgNum)
+        {
+
+            case 2:
+                string[] scenes1 = new string[] { "SegregateTrashMG", "FillSolarPanelMG", "WoodConstructionMG" };
+                switch (MGNum)
+                {
+                    case 1:
+                        ClimateActionText.text = "Fill Solar Panels!";
+                        break;
+                    case 2:
+                        ClimateActionText.text = "Construct Without Concrete!";
+                        break;
+                    default:
+                        ClimateActionText.text = "Segregate Trash!";
+                        break;
+                }
+                break;
+            case 3:
+                string[] scenes2 = new string[] { "PlantTreesMG", "RemoveInvasiveSpeciesMG", "CatchPoachersMG" };
+                switch (MGNum)
+                {
+                    case 1:
+                        LifeOnLandText.text = "Remove Invasive Species!";
+                        break;
+                    case 2:
+                        LifeOnLandText.text = "Catch Poachers!";
+                        break;
+                    default:
+                        LifeOnLandText.text = "Plant Trees!";
+                        break;
+
+                }
+                break;
+            default:
+                string[] scenes3 = new string[] { "ReleaseFishMG", "FilterTrashMG", "IllegalFishingMG" };
+                switch (MGNum)
+                {
+                    case 1:
+                        LifeBelowWaterText.text = "Filter Trash!";
+                        break;
+                    case 2:
+                        LifeBelowWaterText.text = "Find Illegal Fishers";
+                        break;
+                    default:
+                        LifeBelowWaterText.text = "Release Small Fish!";
+                        break;
+
+                }
+                break;
+        }
+
     }
     public void UnloadScene()
     {
@@ -81,20 +139,20 @@ public class GameManager : MonoBehaviour
 
     public void UnloadGameScenes()
     {
-        Scene targetScene1 = SceneManager.GetSceneByName("ReleaseFishMG");
-        Scene targetScene2 = SceneManager.GetSceneByName("FilterTrashMG");
-        Scene targetScene3 = SceneManager.GetSceneByName("IllegalFishingMG");
+        UnityEngine.SceneManagement.Scene targetScene1 = SceneManager.GetSceneByName("ReleaseFishMG");
+        UnityEngine.SceneManagement.Scene targetScene2 = SceneManager.GetSceneByName("FilterTrashMG");
+        UnityEngine.SceneManagement.Scene targetScene3 = SceneManager.GetSceneByName("IllegalFishingMG");
 
-        Scene targetScene4 = SceneManager.GetSceneByName("WoodConstructionMG");
-        Scene targetScene5 = SceneManager.GetSceneByName("SegregateTrashMG");
-        Scene targetScene6 = SceneManager.GetSceneByName("FillSolarPanelMG");
+        UnityEngine.SceneManagement.Scene targetScene4 = SceneManager.GetSceneByName("WoodConstructionMG");
+        UnityEngine.SceneManagement.Scene targetScene5 = SceneManager.GetSceneByName("SegregateTrashMG");
+        UnityEngine.SceneManagement.Scene targetScene6 = SceneManager.GetSceneByName("FillSolarPanelMG");
 
-        Scene targetScene7 = SceneManager.GetSceneByName("RemoveInvasiveSpeciesMG");
-        Scene targetScene8 = SceneManager.GetSceneByName("CatchPoachersMG");
-        Scene targetScene9 = SceneManager.GetSceneByName("PlantTreesMG");
+        UnityEngine.SceneManagement.Scene targetScene7 = SceneManager.GetSceneByName("RemoveInvasiveSpeciesMG");
+        UnityEngine.SceneManagement.Scene targetScene8 = SceneManager.GetSceneByName("CatchPoachersMG");
+        UnityEngine.SceneManagement.Scene targetScene9 = SceneManager.GetSceneByName("PlantTreesMG");
 
 
-        Scene targetScene10 = SceneManager.GetSceneByName("LevelSelect");
+        UnityEngine.SceneManagement.Scene targetScene10 = SceneManager.GetSceneByName("LevelSelect");
 
 
         if (targetScene1.IsValid())

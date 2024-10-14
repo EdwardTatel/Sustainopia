@@ -89,6 +89,7 @@ public class ReleaseFishMGManager : MonoBehaviour
                     {
                         GameFailed();
                     }
+                   
                     gameDone = true;
 
                 }
@@ -97,15 +98,18 @@ public class ReleaseFishMGManager : MonoBehaviour
     }
     public void GameFailed()
     {
+        MicroGameVariables.setGameStats(1, false);
         SDGText.text = "Population at Risk!";
-        SDGImageAnimator.Play("ReleaseFishMGDone");
+        SDGImageAnimator.Play("LifeBelowWaterDone");
         MicroGameVariables.HideUI();
         MicroGameVariables.DeductLife();
     }
     public void GameWon()
     {
+        MicroGameVariables.setGameStats(1, true);
         SDGText.text = "Population Preserved!";
-        SDGImageAnimator.Play("ReleaseFishMGDone");
+        SDGImageAnimator.Play("LifeBelowWaterDone");
         MicroGameVariables.HideUI();
+        
     }
 }

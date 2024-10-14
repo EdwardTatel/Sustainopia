@@ -50,7 +50,7 @@ public class FillSolarPanelMGManager : MonoBehaviour
             if (MicroGameVariables.gameFailed)
             {
                 GameFailed();
-                gameDone = true;
+                gameDone = true; 
             }
 
             if (Input.GetMouseButtonUp(0)) // 0 = left mouse button, 1 = right, 2 = middle
@@ -147,14 +147,14 @@ public class FillSolarPanelMGManager : MonoBehaviour
     public void GameFailed()
     {
         SDGText.text = "Failed!";
-        SDGImageAnimator.Play("WoodConstructionMGDone");
+        SDGImageAnimator.Play("ClimateActionDone");
         MicroGameVariables.HideUI();
         MicroGameVariables.DeductLife();
     }
     public void GameWon()
     {
         SDGText.text = "Clean Energy!";
-        SDGImageAnimator.Play("WoodConstructionMGDone");
+        SDGImageAnimator.Play("ClimateActionDone");
         MicroGameVariables.HideUI();
     }
 }

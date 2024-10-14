@@ -8,6 +8,7 @@ public class CarMovement : MonoBehaviour
 
     void Update()
     {
+        if(!GameVariables.stopControls){ 
         // Capture input
         float moveX = 0f;
         float moveZ = 0f;
@@ -50,5 +51,6 @@ public class CarMovement : MonoBehaviour
             Quaternion toRotation = Quaternion.LookRotation(move, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
         }
+    }
     }
 }

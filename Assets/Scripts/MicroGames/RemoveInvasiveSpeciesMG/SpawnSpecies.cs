@@ -12,19 +12,23 @@ public class SpawnSpecies : MonoBehaviour
     public GameObject species1Prefab;  // Assign the prefab for the 1st species in the Inspector
     public GameObject species2Prefab;  // Assign the prefab for the 2nd species in the Inspector
     public GameObject species3Prefab;
+    private int numberOfInvasive;
     // Start is called before the first frame update
     private void SetDifficulty()
     {
         switch (MicroGameVariables.GetDifficulty())
         {
             case MicroGameVariables.levels.hard:
-                numberOfSpawns = 15;
+                numberOfSpawns = 40;
+                numberOfInvasive = 4;
                 break;
             case MicroGameVariables.levels.medium:
-                numberOfSpawns = 10;
+                numberOfSpawns = 35;
+                numberOfInvasive = 3;
                 break;
             default:
-                numberOfSpawns = 40;
+                numberOfSpawns = 30;
+                numberOfInvasive = 2;
                 break;
         }
     }
@@ -50,7 +54,7 @@ public class SpawnSpecies : MonoBehaviour
         for (int i = selectedSpawnObjects.Count - 1; i > 0 ; i--)
         {
 
-            if (i > (selectedSpawnObjects.Count - 5)) //this means only 4 invasives spawn regardless of difficulty?
+            if (i > (selectedSpawnObjects.Count - numberOfInvasive)) //this means only 4 invasives spawn regardless of difficulty?
             {
                 GameObject prefab = Instantiate(species1Prefab, selectedSpawnObjects[i].transform.position, selectedSpawnObjects[i].transform.rotation);
                 GetComponent<RemoveInvasiveSpeciesMGManager>().invasiveSpeciesList.Add(prefab);

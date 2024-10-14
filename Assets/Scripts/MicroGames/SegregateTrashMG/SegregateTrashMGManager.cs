@@ -148,14 +148,14 @@ public class SegregateTrashMGManager : MonoBehaviour
     public void GameFailed()
     {
         SDGText.text = "Dirty Environment!";
-        SDGImageAnimator.Play("WoodConstructionMGDone");
+        SDGImageAnimator.Play("ClimateActionDone");
         MicroGameVariables.HideUI();
         MicroGameVariables.DeductLife();
     }
     public void GameWon()
     {
         SDGText.text = "Clean Environment!";
-        SDGImageAnimator.Play("WoodConstructionMGDone");
+        SDGImageAnimator.Play("ClimateActionDone");
         MicroGameVariables.HideUI();
     }
 

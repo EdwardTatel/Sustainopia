@@ -75,14 +75,14 @@ public class RemoveInvasiveSpeciesMGManager : MonoBehaviour
     void GameFailed()
     {
         SDGText.text = "Biodiversity Loss!";
-        SDGImageAnimator.Play("RemoveInvasiveSpeciesMGDone");
+        SDGImageAnimator.Play("LifeOnLandDone");
         MicroGameVariables.HideUI();
         MicroGameVariables.DeductLife();
     }
     void GameWon()
     {
         SDGText.text = "Biodiversity Protected!";
-        SDGImageAnimator.Play("RemoveInvasiveSpeciesMGDone");
+        SDGImageAnimator.Play("LifeOnLandDone");
         MicroGameVariables.HideUI();
     }
 

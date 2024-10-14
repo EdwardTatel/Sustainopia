@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
@@ -12,6 +13,18 @@ public static class MicroGameVariables
     private static int gamesFinished = 0;
     public static bool _showUI = false;
     private static int tries = 2;
+    public static int SDGNum = 0;
+    public static int MGNum = 0;
+
+
+    private static int statsIterator = 0;
+    public static int game1Stats = 0;
+    public static int game2Stats = 0;
+    public static int game3Stats = 0;
+
+    public static int prevGame1Stats = 0;
+    public static int prevGame2Stats = 0;
+    public static int prevGame3Stats = 0;
 
     public static bool showUI
     {
@@ -25,6 +38,7 @@ public static class MicroGameVariables
             }
         }
     }
+
     public static void resetTries()
     {
         tries = 2;
@@ -48,7 +62,7 @@ public static class MicroGameVariables
     {
         return lives;
     }
-    public static void DeductLife() 
+    public static void DeductLife()
     {
         lives -= 1;
     }
@@ -64,21 +78,21 @@ public static class MicroGameVariables
 
     public static void SetDifficulty(string difficultystring)
     {
-            switch (difficultystring)
-            {
-                case "easy":
-                    difficulty = levels.easy;
-                    break;
-                case "medium":
-                    difficulty = levels.medium;
-                    break;
-                case "hard":
-                    difficulty = levels.hard;
-                    break;
+        switch (difficultystring)
+        {
+            case "easy":
+                difficulty = levels.easy;
+                break;
+            case "medium":
+                difficulty = levels.medium;
+                break;
+            case "hard":
+                difficulty = levels.hard;
+                break;
             default:
-                    difficulty = levels.easy;
-                    break;
-            }
+                difficulty = levels.easy;
+                break;
+        }
 
     }
     public static void DifficultyChange()
@@ -89,6 +103,9 @@ public static class MicroGameVariables
             {
                 case levels.easy:
                     difficulty = levels.medium;
+                    break;
+                case levels.medium:
+                    difficulty = levels.hard;
                     break;
                 default:
                     difficulty = levels.hard;
@@ -107,5 +124,38 @@ public static class MicroGameVariables
             default:
                 return 9;
         }
+    }
+
+    public static void setGameStats(int gameNum, bool success)
+    {
+        switch (gameNum)
+        {
+            case 1:
+                prevGame1Stats = game1Stats;
+                if(success) game1Stats++;
+                else game1Stats--;
+                break;
+            case 2:
+                prevGame2Stats = game2Stats;
+                if (success) game2Stats++;
+                else game2Stats--;
+                break;
+            case 3:
+                prevGame3Stats = game3Stats;
+                if (success) game3Stats++;
+                else game3Stats--;
+                break;
+        }
+        statsIterator++;
+    }
+    public static void restartGameStatsI()
+    {
+        statsIterator = 0;
+        game1Stats = 0;
+        game2Stats = 0;
+        game3Stats = 0;
+        prevGame1Stats = 0;
+        prevGame2Stats = 0;
+        prevGame3Stats = 0;
     }
 }

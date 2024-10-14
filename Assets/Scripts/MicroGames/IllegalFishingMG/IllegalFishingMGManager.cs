@@ -47,6 +47,9 @@ public class IllegalFishingMGManager : MonoBehaviour
         }
         if (objectsList.Count <= 0)
         {
+            Debug.Log(MicroGameVariables.game1Stats.ToString());
+            Debug.Log(MicroGameVariables.game2Stats.ToString());
+            Debug.Log(MicroGameVariables.game3Stats.ToString());
             WinCondition();
         }
     }
@@ -63,15 +66,19 @@ public class IllegalFishingMGManager : MonoBehaviour
     }
     public void GameFailed()
     {
+
+        MicroGameVariables.setGameStats(3, false);
         SDGText.text = "Population at Risk!";
-        SDGImageAnimator.Play("ReleaseFishMGDone");
+        SDGImageAnimator.Play("LifeBelowWaterDone");
         MicroGameVariables.HideUI();
         MicroGameVariables.DeductLife();
     }
     public void GameWon()
     {
+
+        MicroGameVariables.setGameStats(3, true);
         SDGText.text = "Population Preserved!";
-        SDGImageAnimator.Play("ReleaseFishMGDone");
+        SDGImageAnimator.Play("LifeBelowWaterDone");
         MicroGameVariables.HideUI();
     }
 
