@@ -16,7 +16,7 @@ public class RandomSpawner : MonoBehaviour
 
     private List<Vector3> spawnedPositions = new List<Vector3>(); // Store already spawned positions
 
-    private void Start()
+    private void Awake()
     {
         fishersParent = GameObject.Find("Fishers");
         SetDifficulty();

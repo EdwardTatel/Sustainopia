@@ -148,7 +148,7 @@ public static class MicroGameVariables
         }
         statsIterator++;
     }
-    public static void restartGameStatsI()
+    public static void restartGameStats()
     {
         statsIterator = 0;
         game1Stats = 0;
