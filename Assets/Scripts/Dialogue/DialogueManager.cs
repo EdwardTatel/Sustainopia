@@ -63,5 +63,6 @@ public class DialogueManager : MonoBehaviour
         FindObjectOfType<StartSequence>().LoadUIScene();
         animator.SetBool("IsOpen", false);
     }
+
    
 }

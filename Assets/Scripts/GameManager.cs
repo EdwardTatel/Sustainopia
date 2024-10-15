@@ -136,8 +136,13 @@ public class GameManager : MonoBehaviour
         SceneManager.UnloadSceneAsync("UITransition");
 
     }
+    public static void LevelFinish()
+    {
+        
+        SceneManager.LoadScene("LevelSelect");
 
-    public void UnloadGameScenes()
+    }
+    public static void UnloadGameScenes()
     {
         UnityEngine.SceneManagement.Scene targetScene1 = SceneManager.GetSceneByName("ReleaseFishMG");
         UnityEngine.SceneManagement.Scene targetScene2 = SceneManager.GetSceneByName("FilterTrashMG");

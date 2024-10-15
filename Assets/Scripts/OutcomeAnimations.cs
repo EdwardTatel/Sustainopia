@@ -22,12 +22,17 @@ public class OutcomeAnimations : MonoBehaviour
     [SerializeField] private TextMeshProUGUI LifeBelowWaterText;
     [SerializeField] private TextMeshProUGUI ClimateActionText;
     [SerializeField] private TextMeshProUGUI LifeOnLandText;
+    [SerializeField] private TextMeshProUGUI LifeBelowWaterDoneText;
 
+    [SerializeField] private DialogueOutcomeTrigger LifeBelowWaterDialogue1Positive;
+    [SerializeField] private DialogueOutcomeTrigger LifeBelowWaterDialogue2;
+    [SerializeField] private DialogueOutcomeTrigger LifeBelowWaterDialogue3;
     // Duration of the fade animation
     public float fadeDuration = 1f;
     // Start is called before the first frame update
     void Start()
     {
+        MicroGameVariables.SDGNum = 1;
         SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();
         FadeInText();
     }
@@ -39,6 +44,7 @@ public class OutcomeAnimations : MonoBehaviour
     }
     public void SetOutcomes()
     {
+
         switch (MicroGameVariables.SDGNum)
         {
             case 1:
@@ -111,7 +117,7 @@ public class OutcomeAnimations : MonoBehaviour
                 prevGameStats = MicroGameVariables.prevGame3Stats;
                 break;
         }
-        outcomeTransform.localPosition = new Vector3(prevGameStats * 6708.6f, outcomeTransform.localPosition.y, outcomeTransform.localPosition.z);
+        outcomeTransform.localPosition = new Vector3(prevGameStats * 90f, outcomeTransform.localPosition.y, outcomeTransform.localPosition.z);
         // Calculate the percentage
         float percentage = prevGameStats + 3;
         percentage = percentage / 6;
@@ -145,15 +151,15 @@ public class OutcomeAnimations : MonoBehaviour
         float prevPercentage = prevGameStats + 3;
         prevPercentage = prevPercentage / 6;
         prevPercentage = prevPercentage * 100;
-        outcomeTransform.localPosition = new Vector3(prevGameStats * 6708.6f, outcomeTransform.localPosition.y, outcomeTransform.localPosition.z);
-        if (MGNum == 1 && Difficulty == 1)
+        outcomeTransform.localPosition = new Vector3(prevGameStats * 90f, outcomeTransform.localPosition.y, outcomeTransform.localPosition.z);
+        if (MGNum == 3 && Difficulty == 3)
         {
-            LeanTween.move(outcomeTransform, new Vector2(gameStats * 6708.6f, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(PlayEndAnimation);
+            LeanTween.move(outcomeTransform, new Vector2(gameStats * 90f, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(PlayEndAnimation);
             AnimatePercentage(prevPercentage, percentage);
         }
         else
         {
-            LeanTween.move(outcomeTransform, new Vector2(gameStats * 6708.6f, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(PlaySDGAnimation);
+            LeanTween.move(outcomeTransform, new Vector2(gameStats * 90f, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(PlaySDGAnimation);
             AnimatePercentage(prevPercentage, percentage);
         }
 
@@ -161,13 +167,12 @@ public class OutcomeAnimations : MonoBehaviour
         {
             Difficulty++;
             MGNum = 1;
-        } /*else MGNum++;*/
+        } else MGNum++;
 
     }
 
     public void SetFinalOutcomes()
     {
-        FadeInText();
         switch (MicroGameVariables.SDGNum)
         {
             case 1:
@@ -237,17 +242,15 @@ public class OutcomeAnimations : MonoBehaviour
                 gameStats = MicroGameVariables.game3Stats;
                 break;
         }
-        Debug.Log(MGNum + "MGNum");
-        outcomeTransform.localPosition = new Vector3(gameStats * 3.4f, outcomeTransform.localPosition.y, outcomeTransform.localPosition.z);
+        outcomeTransform.localPosition = new Vector3(gameStats * 90f, outcomeTransform.localPosition.y, outcomeTransform.localPosition.z);
         float percentage = gameStats + 3;
         percentage = percentage / 6;
         percentage = percentage * 100;
         percentageText.text = percentage.ToString("F1") + "%";
-        Debug.Log(percentage + "percentage");
-        Debug.Log(gameStats + "gameStats");
     }
     private void LevelFinished()
     {
+        Debug.Log("MGNUM" + MGNum);
         int gameStats = 0;
         switch (MGNum)
         {
@@ -263,21 +266,49 @@ public class OutcomeAnimations : MonoBehaviour
         }
 
         float percentage = gameStats + 3;
-        Debug.Log(percentage);
         percentage = percentage / 6;
         percentage = percentage * 100;
-        FadeOutText();
+        EndFadeOutText();
         if (percentage > 50)
         {
-            LeanTween.move(outcomeTransform, new Vector2(20.3f, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad);
+            LeanTween.move(outcomeTransform, new Vector2(405f, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad);
             AnimatePercentage(percentage, 100);
-            //Play ASSISTANT DIALOGUE HERE
+            StartCoroutine(RunEndDialogue());
+            
         }
         else{
-            LeanTween.move(outcomeTransform, new Vector2(-20.3f, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad);
+            LeanTween.move(outcomeTransform, new Vector2(-405f, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad);
             AnimatePercentage(percentage, 0);
+            StartCoroutine(RunEndDialogue());
         }
+    }
 
+
+    IEnumerator RunEndDialogue()
+    {
+        yield return new WaitForSeconds(1f);
+        switch (MicroGameVariables.SDGNum)
+        {
+            case 1:
+                switch (MGNum)
+                {
+                    case 1:
+                        LifeBelowWaterDialogue1Positive.TriggerDialogue();
+                        nextMG();
+                        break;
+                    case 2:
+                        LifeBelowWaterDialogue1Positive.TriggerDialogue();
+                        nextMG();
+                        break;
+                    case 3:
+                        LifeBelowWaterDialogue1Positive.TriggerDialogue();
+                        MicroGameVariables.stopDialog = true;
+                        break;
+
+                }
+                break;
+        }
+        
     }
 
     private void PlayEndAnimation()
@@ -295,6 +326,7 @@ public class OutcomeAnimations : MonoBehaviour
         switch (MicroGameVariables.SDGNum)
         {
             case 1:
+                
                 LifeBelowWaterText.text = "Level Clear!";
                 SDGImageAnimator.Play("LifeBelowWaterLevelClear");
                 break;
@@ -353,6 +385,35 @@ public class OutcomeAnimations : MonoBehaviour
     }
 
 
+    public void EndFadeOutText()
+    {
+        LifeBelowWaterText.color = new Color(0, 0, 0, 0);
+        // Store the current color of the text
+        Color originalColor = percentageText.color;
+        // Animate the alpha from 1 to 0 (fade out)
+        LeanTween.value(gameObject, 1f, 0f, fadeDuration)
+                 .setOnUpdate((float alpha) => {
+                     // Set the color with updated alpha
+                     percentageText.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+                 });
+        
+
+    }
+
+    public void EndFadeInText()
+    {
+        LifeBelowWaterText.color = new Color(0, 0, 0, 0);
+        // Store the current color of the text
+        Color originalColor = percentageText.color;
+        // Animate the alpha from 0 to 1 (fade in)
+        LeanTween.value(gameObject, 0f, 1f, .5f)
+                 .setOnUpdate((float alpha) => {
+                     // Set the color with updated alpha
+                     percentageText.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+                 });
+        
+    }
+
     public void FadeOutText()
     {
         // Store the current color of the text
@@ -363,6 +424,13 @@ public class OutcomeAnimations : MonoBehaviour
                      // Set the color with updated alpha
                      percentageText.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
                  });
+        Color originalColor2 = LifeBelowWaterDoneText.color;
+        LeanTween.value(gameObject, 1f, 0f, fadeDuration)
+                 .setOnUpdate((float alpha) => {
+                     // Set the color with updated alpha
+                     LifeBelowWaterDoneText.color = new Color(originalColor2.r, originalColor2.g, originalColor2.b, alpha);
+                 });
+
     }
 
     public void FadeInText()
@@ -375,5 +443,16 @@ public class OutcomeAnimations : MonoBehaviour
                      // Set the color with updated alpha
                      percentageText.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
                  });
+        Color originalColor2 = LifeBelowWaterDoneText.color;
+        LeanTween.value(gameObject, 0f, 1f, fadeDuration)
+                 .setOnUpdate((float alpha) => {
+                     // Set the color with updated alpha
+                     LifeBelowWaterDoneText.color = new Color(originalColor2.r, originalColor2.g, originalColor2.b, alpha);
+                 });
+    }
+
+    public void nextMG()
+    {
+        MGNum++;
     }
 }

@@ -68,7 +68,7 @@ public class IllegalFishingMGManager : MonoBehaviour
     {
 
         MicroGameVariables.setGameStats(3, false);
-        SDGText.text = "Population at Risk!";
+        SDGText.text = "Fail!";
         SDGImageAnimator.Play("LifeBelowWaterDone");
         MicroGameVariables.HideUI();
         MicroGameVariables.DeductLife();
@@ -77,7 +77,7 @@ public class IllegalFishingMGManager : MonoBehaviour
     {
 
         MicroGameVariables.setGameStats(3, true);
-        SDGText.text = "Population Preserved!";
+        SDGText.text = "Success!";
         SDGImageAnimator.Play("LifeBelowWaterDone");
         MicroGameVariables.HideUI();
     }

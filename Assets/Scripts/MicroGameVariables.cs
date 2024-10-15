@@ -15,6 +15,7 @@ public static class MicroGameVariables
     private static int tries = 2;
     public static int SDGNum = 0;
     public static int MGNum = 0;
+    public static bool stopDialog = false;
 
 
     private static int statsIterator = 0;

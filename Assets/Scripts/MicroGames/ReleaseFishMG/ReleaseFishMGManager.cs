@@ -99,7 +99,7 @@ public class ReleaseFishMGManager : MonoBehaviour
     public void GameFailed()
     {
         MicroGameVariables.setGameStats(1, false);
-        SDGText.text = "Population at Risk!";
+        SDGText.text = "Fail!";
         SDGImageAnimator.Play("LifeBelowWaterDone");
         MicroGameVariables.HideUI();
         MicroGameVariables.DeductLife();
@@ -107,7 +107,7 @@ public class ReleaseFishMGManager : MonoBehaviour
     public void GameWon()
     {
         MicroGameVariables.setGameStats(1, true);
-        SDGText.text = "Population Preserved!";
+        SDGText.text = "Success!";
         SDGImageAnimator.Play("LifeBelowWaterDone");
         MicroGameVariables.HideUI();
         
