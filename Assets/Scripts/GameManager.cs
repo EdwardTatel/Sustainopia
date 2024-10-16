@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI LifeBelowWaterText;
     [SerializeField] private TextMeshProUGUI ClimateActionText;
     [SerializeField] private TextMeshProUGUI LifeOnLandText;
-    private int lastIndex = 1;
     private int MGNum = MicroGameVariables.MGNum;
     public enum UISelect
     {
@@ -19,7 +18,12 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>();
+        UnityEngine.SceneManagement.Scene targetScene1 = SceneManager.GetSceneByName("Dialogue");
+        if (!targetScene1.IsValid())
+        {
+            SceneManager.LoadSceneAsync("Dialogue", LoadSceneMode.Additive);
+        }
+            animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -141,6 +145,10 @@ public class GameManager : MonoBehaviour
         
         SceneManager.LoadScene("LevelSelect");
 
+    }
+    public void RunUnloadGameScenes()
+    {
+        UnloadGameScenes();
     }
     public static void UnloadGameScenes()
     {

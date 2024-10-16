@@ -4,11 +4,21 @@ public class CameraFollow : MonoBehaviour
 {
     public Transform target; 
     public Vector3 offset; 
-    public float smoothTime = 0.3f; 
-
+    public float smoothTime = 0.3f;
+    private bool instaChagePosition = true;
     private Vector3 velocity = Vector3.zero;
     void LateUpdate()
     {
+        if (GameVariables.city1Finished || GameVariables.city2Finished || GameVariables.city3Finished)
+        {
+            if (instaChagePosition)
+            {
+                Vector3 desiredPosition = target.position + offset;
+                transform.position = desiredPosition;
+                instaChagePosition = false;
+            }
+        }
+        
         if (target != null)
         {
             

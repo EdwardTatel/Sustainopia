@@ -4,10 +4,8 @@ public class EnableUIOnProximity : MonoBehaviour
 {
     public Transform car; 
     public float activationDistance = 10f;
-    public Animator animator;
     private void Start()
     {
-        animator = GameObject.Find("DialogueBox").GetComponent<Animator>(); 
     }
     void Update()
     {

@@ -6,7 +6,6 @@ public class SpawnFish : MonoBehaviour
     public GameObject prefab1;
     public GameObject prefab2;
     public GameObject gameManager;
-    private int numberOfObjects = 10;
     private Vector2 minXMaxX = new Vector2(-10f, 10f);
     private Vector2 minYMaxY = new Vector2(4f, 7f);
     private Vector2 minZMaxZ = new Vector2(-5f, 5f);

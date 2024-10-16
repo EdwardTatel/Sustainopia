@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CarChangeRotation : MonoBehaviour
 {
-    private Camera camera;
+    private new Camera camera;
 
     private void Start()
     {

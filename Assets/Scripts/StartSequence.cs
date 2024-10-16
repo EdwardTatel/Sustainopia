@@ -5,10 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class StartSequence : MonoBehaviour
 {
-
+    [SerializeField] private GameObject car;
     void Start()
     {
-        
+        Debug.Log("Aint no rush");
+        SceneManager.LoadSceneAsync("Dialogue", LoadSceneMode.Additive);
     }
 
     void Update()

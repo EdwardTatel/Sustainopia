@@ -5,7 +5,6 @@ public class CheckLight : MonoBehaviour
     private Camera mainCamera;        // Reference to the main camera
     public float checkDuration = 2f;  // Time in seconds before the object disappears
     private float timer = 0f;
-    private bool isClear = false;
 
     void Start()
     {

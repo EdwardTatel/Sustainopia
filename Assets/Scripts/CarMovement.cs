@@ -1,11 +1,18 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CarMovement : MonoBehaviour
 {
+    
     public float moveSpeed = 10f;
     public float rotationSpeed = 10f;
     public Transform cameraTransform; // Assign the main camera in the Inspector
-
+    private void Start()
+    {
+        if (GameVariables.city1Finished || GameVariables.city2Finished || GameVariables.city3Finished )GameVariables.Load(transform);
+        GameVariables.EnableControls();
+        GameVariables.EnableAllTexts();
+    }
     void Update()
     {
         if(!GameVariables.stopControls){ 

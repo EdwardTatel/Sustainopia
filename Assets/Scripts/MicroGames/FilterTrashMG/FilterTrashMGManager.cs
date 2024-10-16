@@ -12,7 +12,6 @@ public class FilterTrashMGManager : MonoBehaviour
     public GameObject fishObject;
     public GameObject endObject;
     public Transform spawnPoint; // The point where the object will be instantiated
-    private int trashQuantity = 5;
     private TextMeshProUGUI SDGText;
     private Animator SDGImageAnimator;
     public GameObject endChecker = null;

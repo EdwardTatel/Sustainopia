@@ -1,11 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
-using static UnityEngine.Rendering.DebugUI;
 
 public class OutcomeAnimations : MonoBehaviour
 {
@@ -16,6 +11,10 @@ public class OutcomeAnimations : MonoBehaviour
     private Animator SDGImageAnimator;
     public Sprite GoodReleaseFishImage;
     public Sprite BadReleaseFishImage;
+    public Sprite GoodFilterTrashImage;
+    public Sprite BadFilterTrashImage;
+    public Sprite GoodIllegalFishingImage;
+    public Sprite BadIllegalFishingImage;
     public TextMeshProUGUI percentageText;
     private int MGNum = 1;
     private int Difficulty = 1;
@@ -24,9 +23,7 @@ public class OutcomeAnimations : MonoBehaviour
     [SerializeField] private TextMeshProUGUI LifeOnLandText;
     [SerializeField] private TextMeshProUGUI LifeBelowWaterDoneText;
 
-    [SerializeField] private DialogueOutcomeTrigger LifeBelowWaterDialogue1Positive;
-    [SerializeField] private DialogueOutcomeTrigger LifeBelowWaterDialogue2;
-    [SerializeField] private DialogueOutcomeTrigger LifeBelowWaterDialogue3;
+    [SerializeField] private DialogueManager dialogueManager;
     // Duration of the fade animation
     public float fadeDuration = 1f;
     // Start is called before the first frame update
@@ -229,7 +226,6 @@ public class OutcomeAnimations : MonoBehaviour
         }
 
         int gameStats = 0;
-        int prevGameStats = 0;
         switch (MGNum)
         {
             case 1:
@@ -250,7 +246,6 @@ public class OutcomeAnimations : MonoBehaviour
     }
     private void LevelFinished()
     {
-        Debug.Log("MGNUM" + MGNum);
         int gameStats = 0;
         switch (MGNum)
         {
@@ -293,25 +288,26 @@ public class OutcomeAnimations : MonoBehaviour
                 switch (MGNum)
                 {
                     case 1:
-                        LifeBelowWaterDialogue1Positive.TriggerDialogue();
+                        dialogueManager.StartConversation();
                         nextMG();
                         break;
                     case 2:
-                        LifeBelowWaterDialogue1Positive.TriggerDialogue();
+                        dialogueManager.StartConversation();
                         nextMG();
                         break;
                     case 3:
-                        LifeBelowWaterDialogue1Positive.TriggerDialogue();
-                        MicroGameVariables.stopDialog = true;
+                        dialogueManager.StartConversation();
+                        Debug.Log("GG!");
+                        //Change dialogue manager for each.
                         break;
 
                 }
                 break;
         }
-        
+
     }
 
-    private void PlayEndAnimation()
+    public void PlayEndAnimation()
     {
         StartCoroutine(RunEndAnimationAfterDelay());
     }
@@ -320,23 +316,27 @@ public class OutcomeAnimations : MonoBehaviour
     {
         // Wait for 2 seconds
         yield return new WaitForSeconds(.5f);
-
+        Debug.Log(MicroGameVariables.SDGNum);
         // Call the method after the delay
-
         switch (MicroGameVariables.SDGNum)
         {
             case 1:
-                
-                LifeBelowWaterText.text = "Level Clear!";
-                SDGImageAnimator.Play("LifeBelowWaterLevelClear");
-                break;
+                switch (MGNum)
+                {
+                    case 1:
+                        SDGImageAnimator.Play("LifeBelowWaterLevelClear");
+                        break;
+                    case 2:
+                        SDGImageAnimator.Play("Empty");
+                        break;
+                    case 3:
+                        SDGImageAnimator.Play("Empty");
+                        break;
+                }
+                break;  
             case 2:
-                LifeBelowWaterText.text = "Level Clear!";
-                SDGImageAnimator.Play("LifeBelowWaterLevelClear");
                 break;
             case 3:
-                LifeBelowWaterText.text = "Level Clear!";
-                SDGImageAnimator.Play("LifeBelowWaterLevelClear");
                 break;
         }
     }

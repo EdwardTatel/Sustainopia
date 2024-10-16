@@ -10,7 +10,6 @@ public class PlantTreesMG : MonoBehaviour
     private Animator SDGImageAnimator;
     private bool gameDone = false;
     public Sprite soilTree;
-    private bool list = true;
     public bool gameWon;
 
     void Start()

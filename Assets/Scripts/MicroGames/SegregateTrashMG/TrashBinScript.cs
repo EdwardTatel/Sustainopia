@@ -8,11 +8,8 @@ public class TrashBinScript : MonoBehaviour
     public Vector3 cameraOffset = new Vector3(0f, 0f, 0f); // Editable offset for the linecast endpoint
     public Vector3 originOffset = new Vector3(0f, 0f, 0f);  // Offset for the linecast origin (the object)
 
-    private float constantZ = -7f; // Set a constant Z value if required for position adjustments
     public GameObject trashLid;
     // Rotate the lid to open (e.g., 90 degrees) while dropping the trash
-    float targetOpenRotation = -170f; // Desired open rotation angle
-    float targetCloseRotation = -83.121f; // Desired close rotation angle
 
 
     void Update()
