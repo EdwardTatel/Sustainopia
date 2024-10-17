@@ -1,6 +1,8 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering.HighDefinition;
+using UnityEngine.UI;
 
 public class OutcomeAnimations : MonoBehaviour
 {
@@ -16,14 +18,22 @@ public class OutcomeAnimations : MonoBehaviour
     public Sprite GoodIllegalFishingImage;
     public Sprite BadIllegalFishingImage;
     public TextMeshProUGUI percentageText;
-    private int MGNum = 1;
     private int Difficulty = 1;
     [SerializeField] private TextMeshProUGUI LifeBelowWaterText;
     [SerializeField] private TextMeshProUGUI ClimateActionText;
     [SerializeField] private TextMeshProUGUI LifeOnLandText;
     [SerializeField] private TextMeshProUGUI LifeBelowWaterDoneText;
 
-    [SerializeField] private DialogueManager dialogueManager;
+
+    private DialogueManager ReleaseFishSuccessDialog;
+    private DialogueManager FilterTrashSuccessDialog;
+    private DialogueManager IllegalFishingSuccessDialog;
+
+    private DialogueManager ReleaseFishFailDialog;
+    private DialogueManager FilterTrashFailDialog;
+    private DialogueManager IllegalFishingFailDialog;
+
+
     // Duration of the fade animation
     public float fadeDuration = 1f;
     // Start is called before the first frame update
@@ -32,84 +42,39 @@ public class OutcomeAnimations : MonoBehaviour
         MicroGameVariables.SDGNum = 1;
         SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();
         FadeInText();
+        ReleaseFishSuccessDialog = GameObject.Find("ReleaseFishSuccessDialog").GetComponent<DialogueManager>();
+        FilterTrashSuccessDialog = GameObject.Find("FilterTrashSuccessDialog").GetComponent<DialogueManager>();
+        IllegalFishingSuccessDialog = GameObject.Find("IllegalFishingSuccessDialog").GetComponent<DialogueManager>();
+
+        ReleaseFishFailDialog = GameObject.Find("ReleaseFishFailDialog").GetComponent<DialogueManager>();
+        FilterTrashFailDialog = GameObject.Find("FilterTrashFailDialog").GetComponent<DialogueManager>();
+        IllegalFishingFailDialog = GameObject.Find("IllegalFishingFailDialog").GetComponent<DialogueManager>();
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
     public void SetOutcomes()
     {
 
-        switch (MicroGameVariables.SDGNum)
-        {
-            case 1:
-                switch (MGNum)
-                {
-                    case 1:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = BadReleaseFishImage;
-                        break;
-                    case 2:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = BadReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        break;
-                    case 3:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = BadReleaseFishImage;
-                        break;
-                }
-                break;
-            case 2:
-                switch (MGNum)
-                {
-                    case 1:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        break;
-                    case 2:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        break;
-                    case 3:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        break;
-                }
-                break;
-            case 3:
-                switch (MGNum)
-                {
-                    case 1:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        break;
-                    case 2:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        break;
-                    case 3:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        break;
-                }
-                break;
-        }
+        changeOutcomeImages();
 
         int gameStats = 0;
         int prevGameStats = 0;
-        switch (MGNum)
+        switch (MicroGameVariables.MGNum)
         {
-            case 1:
+            case 0:
                 gameStats = MicroGameVariables.game1Stats;
                 prevGameStats = MicroGameVariables.prevGame1Stats;
                 break;
-            case 2:
+            case 1:
                 gameStats = MicroGameVariables.game2Stats;
                 prevGameStats = MicroGameVariables.prevGame2Stats;
                 break;
-            case 3:
+            case 2:
                 gameStats = MicroGameVariables.game3Stats;
                 prevGameStats = MicroGameVariables.prevGame3Stats;
                 break;
@@ -126,17 +91,17 @@ public class OutcomeAnimations : MonoBehaviour
     {
         int gameStats = 0;
         int prevGameStats = 0;
-        switch (MGNum)
+        switch (MicroGameVariables.MGNum)
         {
-            case 1:
+            case 0:
                 gameStats = MicroGameVariables.game1Stats;
                 prevGameStats = MicroGameVariables.prevGame1Stats;
                 break;
-            case 2:
+            case 1:
                 gameStats = MicroGameVariables.game2Stats;
                 prevGameStats = MicroGameVariables.prevGame2Stats;
                 break;
-            case 3:
+            case 2:
                 gameStats = MicroGameVariables.game3Stats;
                 prevGameStats = MicroGameVariables.prevGame3Stats;
                 break;
@@ -149,7 +114,7 @@ public class OutcomeAnimations : MonoBehaviour
         prevPercentage = prevPercentage / 6;
         prevPercentage = prevPercentage * 100;
         outcomeTransform.localPosition = new Vector3(prevGameStats * 90f, outcomeTransform.localPosition.y, outcomeTransform.localPosition.z);
-        if (MGNum == 3 && Difficulty == 3)
+        if (MicroGameVariables.MGNum == 2 && Difficulty == 3)
         {
             LeanTween.move(outcomeTransform, new Vector2(gameStats * 90f, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(PlayEndAnimation);
             AnimatePercentage(prevPercentage, percentage);
@@ -159,82 +124,23 @@ public class OutcomeAnimations : MonoBehaviour
             LeanTween.move(outcomeTransform, new Vector2(gameStats * 90f, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(PlaySDGAnimation);
             AnimatePercentage(prevPercentage, percentage);
         }
-
-        if (MGNum == 3)
-        {
-            Difficulty++;
-            MGNum = 1;
-        } else MGNum++;
-
+        nextMG();
     }
 
     public void SetFinalOutcomes()
     {
-        switch (MicroGameVariables.SDGNum)
-        {
-            case 1:
-                switch (MGNum)
-                {
-                    case 1:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = BadReleaseFishImage;
-                        break;
-                    case 2:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = BadReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        break;
-                    case 3:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = BadReleaseFishImage;
-                        break;
-                }
-                break;
-            case 2:
-                switch (MGNum)
-                {
-                    case 1:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        break;
-                    case 2:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        break;
-                    case 3:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        break;
-                }
-                break;
-            case 3:
-                switch (MGNum)
-                {
-                    case 1:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        break;
-                    case 2:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        break;
-                    case 3:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        break;
-                }
-                break;
-        }
+        changeOutcomeImages();
 
         int gameStats = 0;
-        switch (MGNum)
+        switch (MicroGameVariables.MGNum)
         {
-            case 1:
+            case 0:
                 gameStats = MicroGameVariables.game1Stats;
                 break;
-            case 2:
+            case 1:
                 gameStats = MicroGameVariables.game2Stats;
                 break;
-            case 3:
+            case 2:
                 gameStats = MicroGameVariables.game3Stats;
                 break;
         }
@@ -244,18 +150,76 @@ public class OutcomeAnimations : MonoBehaviour
         percentage = percentage * 100;
         percentageText.text = percentage.ToString("F1") + "%";
     }
+
+    public void changeOutcomeImages()
+    {
+        switch (MicroGameVariables.SDGNum)
+        {
+            case 1:
+                switch (MicroGameVariables.MGNum)
+                {
+                    case 0:
+                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
+                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = BadReleaseFishImage;
+                        break;
+                    case 1:
+                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodFilterTrashImage;
+                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = BadFilterTrashImage;
+                        break;
+                    case 2:
+                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
+                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = BadReleaseFishImage;
+                        break;
+                }
+                break;
+            case 2:
+                switch (MicroGameVariables.MGNum)
+                {
+                    case 0:
+                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
+                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
+                        break;
+                    case 1:
+                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
+                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
+                        break;
+                    case 2:
+                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
+                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
+                        break;
+                }
+                break;
+            case 3:
+                switch (MicroGameVariables.MGNum)
+                {
+                    case 0:
+                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
+                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
+                        break;
+                    case 1:
+                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
+                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
+                        break;
+                    case 2:
+                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
+                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
+                        break;
+                }
+                break;
+        }
+    }
     private void LevelFinished()
     {
         int gameStats = 0;
-        switch (MGNum)
+        switch (MicroGameVariables.MGNum)
         {
-            case 1:
+            case 0:
                 gameStats = MicroGameVariables.game1Stats;
                 break;
-            case 2:
+            case 1:
                 gameStats = MicroGameVariables.game2Stats;
                 break;
-            case 3:
+            case 2:
                 gameStats = MicroGameVariables.game3Stats;
                 break;
         }
@@ -269,36 +233,47 @@ public class OutcomeAnimations : MonoBehaviour
             LeanTween.move(outcomeTransform, new Vector2(405f, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad);
             AnimatePercentage(percentage, 100);
             StartCoroutine(RunEndDialogue());
-            
+
         }
-        else{
+        else
+        {
             LeanTween.move(outcomeTransform, new Vector2(-405f, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad);
             AnimatePercentage(percentage, 0);
             StartCoroutine(RunEndDialogue());
         }
+
     }
 
 
     IEnumerator RunEndDialogue()
     {
         yield return new WaitForSeconds(1f);
+        int gameStats = 0;
+        Cursor.visible = true;
         switch (MicroGameVariables.SDGNum)
         {
             case 1:
-                switch (MGNum)
+                switch (MicroGameVariables.MGNum)
                 {
+                    case 0:
+
+                        gameStats = MicroGameVariables.game1Stats;
+                        if (gameStats > 0) ReleaseFishSuccessDialog.StartConversation();
+                        else ReleaseFishFailDialog.StartConversation();
+                        nextMG();
+                        break;
                     case 1:
-                        dialogueManager.StartConversation();
+                        gameStats = MicroGameVariables.game2Stats;
+                        if (gameStats > 0) FilterTrashSuccessDialog.StartConversation();
+                        else FilterTrashFailDialog.StartConversation();
                         nextMG();
                         break;
                     case 2:
-                        dialogueManager.StartConversation();
-                        nextMG();
-                        break;
-                    case 3:
-                        dialogueManager.StartConversation();
-                        Debug.Log("GG!");
-                        //Change dialogue manager for each.
+                        gameStats = MicroGameVariables.game3Stats;
+                        if (gameStats > 0) IllegalFishingSuccessDialog.StartConversation();
+                        else IllegalFishingFailDialog.StartConversation();
+                        GameVariables.city1Finished = true;
+                        GameVariables.dialogStarted = 1;
                         break;
 
                 }
@@ -307,6 +282,10 @@ public class OutcomeAnimations : MonoBehaviour
 
     }
 
+    public void BackToLevelSelect()
+    {
+        GameObject.Find("SceneManagement").GetComponent<SceneManagement>().BackToLevelSelect();
+    }
     public void PlayEndAnimation()
     {
         StartCoroutine(RunEndAnimationAfterDelay());
@@ -321,19 +300,19 @@ public class OutcomeAnimations : MonoBehaviour
         switch (MicroGameVariables.SDGNum)
         {
             case 1:
-                switch (MGNum)
+                switch (MicroGameVariables.MGNum)
                 {
-                    case 1:
+                    case 0:
                         SDGImageAnimator.Play("LifeBelowWaterLevelClear");
+                        break;
+                    case 1:
+                        SDGImageAnimator.Play("Empty");
                         break;
                     case 2:
                         SDGImageAnimator.Play("Empty");
                         break;
-                    case 3:
-                        SDGImageAnimator.Play("Empty");
-                        break;
                 }
-                break;  
+                break;
             case 2:
                 break;
             case 3:
@@ -358,7 +337,7 @@ public class OutcomeAnimations : MonoBehaviour
     public void AnimatePercentage(float initialValue, float finalValue)
     {
         // Start the coroutine to animate the change
-        StartCoroutine(AnimateValue(initialValue,finalValue));
+        StartCoroutine(AnimateValue(initialValue, finalValue));
     }
 
     private IEnumerator AnimateValue(float initialValue, float finalValue)
@@ -392,11 +371,12 @@ public class OutcomeAnimations : MonoBehaviour
         Color originalColor = percentageText.color;
         // Animate the alpha from 1 to 0 (fade out)
         LeanTween.value(gameObject, 1f, 0f, fadeDuration)
-                 .setOnUpdate((float alpha) => {
+                 .setOnUpdate((float alpha) =>
+                 {
                      // Set the color with updated alpha
                      percentageText.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
                  });
-        
+
 
     }
 
@@ -407,11 +387,12 @@ public class OutcomeAnimations : MonoBehaviour
         Color originalColor = percentageText.color;
         // Animate the alpha from 0 to 1 (fade in)
         LeanTween.value(gameObject, 0f, 1f, .5f)
-                 .setOnUpdate((float alpha) => {
+                 .setOnUpdate((float alpha) =>
+                 {
                      // Set the color with updated alpha
                      percentageText.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
                  });
-        
+
     }
 
     public void FadeOutText()
@@ -420,13 +401,15 @@ public class OutcomeAnimations : MonoBehaviour
         Color originalColor = percentageText.color;
         // Animate the alpha from 1 to 0 (fade out)
         LeanTween.value(gameObject, 1f, 0f, fadeDuration)
-                 .setOnUpdate((float alpha) => {
+                 .setOnUpdate((float alpha) =>
+                 {
                      // Set the color with updated alpha
                      percentageText.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
                  });
         Color originalColor2 = LifeBelowWaterDoneText.color;
         LeanTween.value(gameObject, 1f, 0f, fadeDuration)
-                 .setOnUpdate((float alpha) => {
+                 .setOnUpdate((float alpha) =>
+                 {
                      // Set the color with updated alpha
                      LifeBelowWaterDoneText.color = new Color(originalColor2.r, originalColor2.g, originalColor2.b, alpha);
                  });
@@ -439,13 +422,15 @@ public class OutcomeAnimations : MonoBehaviour
         Color originalColor = percentageText.color;
         // Animate the alpha from 0 to 1 (fade in)
         LeanTween.value(gameObject, 0f, 1f, fadeDuration)
-                 .setOnUpdate((float alpha) => {
+                 .setOnUpdate((float alpha) =>
+                 {
                      // Set the color with updated alpha
                      percentageText.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
                  });
         Color originalColor2 = LifeBelowWaterDoneText.color;
         LeanTween.value(gameObject, 0f, 1f, fadeDuration)
-                 .setOnUpdate((float alpha) => {
+                 .setOnUpdate((float alpha) =>
+                 {
                      // Set the color with updated alpha
                      LifeBelowWaterDoneText.color = new Color(originalColor2.r, originalColor2.g, originalColor2.b, alpha);
                  });
@@ -453,6 +438,27 @@ public class OutcomeAnimations : MonoBehaviour
 
     public void nextMG()
     {
-        MGNum++;
+        if (MicroGameVariables.MGNum == 2)
+        {
+            MicroGameVariables.DifficultyChange();
+            Difficulty++;
+            MicroGameVariables.MGNum = 0;
+        }
+        else
+        {
+            MicroGameVariables.MGNum++;
+        }
+    }
+
+    public void SetWinDialog(int dialog)
+    {
+        GameVariables.dialogStarted = dialog;
+    }
+
+    public void ChangeTextOnFinish()
+    {
+        LifeBelowWaterText.text = "Level Clear";
+        ClimateActionText.text = "Level Clear";
+        LifeOnLandText.text = "Level Clear";
     }
 }

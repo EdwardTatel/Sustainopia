@@ -12,6 +12,9 @@ public static class GameVariables {
     public static bool city2Finished = false;
     public static bool city3Finished = false;
 
+    public static bool dialogStop = true;
+    public static int dialogStarted = 0;
+
     public static Vector3 savedPosition;
     public static Vector3 savedRotation;
     public static void DisableAllTexts()

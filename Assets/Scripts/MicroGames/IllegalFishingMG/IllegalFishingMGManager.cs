@@ -12,6 +12,7 @@ public class IllegalFishingMGManager : MonoBehaviour
     private bool gameDone = false;
     public List<GameObject> objectsList = new List<GameObject>();
     private bool list = true;
+    public Material newSkybox;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +24,7 @@ public class IllegalFishingMGManager : MonoBehaviour
         SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();
         GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();
         MicroGameVariables.ShowUI();
+        SetLighting();
     }
 
     // Update is called once per frame
@@ -99,4 +101,13 @@ public class IllegalFishingMGManager : MonoBehaviour
             }
         }
     }
+
+    void SetLighting()
+    {
+        RenderSettings.skybox = newSkybox;
+
+        // Optionally, if you need to update lighting
+        DynamicGI.UpdateEnvironment();
+    }
+        
 }

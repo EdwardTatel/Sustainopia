@@ -22,11 +22,13 @@ public class FilterTrashMGManager : MonoBehaviour
     public bool gameFailed = false;
     public List<GameObject> objectsList = new List<GameObject>();
     private List<objectType> objectList = new List<objectType>();
+
+
+    public Material newSkybox;
     enum objectType { trash, fish }
     void Start()
     {
         Cursor.visible = false;
-        MicroGameVariables.SetDifficulty("easy");
         MicroGameVariables.gameFailed = false;
         SDGText = GameObject.Find("LifeBelowWaterDoneText").GetComponent<TextMeshProUGUI>();
         SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();
@@ -34,7 +36,8 @@ public class FilterTrashMGManager : MonoBehaviour
         StartCoroutine(SpawnTrash());
         GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();
         MicroGameVariables.ShowUI();
-    }
+        SetLighting();
+}
 
 
     private void Update()
@@ -106,23 +109,34 @@ public class FilterTrashMGManager : MonoBehaviour
 
     IEnumerator SpawnTrash()
     {
+        Debug.Log("WTF");
         float timer = 1;
 
         int index = 0;
         int lastIndex = objectList.Count - 1;
         foreach (objectType type in objectList)
         {
-            GameObject listedObject = Instantiate ((type == objectType.trash) ? trashObject : fishObject, spawnPoint.position + new Vector3(Random.Range(-59, 44),0,0), Quaternion.Euler(90, 0, 0));
+            GameObject listedObject = Instantiate ((type == objectType.trash) ? trashObject : fishObject, spawnPoint.position + new Vector3(Random.Range(-59, 44),0,0), Quaternion.Euler(90, 0, 0), transform);
             objectsList.Add(listedObject);
             if (index == lastIndex)
             {
                 lastObject = listedObject;
-                endChecker = Instantiate(endObject, spawnPoint.position + new Vector3(0, 0, 0), Quaternion.Euler(90, 0, 0));
+                endChecker = Instantiate(endObject, spawnPoint.position + new Vector3(0, 0, 0), Quaternion.Euler(90, 0, 0),transform);
                 endCheck = true;
             }
             index++;
             yield return new WaitForSeconds(timer);
         }
+    }
+
+    void SetLighting()
+    {
+        RenderSettings.skybox = newSkybox;
+
+        RenderSettings.ambientIntensity = .59f; 
+        // Optionally, if you need to update lighting
+        DynamicGI.UpdateEnvironment();
+
     }
 
     void RemoveNullReferences()

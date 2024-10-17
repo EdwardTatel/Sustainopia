@@ -3,7 +3,7 @@ using UnityEngine;
 public class EnableUIOnProximity : MonoBehaviour
 {
     public Transform car; 
-    public float activationDistance = 10f;
+    public float activationDistance = 15f;
     private void Start()
     {
     }

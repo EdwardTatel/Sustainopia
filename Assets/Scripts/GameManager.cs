@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,7 +10,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI LifeBelowWaterText;
     [SerializeField] private TextMeshProUGUI ClimateActionText;
     [SerializeField] private TextMeshProUGUI LifeOnLandText;
-    private int MGNum = MicroGameVariables.MGNum;
     public enum UISelect
     {
         ReleaseFishInst,
@@ -70,14 +70,6 @@ public class GameManager : MonoBehaviour
                 SceneManager.LoadSceneAsync(scenes3[MicroGameVariables.MGNum], LoadSceneMode.Additive);
                 break;
         }
-
-        if (MicroGameVariables.MGNum == 2)
-        {
-            MicroGameVariables.DifficultyChange();
-            MicroGameVariables.MGNum = 0; 
-        }
-        else MicroGameVariables.MGNum++; 
-
     }
 
     public void ChangeGame(int sdgNum)
@@ -87,7 +79,7 @@ public class GameManager : MonoBehaviour
 
             case 2:
                 string[] scenes1 = new string[] { "SegregateTrashMG", "FillSolarPanelMG", "WoodConstructionMG" };
-                switch (MGNum)
+                switch (MicroGameVariables.MGNum)
                 {
                     case 1:
                         ClimateActionText.text = "Fill Solar Panels!";
@@ -102,7 +94,7 @@ public class GameManager : MonoBehaviour
                 break;
             case 3:
                 string[] scenes2 = new string[] { "PlantTreesMG", "RemoveInvasiveSpeciesMG", "CatchPoachersMG" };
-                switch (MGNum)
+                switch (MicroGameVariables.MGNum)
                 {
                     case 1:
                         LifeOnLandText.text = "Remove Invasive Species!";
@@ -118,7 +110,7 @@ public class GameManager : MonoBehaviour
                 break;
             default:
                 string[] scenes3 = new string[] { "ReleaseFishMG", "FilterTrashMG", "IllegalFishingMG" };
-                switch (MGNum)
+                switch (MicroGameVariables.MGNum)
                 {
                     case 1:
                         LifeBelowWaterText.text = "Filter Trash!";

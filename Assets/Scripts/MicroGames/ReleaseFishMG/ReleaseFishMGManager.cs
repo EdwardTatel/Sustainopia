@@ -10,17 +10,18 @@ public class ReleaseFishMGManager : MonoBehaviour
     private Animator SDGImageAnimator;
     private bool gameDone = false;
     private int fishCountTarget;
-
+    public Material newSkybox;
 
     void Start()
     {
-        Cursor.visible = true;
+       Cursor.visible = true;
        MicroGameVariables.gameFailed = false;
        SDGText = GameObject.Find("LifeBelowWaterDoneText").GetComponent<TextMeshProUGUI>();
        SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();
        SetDifficulty();
        GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();
        MicroGameVariables.ShowUI();
+       SetLighting();
     }
 
     void Update()
@@ -111,5 +112,12 @@ public class ReleaseFishMGManager : MonoBehaviour
         SDGImageAnimator.Play("LifeBelowWaterDone");
         MicroGameVariables.HideUI();
         
+    }
+    void SetLighting()
+    {
+        RenderSettings.skybox = newSkybox;
+        RenderSettings.ambientIntensity = 0;
+        // Optionally, if you need to update lighting
+        DynamicGI.UpdateEnvironment();
     }
 }

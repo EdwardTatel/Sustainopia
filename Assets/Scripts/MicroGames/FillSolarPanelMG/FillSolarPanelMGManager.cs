@@ -84,6 +84,7 @@ public class FillSolarPanelMGManager : MonoBehaviour
                 break;
             default:
                 numberOfPieces = 2;
+                    ;
                 break;
         }
     }

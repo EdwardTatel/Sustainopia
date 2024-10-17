@@ -10,8 +10,8 @@ public class CarMovement : MonoBehaviour
     private void Start()
     {
         if (GameVariables.city1Finished || GameVariables.city2Finished || GameVariables.city3Finished )GameVariables.Load(transform);
-        GameVariables.EnableControls();
         GameVariables.EnableAllTexts();
+        Debug.Log("EnabledAllText");
     }
     void Update()
     {

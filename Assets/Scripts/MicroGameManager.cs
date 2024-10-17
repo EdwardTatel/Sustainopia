@@ -23,10 +23,11 @@ public class MicroGameManager : MonoBehaviour
     void Update()
     {
         LivesUI();
+
     }
     public void AnimateBar()
     {
-        tweenId = LeanTween.scaleX(bar, 0, MicroGameVariables.GetTimerDuration()).setOnComplete(CheckWinCondition).id;
+        tweenId = LeanTween.scaleX(bar, 0, 9).setOnComplete(CheckWinCondition).id;
     }
 
     public void CancelTimerBarAnimate()

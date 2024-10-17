@@ -1,11 +1,13 @@
+using System.Collections;
 using UnityEngine;
 
 public class NetFish : MonoBehaviour
 {
     private Vector3 screenPoint;
     private Vector3 offset;
-    private float jumpForce = 13f; 
-    private Rigidbody rb; 
+    private float jumpForce = 23f; 
+    private Rigidbody rb;
+    public GameObject splash;
 
     void Start()
     {
@@ -15,7 +17,10 @@ public class NetFish : MonoBehaviour
     {
         if (collision.gameObject.name == "Ocean")
         {
-            Destroy(this.gameObject);
+            Instantiate(splash, transform.position, Quaternion.Euler(90,0,0));
+
+            StartCoroutine(DestroyObject());
+
         }
         else if (collision.contacts[0].normal.y > 0.5f)
         {
@@ -29,8 +34,16 @@ public class NetFish : MonoBehaviour
         offset = transform.position - GetMouseWorldPos();
     }
 
+    IEnumerator DestroyObject()
+    {
+        yield return new WaitForSeconds(.2f);
+        Destroy(this.gameObject);
+
+    }
     void OnMouseDrag()
     {
+        rb.velocity = Vector3.zero; // Stops all movement
+        rb.angularVelocity = Vector3.zero;
         Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
         Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
         transform.position = new Vector3(curPosition.x, 4, curPosition.z);

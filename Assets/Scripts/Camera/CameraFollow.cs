@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
@@ -7,6 +8,7 @@ public class CameraFollow : MonoBehaviour
     public float smoothTime = 0.3f;
     private bool instaChagePosition = true;
     private Vector3 velocity = Vector3.zero;
+
     void LateUpdate()
     {
         if (GameVariables.city1Finished || GameVariables.city2Finished || GameVariables.city3Finished)

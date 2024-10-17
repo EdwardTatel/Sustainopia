@@ -13,7 +13,6 @@ public class MedalScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log(CityNumber + " " + GameVariables.city1Finished);
         animator = GetComponent<Animator>();
         
     }
