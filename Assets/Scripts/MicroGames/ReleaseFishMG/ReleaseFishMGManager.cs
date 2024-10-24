@@ -17,7 +17,7 @@ public class ReleaseFishMGManager : MonoBehaviour
        Cursor.visible = true;
        MicroGameVariables.gameFailed = false;
        SDGText = GameObject.Find("LifeBelowWaterDoneText").GetComponent<TextMeshProUGUI>();
-       SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();
+       SDGImageAnimator = GameObject.Find("UICanvas").GetComponent<Animator>();
        SetDifficulty();
        GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();
        MicroGameVariables.ShowUI();
@@ -101,7 +101,7 @@ public class ReleaseFishMGManager : MonoBehaviour
     {
         MicroGameVariables.setGameStats(1, false);
         SDGText.text = "Fail!";
-        SDGImageAnimator.Play("LifeBelowWaterDone");
+        SDGImageAnimator.Play("MGDone");
         MicroGameVariables.HideUI();
         MicroGameVariables.DeductLife();
     }
@@ -109,7 +109,7 @@ public class ReleaseFishMGManager : MonoBehaviour
     {
         MicroGameVariables.setGameStats(1, true);
         SDGText.text = "Success!";
-        SDGImageAnimator.Play("LifeBelowWaterDone");
+        SDGImageAnimator.Play("MGDone");
         MicroGameVariables.HideUI();
         
     }

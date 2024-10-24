@@ -8,7 +8,6 @@ public class SceneManagement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(MicroGameVariables.GetDifficulty());
     }
 
     public void LoadLevelSelect()

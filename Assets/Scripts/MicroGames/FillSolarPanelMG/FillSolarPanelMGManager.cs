@@ -37,7 +37,7 @@ public class FillSolarPanelMGManager : MonoBehaviour
     {
         MicroGameVariables.gameFailed = false;
         SDGText = GameObject.Find("ClimateActionDoneText").GetComponent<TextMeshProUGUI>();
-        SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();
+        SDGImageAnimator = GameObject.Find("UICanvas").GetComponent<Animator>();
         GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();
         MicroGameVariables.ShowUI();
     }
@@ -147,15 +147,18 @@ public class FillSolarPanelMGManager : MonoBehaviour
 
     public void GameFailed()
     {
-        SDGText.text = "Failed!";
-        SDGImageAnimator.Play("ClimateActionDone");
+        MicroGameVariables.setGameStats(2, false);
+        SDGText.text = "Fail!";
+        SDGImageAnimator.Play("MGDone");
         MicroGameVariables.HideUI();
         MicroGameVariables.DeductLife();
     }
     public void GameWon()
     {
-        SDGText.text = "Clean Energy!";
-        SDGImageAnimator.Play("ClimateActionDone");
+        MicroGameVariables.setGameStats(2, true);
+        SDGText.text = "Success!";
+        SDGImageAnimator.Play("MGDone");
         MicroGameVariables.HideUI();
+
     }
 }

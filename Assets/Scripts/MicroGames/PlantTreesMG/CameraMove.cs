@@ -7,7 +7,8 @@ public class CameraMove : MonoBehaviour
     [SerializeField] private List<GameObject> spawnList = new List<GameObject>();
     private int listIterator = 0;
     private float moveTime = 1f;
-
+    public float xOffset; // Editable in the editor
+    public float zOffset;
     void Start()
     {
         // Find and sort the objects with the "Spawn" tag
@@ -30,7 +31,7 @@ public class CameraMove : MonoBehaviour
         Vector3 targetPosition = spawnList[listIterator].transform.position;
 
         // Calculate the new camera position, maintaining the current y-axis position of the camera
-        Vector3 newPosition = new Vector3(targetPosition.x, transform.position.y, targetPosition.z);
+        Vector3 newPosition = new Vector3(targetPosition.x + xOffset, transform.position.y, targetPosition.z + zOffset);
 
         // Move the camera using LeanTween
         LeanTween.move(gameObject, newPosition, moveTime).setEase(LeanTweenType.easeInOutQuad);

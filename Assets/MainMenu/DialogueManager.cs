@@ -7,7 +7,6 @@ public class DialogueManager : MonoBehaviour
 {
     public void StartConversation()
     {
-        Debug.Log("WHAT");
         NPCConversation Convo = GetComponent<NPCConversation>();
         ConversationManager.Instance.StartConversation(Convo);
     }

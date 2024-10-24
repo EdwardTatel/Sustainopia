@@ -6,7 +6,7 @@ public class SpotlightCheck : MonoBehaviour
 {
     public Camera mainCamera; // Reference to the main camera
     private Coroutine destructionCoroutine; // To store the destruction coroutine
-
+    public Sprite caughtSprite;
     private void Start()
     {
         mainCamera = GameObject.Find("GameCamera").GetComponent<Camera>();
@@ -45,15 +45,26 @@ public class SpotlightCheck : MonoBehaviour
             // If nothing is hit, start the destruction coroutine if it's not already running
             if (destructionCoroutine == null)
             {
-                destructionCoroutine = StartCoroutine(DestroyAfterTime(2f));
+                destructionCoroutine = StartCoroutine(ChangeSpriteAfterTime());
+
             }
         }
     }
 
     // Coroutine to destroy the object after the specified time
-    IEnumerator DestroyAfterTime(float time)
+    IEnumerator DestroyAfterTime()
     {
-        yield return new WaitForSeconds(time); // Wait for the specified time
-        gameObject.SetActive(false); // Destroy the object
+        yield return new WaitForSeconds(.5f); // Wait for the specified time
+        gameObject.SetActive(false);
+
+    }
+
+    IEnumerator ChangeSpriteAfterTime()
+    {
+        yield return new WaitForSeconds(1f);
+
+        gameObject.GetComponentInChildren<SpriteRenderer>().sprite = caughtSprite;
+        StartCoroutine(DestroyAfterTime());
+        // Destroy the object
     }
 }

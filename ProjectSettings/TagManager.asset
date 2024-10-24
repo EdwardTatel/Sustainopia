@@ -23,6 +23,7 @@ TagManager:
   - Fisher
   - Poacher
   - SoilHole
+  - SpawnPoach
   layers:
   - Default
   - TransparentFX

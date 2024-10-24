@@ -21,7 +21,7 @@ public class IllegalFishingMGManager : MonoBehaviour
         MicroGameVariables.gameFailed = false;
         SDGText = GameObject.Find("LifeBelowWaterDoneText").GetComponent<TextMeshProUGUI>();
         
-        SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();
+        SDGImageAnimator = GameObject.Find("UICanvas").GetComponent<Animator>();
         GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();
         MicroGameVariables.ShowUI();
         SetLighting();
@@ -48,9 +48,6 @@ public class IllegalFishingMGManager : MonoBehaviour
         }
         if (objectsList.Count <= 0)
         {
-            Debug.Log(MicroGameVariables.game1Stats.ToString());
-            Debug.Log(MicroGameVariables.game2Stats.ToString());
-            Debug.Log(MicroGameVariables.game3Stats.ToString());
             WinCondition();
         }
     }
@@ -70,7 +67,7 @@ public class IllegalFishingMGManager : MonoBehaviour
 
         MicroGameVariables.setGameStats(3, false);
         SDGText.text = "Fail!";
-        SDGImageAnimator.Play("LifeBelowWaterDone");
+        SDGImageAnimator.Play("MGDone");
         MicroGameVariables.HideUI();
         MicroGameVariables.DeductLife();
     }
@@ -79,7 +76,7 @@ public class IllegalFishingMGManager : MonoBehaviour
 
         MicroGameVariables.setGameStats(3, true);
         SDGText.text = "Success!";
-        SDGImageAnimator.Play("LifeBelowWaterDone");
+        SDGImageAnimator.Play("MGDone");
         MicroGameVariables.HideUI();
     }
 

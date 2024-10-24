@@ -7,9 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public Camera gamecamera;
     public Animator animator;
-    [SerializeField] private TextMeshProUGUI LifeBelowWaterText;
-    [SerializeField] private TextMeshProUGUI ClimateActionText;
-    [SerializeField] private TextMeshProUGUI LifeOnLandText;
+    [SerializeField] private TextMeshProUGUI SDGText;
     public enum UISelect
     {
         ReleaseFishInst,
@@ -28,7 +26,6 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        animator.SetInteger("microGame", MicroGameVariables.SDGNum);
         if (Camera.main != null) gamecamera = Camera.main;
     }
     public void DisableCanvas()
@@ -52,16 +49,16 @@ public class GameManager : MonoBehaviour
         }
 
     }
-    public void LoadGame(int sdgNum)
+    public void LoadGame()
     {
 
-        switch (sdgNum) {
+        switch (MicroGameVariables.SDGNum) {
             
-            case 2:
+            case 3:
                 string[] scenes1 = new string[] { "SegregateTrashMG", "FillSolarPanelMG", "WoodConstructionMG" };
                 SceneManager.LoadSceneAsync(scenes1[MicroGameVariables.MGNum], LoadSceneMode.Additive);
                 break;
-            case 3:
+            case 2:
                 string[] scenes2 = new string[] { "PlantTreesMG", "RemoveInvasiveSpeciesMG", "CatchPoachersMG" };
                 SceneManager.LoadSceneAsync(scenes2[MicroGameVariables.MGNum], LoadSceneMode.Additive);
                 break;
@@ -72,38 +69,38 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ChangeGame(int sdgNum)
+    public void ChangeGame()
     {
-        switch (sdgNum)
+        switch (MicroGameVariables.SDGNum)
         {
 
-            case 2:
+            case 3:
                 string[] scenes1 = new string[] { "SegregateTrashMG", "FillSolarPanelMG", "WoodConstructionMG" };
                 switch (MicroGameVariables.MGNum)
                 {
                     case 1:
-                        ClimateActionText.text = "Fill Solar Panels!";
+                        SDGText.text = "Fill Solar Panels!";
                         break;
                     case 2:
-                        ClimateActionText.text = "Construct Without Concrete!";
+                        SDGText.text = "Construct Without Concrete!";
                         break;
                     default:
-                        ClimateActionText.text = "Segregate Trash!";
+                        SDGText.text = "Segregate Trash!";
                         break;
                 }
                 break;
-            case 3:
+            case 2:
                 string[] scenes2 = new string[] { "PlantTreesMG", "RemoveInvasiveSpeciesMG", "CatchPoachersMG" };
                 switch (MicroGameVariables.MGNum)
                 {
                     case 1:
-                        LifeOnLandText.text = "Remove Invasive Species!";
+                        SDGText.text = "Remove Invasive Species!";
                         break;
                     case 2:
-                        LifeOnLandText.text = "Catch Poachers!";
+                        SDGText.text = "Catch Poachers!";
                         break;
                     default:
-                        LifeOnLandText.text = "Plant Trees!";
+                        SDGText.text = "Plant Trees!";
                         break;
 
                 }
@@ -113,13 +110,13 @@ public class GameManager : MonoBehaviour
                 switch (MicroGameVariables.MGNum)
                 {
                     case 1:
-                        LifeBelowWaterText.text = "Filter Trash!";
+                        SDGText.text = "Filter Trash!";
                         break;
                     case 2:
-                        LifeBelowWaterText.text = "Find Illegal Fishers";
+                        SDGText.text = "Find Illegal Fishers";
                         break;
                     default:
-                        LifeBelowWaterText.text = "Release Small Fish!";
+                        SDGText.text = "Release Small Fish!";
                         break;
 
                 }

@@ -18,7 +18,7 @@ public class PlantTreesMG : MonoBehaviour
         gameWon = false;
         MicroGameVariables.gameFailed = false;
         SDGText = GameObject.Find("ClimateActionDoneText").GetComponent<TextMeshProUGUI>();
-        SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();
+        SDGImageAnimator = GameObject.Find("UICanvas").GetComponent<Animator>();
         GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();
         MicroGameVariables.ShowUI();
     }
@@ -44,18 +44,22 @@ public class PlantTreesMG : MonoBehaviour
                 gameDone = true;
         }
     }
-    void GameFailed()
+    public void GameFailed()
     {
-        SDGText.text = "Biodiversity Loss!";
-        SDGImageAnimator.Play("LifeOnLandDone");
+        MicroGameVariables.setGameStats(1, false);
+        SDGText.text = "Fail!";
+        SDGImageAnimator.Play("MGDone");
         MicroGameVariables.HideUI();
         MicroGameVariables.DeductLife();
     }
-    void GameWon()
+    public void GameWon()
     {
-        SDGText.text = "Biodiversity Protected!";
-        SDGImageAnimator.Play("LifeOnLandDone");
+        MicroGameVariables.setGameStats(1, true);
+        SDGText.text = "Success!";
+        SDGImageAnimator.Play("MGDone");
         MicroGameVariables.HideUI();
+
     }
-    
+
+
 }

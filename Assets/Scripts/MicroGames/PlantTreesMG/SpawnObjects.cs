@@ -5,25 +5,35 @@ using UnityEngine;
 public class SpawnObjects : MonoBehaviour
 {
     private int numberOfPrefabs = 3; // Number of prefabs to spawn
-    private float xOffsetRange = .20f; // Range for x offset
-    private float zOffsetRange = .20f; // Range for z offset
-    private float minDistance = 1f;
+    private float minDistance = .1f;
 
     public GameObject soilPrefab; // The prefab to instantiate
     public GameObject treePrefab; // The prefab to instantiate
 
     public List<Vector3> spawnedPositions = new List<Vector3>();
-
     public List<GameObject> spawnedObjects = new List<GameObject>();
+
+    // Square spawn area settings (editable in Inspector)
+    public Vector2 spawnAreaSize = new Vector2(5f, 5f); // Width and height of the spawn area
+    public float zOffset = 0f; // Z Offset for the entire spawn area
+
     // Start is called before the first frame update
     void Start()
     {
-
         SetDifficulty();
         SpawnPrefabs();
     }
 
-    // Update is called once per frame
+    // Visualize the spawn area with Gizmos in the Editor
+    void OnDrawGizmos()
+    {
+        // Draw the spawn area as a wireframe square
+        Gizmos.color = Color.green;
+        Vector3 offsetPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z + zOffset);
+        Gizmos.DrawWireCube(offsetPosition, new Vector3(spawnAreaSize.x, 0, spawnAreaSize.y));
+    }
+
+    // Method to spawn prefabs in valid positions
     void SpawnPrefabs()
     {
         for (int i = 0; i < numberOfPrefabs; i++)
@@ -40,10 +50,13 @@ public class SpawnObjects : MonoBehaviour
 
             if (i == 1) instantiatedObject = Instantiate(treePrefab, spawnPosition, Quaternion.Euler(90, 0, 0), transform);
             else instantiatedObject = Instantiate(soilPrefab, spawnPosition, Quaternion.Euler(90, 0, 0), transform);
+
             spawnedPositions.Add(spawnPosition); // Track the position of this prefab
             spawnedObjects.Add(instantiatedObject);
         }
     }
+
+    // Set the difficulty and number of prefabs to spawn
     void SetDifficulty()
     {
         switch (MicroGameVariables.GetDifficulty())
@@ -59,14 +72,16 @@ public class SpawnObjects : MonoBehaviour
                 break;
         }
     }
+
+    // Get a valid spawn position within the defined spawn area
     Vector3 GetValidSpawnPosition()
     {
         int maxAttempts = 100;
         for (int attempt = 0; attempt < maxAttempts; attempt++)
         {
-            float xOffset = Random.Range(-xOffsetRange, xOffsetRange);
-            float zOffset = Random.Range(-zOffsetRange, zOffsetRange);
-            Vector3 spawnPosition = new Vector3(transform.position.x + xOffset, transform.position.y, transform.position.z + zOffset);
+            float xOffset = Random.Range(-spawnAreaSize.x / 2, spawnAreaSize.x / 2);
+            float zOffsetLocal = Random.Range(-spawnAreaSize.y / 2, spawnAreaSize.y / 2);
+            Vector3 spawnPosition = new Vector3(transform.position.x + xOffset, transform.position.y, transform.position.z + zOffset + zOffsetLocal);
 
             if (IsPositionValid(spawnPosition))
             {
@@ -76,6 +91,7 @@ public class SpawnObjects : MonoBehaviour
         return Vector3.zero; // Return a zero vector if no valid position is found
     }
 
+    // Check if the spawn position is valid by comparing distances
     bool IsPositionValid(Vector3 position)
     {
         foreach (Vector3 existingPosition in spawnedPositions)

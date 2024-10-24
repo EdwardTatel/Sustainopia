@@ -53,22 +53,31 @@ public class SpawnSpecies : MonoBehaviour
 
         for (int i = selectedSpawnObjects.Count - 1; i > 0 ; i--)
         {
-
+            GameObject prefab;
             if (i > (selectedSpawnObjects.Count - numberOfInvasive)) //this means only 4 invasives spawn regardless of difficulty?
             {
-                GameObject prefab = Instantiate(species1Prefab, selectedSpawnObjects[i].transform.position, selectedSpawnObjects[i].transform.rotation);
+                prefab = Instantiate(species1Prefab, selectedSpawnObjects[i].transform.position, selectedSpawnObjects[i].transform.rotation);
                 GetComponent<RemoveInvasiveSpeciesMGManager>().invasiveSpeciesList.Add(prefab);
-                GetComponent<RemoveInvasiveSpeciesMGManager>().speciesList.Add(prefab);
             }
             else if (i > (selectedSpawnObjects.Count - 5) / 2)
             {
-                GameObject prefab = Instantiate(species2Prefab, selectedSpawnObjects[i].transform.position, selectedSpawnObjects[i].transform.rotation);
-                GetComponent<RemoveInvasiveSpeciesMGManager>().speciesList.Add(prefab);
+                prefab = Instantiate(species2Prefab, selectedSpawnObjects[i].transform.position, selectedSpawnObjects[i].transform.rotation);
             }
             else {
-                GameObject prefab = Instantiate(species3Prefab, selectedSpawnObjects[i].transform.position, selectedSpawnObjects[i].transform.rotation);
-                GetComponent<RemoveInvasiveSpeciesMGManager>().speciesList.Add(prefab);
+                prefab = Instantiate(species3Prefab, selectedSpawnObjects[i].transform.position, selectedSpawnObjects[i].transform.rotation);
             }
+
+            SpriteRenderer spriteRenderer = prefab.GetComponentInChildren<SpriteRenderer>();
+
+            if (spriteRenderer != null)
+            {
+                // Generate a random number (0 or 1)
+                int randomValue = Random.Range(0, 2);  // This will return either 0 or 1
+
+                // If the random value is 1, flip the sprite by setting flipX to true
+                spriteRenderer.flipX = randomValue == 1;
+            }
+            GetComponent<RemoveInvasiveSpeciesMGManager>().speciesList.Add(prefab);
         }
     }
 }

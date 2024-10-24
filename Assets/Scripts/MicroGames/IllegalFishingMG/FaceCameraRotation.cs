@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,22 +14,13 @@ public class FaceCameraRotation : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void LateUpdate()
     {
+        // Make the object face the camera
+        transform.LookAt(mainCamera.transform);
 
-        transform.rotation = FaceCameraRotations();
-    }
-    private Quaternion FaceCameraRotations()
-    {
-        // Get the direction from the object to the camera
-        Vector3 directionToCamera = mainCamera.transform.position - transform.position;
-
-        // Adjust the rotation to face the camera
-        Quaternion rotation = Quaternion.LookRotation(directionToCamera);
-
-        // Set the Y-axis rotation to 0
-        rotation = Quaternion.Euler(rotation.eulerAngles.x, 0, rotation.eulerAngles.z);
-
-        return rotation;
+        // Optionally, flip the object to face the camera correctly
+        // because LookAt might make the object rotate backwards.
+        transform.Rotate(0, 180, 0); // Rotate 180 degrees on the Y-axis
     }
 }

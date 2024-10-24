@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5050794836074544223}
   - component: {fileID: 4846386483246689317}
   - component: {fileID: 6120265339105655453}
+  - component: {fileID: 5777615647031761771}
   m_Layer: 5
   m_Name: ConversationButton
   m_TagString: Untagged
@@ -195,6 +196,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TextMesh: {fileID: 7926221421229046063}
   OptionBackgroundImage: {fileID: 170691663405415626}
+--- !u!114 &5777615647031761771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3216007433143529145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56ed50d3115ce594eb413aa720038eaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4188412588296704849
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,8 +276,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Button
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: b3e954e8f3c169c4eac023455466debb, type: 2}
+  m_sharedMaterial: {fileID: -9129404725937832813, guid: b3e954e8f3c169c4eac023455466debb, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -288,10 +301,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 16
-  m_fontSizeBase: 24
+  m_fontSize: 18.67
+  m_fontSizeBase: 18.67
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 8
   m_fontSizeMax: 16
   m_fontStyle: 0

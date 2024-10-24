@@ -12,7 +12,12 @@ public class TimelineSequence : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SceneManager.LoadSceneAsync("Dialogue", LoadSceneMode.Additive);
+        Scene dialogueScene = SceneManager.GetSceneByName("Dialogue");
+
+        if (!dialogueScene.isLoaded)
+        {
+            SceneManager.LoadSceneAsync("Dialogue", LoadSceneMode.Additive);
+        }
         SetLighting();
         GameVariables.StopControls();
         GameVariables.DisableAllTexts();
@@ -47,7 +52,10 @@ public class TimelineSequence : MonoBehaviour
     {
             if (GameVariables.dialogStarted == 0)
             {
-                ResumeTimeline();
+                /*ResumeTimeline();*/
+
+                // Easy Debug
+                EnableCameraFollow();
             }
             if (GameVariables.dialogStarted == 1)
             {

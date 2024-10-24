@@ -17,7 +17,7 @@ public class RemoveInvasiveSpeciesMGManager : MonoBehaviour
     {
         MicroGameVariables.gameFailed = false;
         SDGText = GameObject.Find("LifeOnLandDoneText").GetComponent<TextMeshProUGUI>();
-        SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();
+        SDGImageAnimator = GameObject.Find("UICanvas").GetComponent<Animator>();
         GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();
         MicroGameVariables.ShowUI();
     }
@@ -72,20 +72,23 @@ public class RemoveInvasiveSpeciesMGManager : MonoBehaviour
         }
         
     }
-    void GameFailed()
+    public void GameFailed()
     {
-        SDGText.text = "Biodiversity Loss!";
-        SDGImageAnimator.Play("LifeOnLandDone");
+        MicroGameVariables.setGameStats(2, false);
+        SDGText.text = "Fail!";
+        SDGImageAnimator.Play("MGDone");
         MicroGameVariables.HideUI();
         MicroGameVariables.DeductLife();
     }
-    void GameWon()
+    public void GameWon()
     {
-        SDGText.text = "Biodiversity Protected!";
-        SDGImageAnimator.Play("LifeOnLandDone");
+        MicroGameVariables.setGameStats(2, true);
+        SDGText.text = "Success!";
+        SDGImageAnimator.Play("MGDone");
         MicroGameVariables.HideUI();
+
     }
+
 
 }
 
-    

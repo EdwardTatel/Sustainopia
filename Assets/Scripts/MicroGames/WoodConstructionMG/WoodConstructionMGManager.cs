@@ -36,7 +36,7 @@ public class WoodConstructionMGManager : MonoBehaviour
         Cursor.visible = true;
         MicroGameVariables.gameFailed = false;
         SDGText = GameObject.Find("ClimateActionDoneText").GetComponent<TextMeshProUGUI>();
-        SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();
+        SDGImageAnimator = GameObject.Find("UICanvas").GetComponent<Animator>();
         GenerateMaterialList();
         EnqueueMaterials();
         InstantiateAndAssignMaterial();

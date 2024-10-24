@@ -8,15 +8,25 @@ public class OutcomeAnimations : MonoBehaviour
 {
 
     public RectTransform outcomeTransform;
+    public RectTransform parentOutcomeTransform;
     public GameObject GoodImage;
     public GameObject BadImage;
     private Animator SDGImageAnimator;
+
     public Sprite GoodReleaseFishImage;
     public Sprite BadReleaseFishImage;
     public Sprite GoodFilterTrashImage;
     public Sprite BadFilterTrashImage;
     public Sprite GoodIllegalFishingImage;
     public Sprite BadIllegalFishingImage;
+
+    public Sprite GoodRemoveInvasiveSpeciesImage;
+    public Sprite BadRemoveInvasiveSpeciesImage;
+    public Sprite GoodPlantTreesImage;
+    public Sprite BadPlantTreesImage;
+    public Sprite GoodCatchPoachersImage;
+    public Sprite BadCatchPoachersImage;
+
     public TextMeshProUGUI percentageText;
     private int Difficulty = 1;
     [SerializeField] private TextMeshProUGUI LifeBelowWaterText;
@@ -24,6 +34,12 @@ public class OutcomeAnimations : MonoBehaviour
     [SerializeField] private TextMeshProUGUI LifeOnLandText;
     [SerializeField] private TextMeshProUGUI LifeBelowWaterDoneText;
 
+    [SerializeField] private Sprite LifeBelowWaterSprite;
+    [SerializeField] private Sprite ClimateActionSprite;
+    [SerializeField] private Sprite LifeOnLandSprite;
+    [SerializeField] private Sprite LifeBelowWaterSpriteBlank;
+    [SerializeField] private Sprite ClimateActionSpriteBlank;
+    [SerializeField] private Sprite LifeOnLandSpriteBlank;
 
     private DialogueManager ReleaseFishSuccessDialog;
     private DialogueManager FilterTrashSuccessDialog;
@@ -33,14 +49,17 @@ public class OutcomeAnimations : MonoBehaviour
     private DialogueManager FilterTrashFailDialog;
     private DialogueManager IllegalFishingFailDialog;
 
-
+    private GameObject SDGImage;
     // Duration of the fade animation
     public float fadeDuration = 1f;
     // Start is called before the first frame update
     void Start()
     {
-        MicroGameVariables.SDGNum = 1;
-        SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();
+        MicroGameVariables.SDGNum = 2;
+        SDGImage = GameObject.Find("SDGImages");
+        SDGImageAnimator = GameObject.Find("UICanvas").GetComponent<Animator>();
+        SDGImageSet();
+
         FadeInText();
         ReleaseFishSuccessDialog = GameObject.Find("ReleaseFishSuccessDialog").GetComponent<DialogueManager>();
         FilterTrashSuccessDialog = GameObject.Find("FilterTrashSuccessDialog").GetComponent<DialogueManager>();
@@ -50,9 +69,46 @@ public class OutcomeAnimations : MonoBehaviour
         FilterTrashFailDialog = GameObject.Find("FilterTrashFailDialog").GetComponent<DialogueManager>();
         IllegalFishingFailDialog = GameObject.Find("IllegalFishingFailDialog").GetComponent<DialogueManager>();
 
-
+        StartMicroGame();
     }
 
+    void SDGImageSet()
+    {
+        switch (MicroGameVariables.SDGNum)
+        {
+            default:
+                SDGImage.GetComponent<Image>().overrideSprite = LifeBelowWaterSprite;
+                break;
+            case 2:
+                SDGImage.GetComponent<Image>().overrideSprite = LifeOnLandSprite;
+                LifeBelowWaterDoneText.outlineColor = Color.green;
+                break;
+            case 3:
+                SDGImage.GetComponent<Image>().overrideSprite = ClimateActionSprite;
+                break;
+        }
+    }
+
+    void StartMicroGame()
+    {
+        SDGImageAnimator.Play("StartMG");
+    }
+
+    public void ChangeNormalBG()
+    {
+        switch (MicroGameVariables.SDGNum)
+        {
+            default:
+                SDGImage.GetComponent<Image>().overrideSprite = LifeBelowWaterSpriteBlank;
+                break;
+            case 2:
+                SDGImage.GetComponent<Image>().overrideSprite = LifeOnLandSpriteBlank;
+                break;
+            case 3:
+                SDGImage.GetComponent<Image>().overrideSprite = ClimateActionSpriteBlank;
+                break;
+        }
+    }
     // Update is called once per frame
     void Update()
     {
@@ -89,6 +145,7 @@ public class OutcomeAnimations : MonoBehaviour
     }
     public void AnimateOutcomes()
     {
+        
         int gameStats = 0;
         int prevGameStats = 0;
         switch (MicroGameVariables.MGNum)
@@ -114,7 +171,8 @@ public class OutcomeAnimations : MonoBehaviour
         prevPercentage = prevPercentage / 6;
         prevPercentage = prevPercentage * 100;
         outcomeTransform.localPosition = new Vector3(prevGameStats * 90f, outcomeTransform.localPosition.y, outcomeTransform.localPosition.z);
-        if (MicroGameVariables.MGNum == 2 && Difficulty == 3)
+
+        if (MicroGameVariables.MGNum == 0 && Difficulty == 1)
         {
             LeanTween.move(outcomeTransform, new Vector2(gameStats * 90f, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(PlayEndAnimation);
             AnimatePercentage(prevPercentage, percentage);
@@ -130,7 +188,6 @@ public class OutcomeAnimations : MonoBehaviour
     public void SetFinalOutcomes()
     {
         changeOutcomeImages();
-
         int gameStats = 0;
         switch (MicroGameVariables.MGNum)
         {
@@ -144,7 +201,7 @@ public class OutcomeAnimations : MonoBehaviour
                 gameStats = MicroGameVariables.game3Stats;
                 break;
         }
-        outcomeTransform.localPosition = new Vector3(gameStats * 90f, outcomeTransform.localPosition.y, outcomeTransform.localPosition.z);
+        outcomeTransform.localPosition = new Vector3(gameStats * 18424, outcomeTransform.localPosition.y, outcomeTransform.localPosition.z);
         float percentage = gameStats + 3;
         percentage = percentage / 6;
         percentage = percentage * 100;
@@ -176,16 +233,16 @@ public class OutcomeAnimations : MonoBehaviour
                 switch (MicroGameVariables.MGNum)
                 {
                     case 0:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
+                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodPlantTreesImage;
+                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = BadPlantTreesImage;
                         break;
                     case 1:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
+                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodRemoveInvasiveSpeciesImage;
+                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = BadRemoveInvasiveSpeciesImage;
                         break;
                     case 2:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
+                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodCatchPoachersImage;
+                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = BadCatchPoachersImage;
                         break;
                 }
                 break;
@@ -211,6 +268,7 @@ public class OutcomeAnimations : MonoBehaviour
     private void LevelFinished()
     {
         int gameStats = 0;
+        
         switch (MicroGameVariables.MGNum)
         {
             case 0:
@@ -223,21 +281,23 @@ public class OutcomeAnimations : MonoBehaviour
                 gameStats = MicroGameVariables.game3Stats;
                 break;
         }
-
+        
         float percentage = gameStats + 3;
         percentage = percentage / 6;
         percentage = percentage * 100;
         EndFadeOutText();
         if (percentage > 50)
         {
-            LeanTween.move(outcomeTransform, new Vector2(405f, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad);
+            LeanTween.move(outcomeTransform, new Vector2(55272, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad);
             AnimatePercentage(percentage, 100);
             StartCoroutine(RunEndDialogue());
+
 
         }
         else
         {
-            LeanTween.move(outcomeTransform, new Vector2(-405f, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad);
+
+            LeanTween.move(outcomeTransform, new Vector2(-55272, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad);
             AnimatePercentage(percentage, 0);
             StartCoroutine(RunEndDialogue());
         }
@@ -278,6 +338,58 @@ public class OutcomeAnimations : MonoBehaviour
 
                 }
                 break;
+            case 2:
+                switch (MicroGameVariables.MGNum)
+                {
+                    case 0:
+
+                        gameStats = MicroGameVariables.game1Stats;
+                        if (gameStats > 0) ReleaseFishSuccessDialog.StartConversation();
+                        else ReleaseFishFailDialog.StartConversation();
+                        nextMG();
+                        break;
+                    case 1:
+                        gameStats = MicroGameVariables.game2Stats;
+                        if (gameStats > 0) FilterTrashSuccessDialog.StartConversation();
+                        else FilterTrashFailDialog.StartConversation();
+                        nextMG();
+                        break;
+                    case 2:
+                        gameStats = MicroGameVariables.game3Stats;
+                        if (gameStats > 0) IllegalFishingSuccessDialog.StartConversation();
+                        else IllegalFishingFailDialog.StartConversation();
+                        GameVariables.city2Finished = true;
+                        GameVariables.dialogStarted = 2;
+                        break;
+
+                }
+                break;
+            case 3:
+                switch (MicroGameVariables.MGNum)
+                {
+                    case 0:
+
+                        gameStats = MicroGameVariables.game1Stats;
+                        if (gameStats > 0) ReleaseFishSuccessDialog.StartConversation();
+                        else ReleaseFishFailDialog.StartConversation();
+                        nextMG();
+                        break;
+                    case 1:
+                        gameStats = MicroGameVariables.game2Stats;
+                        if (gameStats > 0) FilterTrashSuccessDialog.StartConversation();
+                        else FilterTrashFailDialog.StartConversation();
+                        nextMG();
+                        break;
+                    case 2:
+                        gameStats = MicroGameVariables.game3Stats;
+                        if (gameStats > 0) IllegalFishingSuccessDialog.StartConversation();
+                        else IllegalFishingFailDialog.StartConversation();
+                        GameVariables.city3Finished = true;
+                        GameVariables.dialogStarted = 3;
+                        break;
+
+                }
+                break;
         }
 
     }
@@ -295,27 +407,16 @@ public class OutcomeAnimations : MonoBehaviour
     {
         // Wait for 2 seconds
         yield return new WaitForSeconds(.5f);
-        Debug.Log(MicroGameVariables.SDGNum);
-        // Call the method after the delay
-        switch (MicroGameVariables.SDGNum)
+        switch (MicroGameVariables.MGNum)
         {
+            case 0:
+                SDGImageAnimator.Play("LevelClear");
+                break;
             case 1:
-                switch (MicroGameVariables.MGNum)
-                {
-                    case 0:
-                        SDGImageAnimator.Play("LifeBelowWaterLevelClear");
-                        break;
-                    case 1:
-                        SDGImageAnimator.Play("Empty");
-                        break;
-                    case 2:
-                        SDGImageAnimator.Play("Empty");
-                        break;
-                }
+                SDGImageAnimator.Play("Empty");
                 break;
             case 2:
-                break;
-            case 3:
+                SDGImageAnimator.Play("Empty");
                 break;
         }
     }
@@ -331,7 +432,7 @@ public class OutcomeAnimations : MonoBehaviour
         yield return new WaitForSeconds(.5f);
 
         // Call the method after the delay
-        SDGImageAnimator.Play("LifeBelowWater");
+        StartMicroGame();
     }
 
     public void AnimatePercentage(float initialValue, float finalValue)
@@ -458,7 +559,5 @@ public class OutcomeAnimations : MonoBehaviour
     public void ChangeTextOnFinish()
     {
         LifeBelowWaterText.text = "Level Clear";
-        ClimateActionText.text = "Level Clear";
-        LifeOnLandText.text = "Level Clear";
     }
 }

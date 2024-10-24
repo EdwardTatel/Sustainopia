@@ -31,7 +31,7 @@ public class FilterTrashMGManager : MonoBehaviour
         Cursor.visible = false;
         MicroGameVariables.gameFailed = false;
         SDGText = GameObject.Find("LifeBelowWaterDoneText").GetComponent<TextMeshProUGUI>();
-        SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();
+        SDGImageAnimator = GameObject.Find("UICanvas").GetComponent<Animator>();
         GenerateObjects();
         StartCoroutine(SpawnTrash());
         GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();

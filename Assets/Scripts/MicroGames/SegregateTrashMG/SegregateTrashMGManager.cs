@@ -29,7 +29,7 @@ public class SegregateTrashMGManager : MonoBehaviour
         AssignRandomTags();
         MicroGameVariables.gameFailed = false;
         SDGText = GameObject.Find("ClimateActionDoneText").GetComponent<TextMeshProUGUI>();
-        SDGImageAnimator = GameObject.Find("SDGImage").GetComponent<Animator>();
+        SDGImageAnimator = GameObject.Find("UICanvas").GetComponent<Animator>();
         GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();
         MicroGameVariables.ShowUI();
         StartCoroutine(CollectTrashAfterStart());
@@ -147,16 +147,19 @@ public class SegregateTrashMGManager : MonoBehaviour
     }
     public void GameFailed()
     {
-        SDGText.text = "Dirty Environment!";
-        SDGImageAnimator.Play("ClimateActionDone");
+        MicroGameVariables.setGameStats(1, false);
+        SDGText.text = "Fail!";
+        SDGImageAnimator.Play("MGDone");
         MicroGameVariables.HideUI();
         MicroGameVariables.DeductLife();
     }
     public void GameWon()
     {
-        SDGText.text = "Clean Environment!";
-        SDGImageAnimator.Play("ClimateActionDone");
+        MicroGameVariables.setGameStats(1, true);
+        SDGText.text = "Success!";
+        SDGImageAnimator.Play("MGDone");
         MicroGameVariables.HideUI();
+        
     }
 
 
