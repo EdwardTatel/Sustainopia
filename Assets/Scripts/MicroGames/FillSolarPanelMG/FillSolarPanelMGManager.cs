@@ -20,11 +20,13 @@ public class FillSolarPanelMGManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+         
+        SetDifficulty();
         Cursor.visible = true;
         enlistPiecesAreas();
         GameObject[] array = GameObject.FindGameObjectsWithTag("Pentomino");
         pentominoPieces.AddRange(array);
-        ColorizePentominos();
+        /*ColorizePentominos();*/
 
         for (int i = 0; i <= numberOfPieces + 1; i++)
         {
@@ -84,7 +86,6 @@ public class FillSolarPanelMGManager : MonoBehaviour
                 break;
             default:
                 numberOfPieces = 2;
-                    ;
                 break;
         }
     }
@@ -108,6 +109,7 @@ public class FillSolarPanelMGManager : MonoBehaviour
         // Process the object
         foreach (Transform obj in objectToMove.transform)
         {
+            obj.GetChild(0).gameObject.SetActive(true);
             GameObject checker = Instantiate(panelChecker, obj.transform.position, panelChecker.transform.rotation, transform);
             panelCheckers.Add(checker);
             obj.gameObject.AddComponent<CheckPlace>();
@@ -115,13 +117,36 @@ public class FillSolarPanelMGManager : MonoBehaviour
             
         }
 
-        // Move the object to the new position
-        objectToMove.transform.position = piecesArea[counter].transform.position;
-        objectToMove.transform.rotation = piecesArea[counter].transform.rotation;
+        Vector3 currentCenter = GetCenterOfChildren(objectToMove);
 
+        // Calculate the offset from the current center to the pivot
+        Vector3 centerOffset = objectToMove.transform.position - currentCenter;
+        float yPosition = objectToMove.transform.position.y;
+        // Move the parent object to the new position based on the center
+        objectToMove.transform.position = piecesArea[counter].transform.position + centerOffset;
+        objectToMove.transform.rotation = piecesArea[counter].transform.rotation;
+        objectToMove.transform.position = new Vector3(objectToMove.transform.position.x, yPosition, objectToMove.transform.position.z);
         // Remove the object from the list to prevent it from being selected again
         pentominoPieces.RemoveAt(randomIndex);
         counter++;
+    }
+    Vector3 GetCenterOfChildren(GameObject parentObject)
+    {
+        // Initialize an empty bounds structure
+        Bounds combinedBounds = new Bounds(parentObject.transform.GetChild(0).position, Vector3.zero);
+
+        // Loop through all child objects and encapsulate their bounds
+        foreach (Transform child in parentObject.transform)
+        {
+            Renderer childRenderer = child.GetComponent<Renderer>();
+            if (childRenderer != null)
+            {
+                combinedBounds.Encapsulate(childRenderer.bounds);
+            }
+        }
+
+        // Return the center of the combined bounds
+        return combinedBounds.center;
     }
     void ColorizePentominos()
     {

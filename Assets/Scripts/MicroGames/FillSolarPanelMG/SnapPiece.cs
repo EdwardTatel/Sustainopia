@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Transactions;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SnapPiece : MonoBehaviour
@@ -8,9 +9,11 @@ public class SnapPiece : MonoBehaviour
     private SolarPanelScript solarPanelScript;
     private CheckPlace childObjectScript;
     public GameObject initialPosition;
+    private Vector3 stayPosition;
 
     private void Start()
     {
+        stayPosition = transform.position;
         childObjectScript = transform.Find("SolarPanel").GetComponent<CheckPlace>();
     }
 
@@ -39,7 +42,7 @@ public class SnapPiece : MonoBehaviour
         }
         else
         {
-            LeanTween.move(gameObject, initialPosition.transform.position, 0.5f);
+            LeanTween.move(gameObject, stayPosition, 0.5f);
         }
     }
 }

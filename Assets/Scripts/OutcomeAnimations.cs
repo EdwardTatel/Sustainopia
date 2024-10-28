@@ -172,7 +172,7 @@ public class OutcomeAnimations : MonoBehaviour
         prevPercentage = prevPercentage * 100;
         outcomeTransform.localPosition = new Vector3(prevGameStats * 90f, outcomeTransform.localPosition.y, outcomeTransform.localPosition.z);
 
-        if (MicroGameVariables.MGNum == 0 && Difficulty == 1)
+        if (MicroGameVariables.MGNum == 2 && Difficulty == 3)
         {
             LeanTween.move(outcomeTransform, new Vector2(gameStats * 90f, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(PlayEndAnimation);
             AnimatePercentage(prevPercentage, percentage);

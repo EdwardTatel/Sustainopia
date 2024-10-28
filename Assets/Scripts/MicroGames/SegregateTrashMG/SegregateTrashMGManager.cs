@@ -17,7 +17,7 @@ public class SegregateTrashMGManager : MonoBehaviour
     private bool gameDone = false;
     private bool trashCollected = false;
     private string[] availableTags = { "Ewaste", "Organic", "Recyclable" };
-    
+
     void Start()
     {
         if (bins.Length != 3)
@@ -28,9 +28,9 @@ public class SegregateTrashMGManager : MonoBehaviour
         // Randomize the tag assignments
         AssignRandomTags();
         MicroGameVariables.gameFailed = false;
-        SDGText = GameObject.Find("ClimateActionDoneText").GetComponent<TextMeshProUGUI>();
+        /*SDGText = GameObject.Find("ClimateActionDoneText").GetComponent<TextMeshProUGUI>();
         SDGImageAnimator = GameObject.Find("UICanvas").GetComponent<Animator>();
-        GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();
+        GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();*/
         MicroGameVariables.ShowUI();
         StartCoroutine(CollectTrashAfterStart());
     }

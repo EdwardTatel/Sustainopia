@@ -13,6 +13,9 @@ public class SpawnTrash : MonoBehaviour
     public float yMax = 5f;
     public float zMin = -5f;
     public float zMax = 5f;
+    [SerializeField] private List<Sprite> ewasteSprites = new List<Sprite>();
+    [SerializeField] private List<Sprite> organicSprites = new List<Sprite>();
+    [SerializeField] private List<Sprite> recycleSprites = new List<Sprite>();
 
     // If you want to visualize the spawn area
     private void OnDrawGizmosSelected()
@@ -26,6 +29,7 @@ public class SpawnTrash : MonoBehaviour
 
     void Start()
     {
+        MicroGameVariables.SetDifficulty("hard");
         SetDifficulty();
         SpawnTrashObjects();
     }
@@ -74,7 +78,7 @@ public class SpawnTrash : MonoBehaviour
             spawnedTrash.tag = assignedTag;
 
             // Change the sprite color based on the assigned tag
-            ChangeSpriteColorBasedOnTag(spawnedTrash, assignedTag);
+            ChangeSpriteBasedOnTag(spawnedTrash, assignedTag);
 
             // Optionally log the spawned object and its tag
         }
@@ -117,7 +121,7 @@ public class SpawnTrash : MonoBehaviour
         return selectedTag;
     }
 
-    void ChangeSpriteColorBasedOnTag(GameObject trashObject, string tag)
+    void ChangeSpriteBasedOnTag(GameObject trashObject, string tag)
     {
         // Get the SpriteRenderer component
         SpriteRenderer spriteRenderer = trashObject.GetComponent<SpriteRenderer>();
@@ -131,13 +135,13 @@ public class SpawnTrash : MonoBehaviour
         switch (tag)
         {
             case "Ewaste":
-                spriteRenderer.color = Color.yellow; // Change to desired color for Ewaste
+                spriteRenderer.sprite = ewasteSprites[Random.Range(0, ewasteSprites.Count)]; // Change to desired color for Ewaste
                 break;
             case "Organic":
-                spriteRenderer.color = Color.green; // Change to desired color for Organic
+                spriteRenderer.sprite = organicSprites[Random.Range(0, organicSprites.Count)];  // Change to desired color for Organic
                 break;
             case "Recyclable":
-                spriteRenderer.color = Color.blue; // Change to desired color for Recyclable
+                spriteRenderer.sprite = recycleSprites[Random.Range(0, recycleSprites.Count)]; // Change to desired color for Recyclable
                 break;
         }
     }

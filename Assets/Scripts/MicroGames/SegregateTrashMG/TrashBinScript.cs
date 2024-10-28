@@ -14,46 +14,60 @@ public class TrashBinScript : MonoBehaviour
 
     void Update()
     {
+        // Draw the line between the object and the camera in the Scene view continuously
+        Vector3 objectPositionWithOffset = transform.position + originOffset;
+        Vector3 cameraPositionWithOffset = mainCamera.transform.position + cameraOffset;
+        Debug.DrawLine(objectPositionWithOffset, cameraPositionWithOffset, Color.red);
+
         if (Input.GetMouseButtonUp(0))
         {
-            PerformLinecast();
+            PerformBoxcast();
         }
-
-        // Always draw the line from the object (with origin offset) to the camera (with offset) to visualize the linecast
-        Vector3 objectPositionWithOffset = transform.position + originOffset;  // Apply the origin offset to the object position
-        Vector3 cameraPositionWithOffset = mainCamera.transform.position + cameraOffset;  // Apply the offset to the camera position
-
-        Debug.DrawLine(objectPositionWithOffset, cameraPositionWithOffset, Color.red);  // Visualize the line in Scene View
     }
 
-    void PerformLinecast()
+    void PerformBoxcast()
     {
-        Vector3 objectPositionWithOffset = transform.position + originOffset;  // Apply the origin offset to the object position
-        Vector3 cameraPositionWithOffset = mainCamera.transform.position + cameraOffset;  // Apply the offset to the camera position
+        Vector3 objectPositionWithOffset = transform.position + originOffset;
+        Vector3 cameraPositionWithOffset = mainCamera.transform.position + cameraOffset;
+        Vector3 direction = (cameraPositionWithOffset - objectPositionWithOffset).normalized;
 
-        // Perform a linecast from the object (with origin offset) to the camera (with offset)
+        float distance = Vector3.Distance(objectPositionWithOffset, cameraPositionWithOffset);
+        Vector3 boxHalfExtents = new Vector3(0.5f, 0.5f, 0.5f);
+
         RaycastHit hit;
-        if (Physics.Linecast(objectPositionWithOffset, cameraPositionWithOffset, out hit))
+        if (Physics.BoxCast(objectPositionWithOffset, boxHalfExtents, direction, out hit, Quaternion.identity, distance))
         {
             Debug.Log(hit);
-            StartCoroutine(RotateLid(trashLid, -190f, 0.5f));
-            // Move the object to the hit trash can
-            LeanTween.move(hit.transform.gameObject, new Vector3(transform.position.x, 1.207f, transform.position.z), .5f)
+            RotateLid(trashLid, -44.305f, 0.5f);
+            LeanTween.move(hit.transform.gameObject, new Vector3(transform.position.x, 1.747f, transform.position.z), .7f)
                 .setEase(LeanTweenType.easeOutQuad)
                 .setOnComplete(() => dropTrash(hit.transform.gameObject, trashLid));
+
+            // Visualize the BoxCast hit position and direction in Scene view
+            Vector3 hitPoint = objectPositionWithOffset + direction * hit.distance;
+            Debug.DrawRay(hitPoint, Vector3.up * boxHalfExtents.y, Color.green);
+            Debug.DrawRay(hitPoint, Vector3.down * boxHalfExtents.y, Color.green);
+            Debug.DrawRay(hitPoint, Vector3.left * boxHalfExtents.x, Color.green);
+            Debug.DrawRay(hitPoint, Vector3.right * boxHalfExtents.x, Color.green);
+            Debug.DrawRay(hitPoint, Vector3.forward * boxHalfExtents.z, Color.green);
+            Debug.DrawRay(hitPoint, Vector3.back * boxHalfExtents.z, Color.green);
         }
     }
+
+
+
+
 
     private void dropTrash(GameObject trash, GameObject trashLid)
     {
 
         // Complete the trash drop to its final position
-        LeanTween.moveLocal(trash.gameObject, new Vector3(trash.transform.position.x, 0.5f, trash.transform.position.z), .5f)
+        LeanTween.moveLocal(trash.gameObject, new Vector3(trash.transform.position.x, 0.5f, trash.transform.position.z), 1f)
             .setEase(LeanTweenType.easeInQuad)
             .setOnComplete(() =>
             {
                 // Close the lid after the trash is dropped
-                StartCoroutine(RotateLid(trashLid, -83.121f, 0.5f));
+                RotateLid(trashLid, 0f, 0.5f);
                 if((trash.tag != gameObject.tag))
                 {
                     MicroGameVariables.deductTries();
@@ -63,26 +77,14 @@ public class TrashBinScript : MonoBehaviour
     }
 
     private void deleteThis(GameObject trash)
-    {
+    {   
         Destroy(trash);
     }
 
-    private IEnumerator RotateLid(GameObject trashLid, float targetXRotation, float duration)
+    public void RotateLid(GameObject trashLid, float targetYRotation, float duration)
     {
-        float elapsedTime = 0f;
-        Quaternion initialRotation = trashLid.transform.rotation;
-        Quaternion targetRotation = Quaternion.Euler(targetXRotation, 0f , 0f); // Only rotating around the Y axis
-
-        while (elapsedTime < duration)
-        {
-            elapsedTime += Time.deltaTime;
-            // Smoothly interpolate the rotation
-            trashLid.transform.rotation = Quaternion.Slerp(initialRotation, targetRotation, elapsedTime / duration);
-            yield return null; // Wait for the next frame
-        }
-
-        // Ensure the final rotation is set
-        trashLid.transform.rotation = targetRotation;
+        // Rotate around the Y-axis
+        LeanTween.rotateLocal(trashLid, new Vector3(0f, 0f, targetYRotation), duration).setEase(LeanTweenType.easeInOutSine);
     }
 
-}
+}   
