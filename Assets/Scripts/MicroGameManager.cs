@@ -6,17 +6,26 @@ using System.Runtime.CompilerServices;
 
 public class MicroGameManager : MonoBehaviour
 {
-    public GameObject bar, timerbar, heart1, heart2, heart3;
+    private GameObject bar, heart1, heart2, heart3;
+    public GameObject timerbar;
     private int tweenId;
     // Start is called before the first frame update
-    void Start()
+
+    private void Awake()
     {
+        bar = GameObject.Find("TimerBarUI");
+        timerbar = GameObject.Find("TimerBar");
+        Debug.Log(timerbar);
+        heart1 = GameObject.Find("Heart1");
+        heart2 = GameObject.Find("Heart2");
+        heart3 = GameObject.Find("Heart3");
         MicroGameVariables.OnShowUIChange += showHideUI;
         showHideUI(MicroGameVariables.showUI);
         timerbar.gameObject.SetActive(false);
         heart1.gameObject.SetActive(false);
         heart2.gameObject.SetActive(false);
         heart3.gameObject.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -38,8 +47,6 @@ public class MicroGameManager : MonoBehaviour
     public void CheckWinCondition()
     {
         MicroGameVariables.gameFailed = true;
-        MicroGameVariables.HideUI();
-        ResetTimer();
     }
 
 

@@ -68,7 +68,6 @@ public class IllegalFishingMGManager : MonoBehaviour
         MicroGameVariables.setGameStats(3, false);
         SDGText.text = "Fail!";
         SDGImageAnimator.Play("MGDone");
-        MicroGameVariables.HideUI();
         MicroGameVariables.DeductLife();
     }
     public void GameWon()
@@ -77,7 +76,6 @@ public class IllegalFishingMGManager : MonoBehaviour
         MicroGameVariables.setGameStats(3, true);
         SDGText.text = "Success!";
         SDGImageAnimator.Play("MGDone");
-        MicroGameVariables.HideUI();
     }
 
     void WinCondition()

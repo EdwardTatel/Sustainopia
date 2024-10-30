@@ -20,13 +20,14 @@ public class BuildTower : MonoBehaviour
 
     private void Start()
     {
+
         currentHouseBlock = GameObject.Find("HouseBlock");
         currentHouseBlock.GetComponent<Animator>().SetTrigger("Current");
-        houseBlockQuantity = 3;
+        SetDifficulty();
         InitializeStack();
         NextQueueItem();
     }
-
+    
     private void Update()
     {
         ChangeCurrentHouseBlock();
@@ -38,6 +39,21 @@ public class BuildTower : MonoBehaviour
         {
             currentHouseBlock = AddHouseBlock(currentHouseBlock);
             houseBlocks.Enqueue(currentHouseBlock);
+        }
+    }
+    private void SetDifficulty()
+    {
+        switch (MicroGameVariables.GetDifficulty())
+        {
+            case MicroGameVariables.levels.hard:
+                houseBlockQuantity = 3;
+                break;
+            case MicroGameVariables.levels.medium:
+                houseBlockQuantity = 2;
+                break;
+            default:
+                houseBlockQuantity = 1;
+                break;
         }
     }
     private GameObject AddHouseBlock(GameObject houseBlock)

@@ -9,9 +9,12 @@ public class CarMovement : MonoBehaviour
     public Transform cameraTransform; // Assign the main camera in the Inspector
     private void Start()
     {
-        if (GameVariables.city1Finished || GameVariables.city2Finished || GameVariables.city3Finished )GameVariables.Load(transform);
-        GameVariables.EnableAllTexts();
-        Debug.Log("EnabledAllText");
+        if (GameVariables.city1Finished || GameVariables.city2Finished || GameVariables.city3Finished)
+        {
+            Debug.Log("Why does it teleport there?");
+            GameVariables.Load(transform);
+        }
+            GameVariables.EnableAllTexts();
     }
     void Update()
     {

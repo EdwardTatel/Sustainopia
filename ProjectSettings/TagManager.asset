@@ -24,6 +24,7 @@ TagManager:
   - Poacher
   - SoilHole
   - SpawnPoach
+  - TimerBar
   layers:
   - Default
   - TransparentFX

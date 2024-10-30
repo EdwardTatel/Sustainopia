@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class SpawnTrash : MonoBehaviour
@@ -29,7 +30,6 @@ public class SpawnTrash : MonoBehaviour
 
     void Start()
     {
-        MicroGameVariables.SetDifficulty("hard");
         SetDifficulty();
         SpawnTrashObjects();
     }
@@ -39,10 +39,10 @@ public class SpawnTrash : MonoBehaviour
         switch (MicroGameVariables.GetDifficulty())
         {
             case MicroGameVariables.levels.hard:
-                numberOfTrash = 6;
+                numberOfTrash = 5;
                 break;
             case MicroGameVariables.levels.medium:
-                numberOfTrash = 5;
+                numberOfTrash = 4;
                 break;
             default:
                 numberOfTrash = 3;
@@ -73,6 +73,7 @@ public class SpawnTrash : MonoBehaviour
 
             // Instantiate the trash object
             GameObject spawnedTrash = Instantiate(trashPrefab, spawnPosition, Quaternion.Euler(30, 0, 0));
+            spawnedTrash.transform.SetParent(transform, worldPositionStays: true);
 
             // Assign the tag to the trash object
             spawnedTrash.tag = assignedTag;

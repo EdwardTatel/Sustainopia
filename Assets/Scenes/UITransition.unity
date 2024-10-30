@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentIDCounter: 3
-  json: '{"Options":[{"Connections":[],"EditorInfo":{"isRoot":false,"xPos":57.5,"yPos":122},"ID":2,"ParamActions":[],"TMPFontGUID":null,"Text":"Continue","parentUIDs":[0],"SpeechUID":-1}],"Parameters":[],"SpeechNodes":[{"Connections":[{"__type":"EditableOptionConnection:#DialogueEditor","Conditions":[],"NodeUID":2}],"EditorInfo":{"isRoot":true,"xPos":56,"yPos":22},"ID":0,"ParamActions":[],"TMPFontGUID":null,"Text":"You
+  json: '{"Options":[{"Connections":[],"EditorInfo":{"isRoot":false,"xPos":141,"yPos":122},"ID":2,"ParamActions":[],"TMPFontGUID":null,"Text":"Continue","parentUIDs":[0],"SpeechUID":-1}],"Parameters":[],"SpeechNodes":[{"Connections":[{"__type":"EditableOptionConnection:#DialogueEditor","Conditions":[],"NodeUID":2}],"EditorInfo":{"isRoot":true,"xPos":139.5,"yPos":22},"ID":0,"ParamActions":[],"TMPFontGUID":null,"Text":"You
     did great with releasing the small fish!\nIf they keep it up, this is what it
     will look like! There will be so much fish in the future.","parentUIDs":[],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Maya","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0}]}'
   saveVersion: 110
@@ -168,19 +168,7 @@ MonoBehaviour:
   EndConversationFont: {fileID: 11400000, guid: b6c95356040046e4abcdf8984902d34e, type: 2}
   Event:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 149034757}
-        m_TargetAssemblyTypeName: OutcomeAnimations, Assembly-CSharp
-        m_MethodName: PlayEndAnimation
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &79438211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -572,6 +560,12 @@ MonoBehaviour:
   BadPlantTreesImage: {fileID: 21300000, guid: f58c62bc96f97564d975ee00c5f58758, type: 3}
   GoodCatchPoachersImage: {fileID: 21300000, guid: e258e4cfe685abb4dbaa11b8d9fd1bc0, type: 3}
   BadCatchPoachersImage: {fileID: 21300000, guid: 0a7b9708e4d59ec49b9e90c7cb672b9e, type: 3}
+  GoodSegregateTrashImage: {fileID: 21300000, guid: 0c3566ff123a0804f8ffd2fc205ad03a, type: 3}
+  BadSegregateTrashImage: {fileID: 21300000, guid: 44653be7ad66fe042990bfb0e8c2b3d1, type: 3}
+  GoodFillSolarPanelImage: {fileID: 21300000, guid: 226ec389eb62e2043ad48b305280748f, type: 3}
+  BadFillSolarPanelImage: {fileID: 21300000, guid: b2209fb83562dde47bacbbb391c9a1a9, type: 3}
+  GoodWoodConstructionImage: {fileID: 21300000, guid: a0bd1f629d40594438df814a4bfe1f0c, type: 3}
+  BadWoodConstructionImage: {fileID: 21300000, guid: 26727bbd481f99b4fabf2f30ec445aa6, type: 3}
   percentageText: {fileID: 1072337737}
   LifeBelowWaterText: {fileID: 475433795}
   ClimateActionText: {fileID: 0}
@@ -1527,7 +1521,7 @@ GameObject:
   - component: {fileID: 891203175}
   m_Layer: 5
   m_Name: TimerBar
-  m_TagString: Untagged
+  m_TagString: TimerBar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2012,7 +2006,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentIDCounter: 5
-  json: '{"Options":[{"Connections":[],"EditorInfo":{"isRoot":false,"xPos":55.5,"yPos":128},"ID":2,"ParamActions":[],"TMPFontGUID":null,"Text":"End","parentUIDs":[0],"SpeechUID":-1}],"Parameters":[],"SpeechNodes":[{"Connections":[{"__type":"EditableOptionConnection:#DialogueEditor","Conditions":[],"NodeUID":2}],"EditorInfo":{"isRoot":true,"xPos":56,"yPos":22},"ID":0,"ParamActions":[],"TMPFontGUID":null,"Text":"Along
+  json: '{"Options":[{"Connections":[],"EditorInfo":{"isRoot":false,"xPos":139,"yPos":128},"ID":2,"ParamActions":[],"TMPFontGUID":null,"Text":"End","parentUIDs":[0],"SpeechUID":-1}],"Parameters":[],"SpeechNodes":[{"Connections":[{"__type":"EditableOptionConnection:#DialogueEditor","Conditions":[],"NodeUID":2}],"EditorInfo":{"isRoot":true,"xPos":139.5,"yPos":22},"ID":0,"ParamActions":[],"TMPFontGUID":null,"Text":"Along
     with the local police, we caught those dynamite fishers you saw in the light
     tower! The coral and fish are safe now thanks to you.","parentUIDs":[],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Maya","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0}]}'
   saveVersion: 110
@@ -2098,7 +2092,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentIDCounter: 3
-  json: '{"Options":[{"Connections":[],"EditorInfo":{"isRoot":false,"xPos":55.5,"yPos":111},"ID":2,"ParamActions":[],"TMPFontGUID":null,"Text":"Continue","parentUIDs":[0],"SpeechUID":-1}],"Parameters":[],"SpeechNodes":[{"Connections":[{"__type":"EditableOptionConnection:#DialogueEditor","Conditions":[],"NodeUID":2}],"EditorInfo":{"isRoot":true,"xPos":56,"yPos":22},"ID":0,"ParamActions":[],"TMPFontGUID":null,"Text":"Well
+  json: '{"Options":[{"Connections":[],"EditorInfo":{"isRoot":false,"xPos":139,"yPos":111},"ID":2,"ParamActions":[],"TMPFontGUID":null,"Text":"Continue","parentUIDs":[0],"SpeechUID":-1}],"Parameters":[],"SpeechNodes":[{"Connections":[{"__type":"EditableOptionConnection:#DialogueEditor","Conditions":[],"NodeUID":2}],"EditorInfo":{"isRoot":true,"xPos":139.5,"yPos":22},"ID":0,"ParamActions":[],"TMPFontGUID":null,"Text":"Well
     done on filtering the trash! Thanks to you, the sea is more cleaner and better
     for wildlife","parentUIDs":[],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Maya","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0}]}'
   saveVersion: 110
@@ -2112,19 +2106,7 @@ MonoBehaviour:
   EndConversationFont: {fileID: 11400000, guid: b6c95356040046e4abcdf8984902d34e, type: 2}
   Event:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 149034757}
-        m_TargetAssemblyTypeName: OutcomeAnimations, Assembly-CSharp
-        m_MethodName: PlayEndAnimation
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1084076384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2203,7 +2185,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 149034757}
         m_TargetAssemblyTypeName: OutcomeAnimations, Assembly-CSharp
-        m_MethodName: PlayEndAnimation
+        m_MethodName: BackToLevelSelect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2574,11 +2556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac2d6760af0c3984c952ed49a22fd420, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bar: {fileID: 1883190927}
-  timerbar: {fileID: 891203173}
-  heart1: {fileID: 721179022}
-  heart2: {fileID: 570359260}
-  heart3: {fileID: 846004357}
+  timerbar: {fileID: 0}
 --- !u!4 &1519218977
 Transform:
   m_ObjectHideFlags: 0
@@ -3136,8 +3114,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentIDCounter: 3
-  json: '{"Options":[{"Connections":[],"EditorInfo":{"isRoot":false,"xPos":81.5,"yPos":281},"ID":2,"ParamActions":[],"TMPFontGUID":null,"Text":"End","parentUIDs":[0],"SpeechUID":-1}],"Parameters":[],"SpeechNodes":[{"Connections":[{"__type":"EditableOptionConnection:#DialogueEditor","Conditions":[],"NodeUID":2}],"EditorInfo":{"isRoot":true,"xPos":56,"yPos":22},"ID":0,"ParamActions":[],"TMPFontGUID":null,"Text":"You
-    failed to successfully do this Micro Game","parentUIDs":[],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Maya","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0}]}'
+  json: '{"Options":[{"Connections":[],"EditorInfo":{"isRoot":false,"xPos":168.5,"yPos":281},"ID":2,"ParamActions":[],"TMPFontGUID":null,"Text":"End","parentUIDs":[0],"SpeechUID":-1}],"Parameters":[],"SpeechNodes":[{"Connections":[{"__type":"EditableOptionConnection:#DialogueEditor","Conditions":[],"NodeUID":2}],"EditorInfo":{"isRoot":true,"xPos":143,"yPos":22},"ID":0,"ParamActions":[],"TMPFontGUID":null,"Text":"Test","parentUIDs":[],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Maya","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0}]}'
   saveVersion: 110
   DefaultName: Maya
   DefaultSprite: {fileID: 21300000, guid: ad94c44f84c182c43a7b3fe4c56e7b6a, type: 3}
@@ -3152,7 +3129,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 149034757}
         m_TargetAssemblyTypeName: OutcomeAnimations, Assembly-CSharp
-        m_MethodName: PlayEndAnimation
+        m_MethodName: BackToLevelSelect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

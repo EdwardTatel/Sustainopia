@@ -79,7 +79,6 @@ public class CatchPoachersMG : MonoBehaviour
         MicroGameVariables.setGameStats(3, false);
         SDGText.text = "Fail!";
         SDGImageAnimator.Play("MGDone");
-        MicroGameVariables.HideUI();
         MicroGameVariables.DeductLife();
     }
     public void GameWon()
@@ -87,7 +86,6 @@ public class CatchPoachersMG : MonoBehaviour
         MicroGameVariables.setGameStats(3, true);
         SDGText.text = "Success!";
         SDGImageAnimator.Play("MGDone");
-        MicroGameVariables.HideUI();
 
     }
 

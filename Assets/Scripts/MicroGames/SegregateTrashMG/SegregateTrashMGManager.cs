@@ -20,17 +20,20 @@ public class SegregateTrashMGManager : MonoBehaviour
 
     void Start()
     {
+        MicroGameVariables.resetTries();
         if (bins.Length != 3)
         {
             return;
         }
-        
+
+        GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().timerbar = GameObject.Find("TimerBar");
+
         // Randomize the tag assignments
         AssignRandomTags();
         MicroGameVariables.gameFailed = false;
-        /*SDGText = GameObject.Find("ClimateActionDoneText").GetComponent<TextMeshProUGUI>();
+        SDGText = GameObject.Find("LifeBelowWaterDoneText").GetComponent<TextMeshProUGUI>();
         SDGImageAnimator = GameObject.Find("UICanvas").GetComponent<Animator>();
-        GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();*/
+        GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();
         MicroGameVariables.ShowUI();
         StartCoroutine(CollectTrashAfterStart());
     }
@@ -132,13 +135,11 @@ public class SegregateTrashMGManager : MonoBehaviour
             {
                 if (MicroGameVariables.getTries() <= 0)
                 {
-                    Debug.Log("FAILER!");
                     GameFailed();
                     gameDone = true;
                 }
                 else if (trashList.Count <= 0)
                 {
-                    Debug.Log("Wonners!");
                     GameWon();
                     gameDone = true;
                 }
@@ -150,7 +151,6 @@ public class SegregateTrashMGManager : MonoBehaviour
         MicroGameVariables.setGameStats(1, false);
         SDGText.text = "Fail!";
         SDGImageAnimator.Play("MGDone");
-        MicroGameVariables.HideUI();
         MicroGameVariables.DeductLife();
     }
     public void GameWon()
@@ -158,8 +158,7 @@ public class SegregateTrashMGManager : MonoBehaviour
         MicroGameVariables.setGameStats(1, true);
         SDGText.text = "Success!";
         SDGImageAnimator.Play("MGDone");
-        MicroGameVariables.HideUI();
-        
+
     }
 
 

@@ -49,7 +49,6 @@ public class PlantTreesMG : MonoBehaviour
         MicroGameVariables.setGameStats(1, false);
         SDGText.text = "Fail!";
         SDGImageAnimator.Play("MGDone");
-        MicroGameVariables.HideUI();
         MicroGameVariables.DeductLife();
     }
     public void GameWon()
@@ -57,7 +56,6 @@ public class PlantTreesMG : MonoBehaviour
         MicroGameVariables.setGameStats(1, true);
         SDGText.text = "Success!";
         SDGImageAnimator.Play("MGDone");
-        MicroGameVariables.HideUI();
 
     }
 

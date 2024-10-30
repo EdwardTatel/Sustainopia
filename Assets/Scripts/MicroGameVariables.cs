@@ -12,7 +12,7 @@ public static class MicroGameVariables
     public static bool gameFailed = false;
     private static int gamesFinished = 0;
     public static bool _showUI = false;
-    private static int tries = 2;
+    private static int tries = 1;
     public static int SDGNum = 0;
     public static int MGNum = 0;
     public static bool stopDialog = false;
@@ -42,7 +42,7 @@ public static class MicroGameVariables
 
     public static void resetTries()
     {
-        tries = 2;
+        tries = 1;
     }
     public static void deductTries()
     {
@@ -151,6 +151,9 @@ public static class MicroGameVariables
     }
     public static void restartGameStats()
     {
+        difficulty = levels.easy;
+        lives = 3;
+        MGNum = 0;
         statsIterator = 0;
         game1Stats = 0;
         game2Stats = 0;

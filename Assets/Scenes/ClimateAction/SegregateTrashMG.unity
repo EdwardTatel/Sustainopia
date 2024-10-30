@@ -1595,7 +1595,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 0bcfb98a4578059429c9486d857edb0e, type: 3}
   - {fileID: 21300000, guid: 233b9353672859a40a05d1d4bac80e6d, type: 3}
   - {fileID: 21300000, guid: 303652d24a1fbde43ab700f89ce7f9c3, type: 3}
-  - {fileID: 21300000, guid: 05b76f8fd1651c64bbdf5036ffef718e, type: 3}
   recycleSprites:
   - {fileID: 21300000, guid: 82fa8b0103256c447af271b4f781a7a2, type: 3}
   - {fileID: 21300000, guid: 4c559c1bcf615a547a06630d5319ead3, type: 3}

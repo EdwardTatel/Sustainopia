@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer.Internal;
 using UnityEngine;
 
@@ -29,13 +30,15 @@ public class WoodConstructionMGManager : MonoBehaviour
     public Transform materialsParent;
     private List<GameObject> houseBlockCheckList = new List<GameObject>();
     private int unbuiltHouseBlocks;
-
+    private int buildingCounter;
+    private int woodCount = 0;
+    private int concreteCount = 0;
     void Start()
     {
-
+        SetDifficulty();
         Cursor.visible = true;
         MicroGameVariables.gameFailed = false;
-        SDGText = GameObject.Find("ClimateActionDoneText").GetComponent<TextMeshProUGUI>();
+        SDGText = GameObject.Find("LifeBelowWaterDoneText").GetComponent<TextMeshProUGUI>();
         SDGImageAnimator = GameObject.Find("UICanvas").GetComponent<Animator>();
         GenerateMaterialList();
         EnqueueMaterials();
@@ -46,13 +49,30 @@ public class WoodConstructionMGManager : MonoBehaviour
         MicroGameVariables.ShowUI();
     }
 
+    private void SetDifficulty()
+    {
+        switch (MicroGameVariables.GetDifficulty())
+        {
+            case MicroGameVariables.levels.hard:
+                woodCount = 4;
+                concreteCount = 2;
+                buildingCounter = 4;
+
+                break;
+            case MicroGameVariables.levels.medium:
+                woodCount = 3;
+                concreteCount = 2;
+                buildingCounter = 3;
+                break;
+            default:
+                woodCount = 2;
+                concreteCount = 1;
+                buildingCounter = 2;
+                break;
+        }
+    }
     void GenerateMaterialList()
     {
-        int totalItems = 7;
-        int woodCount = (int)(totalItems * 0.66f);
-        int concreteCount = totalItems - woodCount;
-
-        woodCount--;
 
         for (int i = 0; i < woodCount; i++)
         {
@@ -140,7 +160,7 @@ public class WoodConstructionMGManager : MonoBehaviour
             unbuiltHouseBlocks = GetComponent<BuildTower>().HouseBlocks.Count;
             if (MicroGameVariables.gameFailed == true)
             {
-                GameUnfinished();
+                GameFailed();
                 gameDone = true;
             }
             else
@@ -149,9 +169,11 @@ public class WoodConstructionMGManager : MonoBehaviour
                 {
                     InstantiateAndAssignMaterial();
                 }
-                if ((materialQueue.Count <= 0 || unbuiltHouseBlocks <= 0) && !gameDone)
+                if ((materialQueue.Count <= 0 || unbuiltHouseBlocks <= 0))
                 {
                     StartCoroutine(WinCondition());
+
+                    gameDone = true;
                 }
             }
         }
@@ -159,13 +181,14 @@ public class WoodConstructionMGManager : MonoBehaviour
 
     IEnumerator WinCondition()
     {
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSeconds(.2f);
         int winConditionCounter = 0;
         bool buildingNotFinished = false;
 
         foreach (GameObject houseBlock in houseBlockCheckList)
         {
             string houseMaterial = houseBlock.transform.Find("HouseBlockModel").GetComponent<MeshRenderer>().material.name;
+
             Debug.Log(houseMaterial);
             if (houseMaterial == "WoodMaterial (Instance)")
             {
@@ -176,15 +199,16 @@ public class WoodConstructionMGManager : MonoBehaviour
                 buildingNotFinished = true;
             }
         }
-        Debug.Log(houseBlockCheckList.Count);
-        Debug.Log(winConditionCounter);
         if (buildingNotFinished)
         {
-            GameUnfinished();
+            GameFailed();
+
         }
         else
         {
-            if (winConditionCounter >= 3)
+
+            Debug.Log(winConditionCounter+ "" + buildingCounter);
+            if (winConditionCounter == buildingCounter)
             {
                 GameWon();
             }
@@ -197,23 +221,17 @@ public class WoodConstructionMGManager : MonoBehaviour
     }
     public void GameFailed()
     {
-        SDGText.text = "Unsustainable Construction!";
-        SDGImageAnimator.Play("ClimateActionDone");
-        MicroGameVariables.HideUI();
+        MicroGameVariables.setGameStats(3, false);
+        SDGText.text = "Fail!";
+        SDGImageAnimator.Play("MGDone");
         MicroGameVariables.DeductLife();
     }
     public void GameWon()
     {
-        SDGText.text = "Neutral Carbon Construction!";
-        SDGImageAnimator.Play("ClimateActionDone");
-        MicroGameVariables.HideUI();
-    }
+        MicroGameVariables.setGameStats(3, true);
+        SDGText.text = "Success!";
+        SDGImageAnimator.Play("MGDone");
 
-    public void GameUnfinished() { 
-        SDGText.text = "Building Unfinished!";
-        SDGImageAnimator.Play("ClimateActionDone");
-        MicroGameVariables.HideUI();
-        MicroGameVariables.DeductLife();
     }
 
 

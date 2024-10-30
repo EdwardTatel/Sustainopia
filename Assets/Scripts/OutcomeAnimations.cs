@@ -12,7 +12,8 @@ public class OutcomeAnimations : MonoBehaviour
     public GameObject GoodImage;
     public GameObject BadImage;
     private Animator SDGImageAnimator;
-
+    private Vector3 savedPosition;
+    private Quaternion savedRotation;
     public Sprite GoodReleaseFishImage;
     public Sprite BadReleaseFishImage;
     public Sprite GoodFilterTrashImage;
@@ -26,6 +27,13 @@ public class OutcomeAnimations : MonoBehaviour
     public Sprite BadPlantTreesImage;
     public Sprite GoodCatchPoachersImage;
     public Sprite BadCatchPoachersImage;
+
+    public Sprite GoodSegregateTrashImage;
+    public Sprite BadSegregateTrashImage;
+    public Sprite GoodFillSolarPanelImage;
+    public Sprite BadFillSolarPanelImage;
+    public Sprite GoodWoodConstructionImage;
+    public Sprite BadWoodConstructionImage;
 
     public TextMeshProUGUI percentageText;
     private int Difficulty = 1;
@@ -49,13 +57,18 @@ public class OutcomeAnimations : MonoBehaviour
     private DialogueManager FilterTrashFailDialog;
     private DialogueManager IllegalFishingFailDialog;
 
+
+    private Color initialColor1;  // Store the initial color of the first image
+    private Color initialColor2;  // Store the initial color of the second image
+
     private GameObject SDGImage;
     // Duration of the fade animation
     public float fadeDuration = 1f;
     // Start is called before the first frame update
     void Start()
     {
-        MicroGameVariables.SDGNum = 2;
+        initialColor1 = GoodImage.GetComponent<Image>().color;
+        initialColor2 = BadImage.GetComponent<Image>().color;
         SDGImage = GameObject.Find("SDGImages");
         SDGImageAnimator = GameObject.Find("UICanvas").GetComponent<Animator>();
         SDGImageSet();
@@ -71,13 +84,13 @@ public class OutcomeAnimations : MonoBehaviour
 
         StartMicroGame();
     }
-
     void SDGImageSet()
     {
         switch (MicroGameVariables.SDGNum)
         {
             default:
                 SDGImage.GetComponent<Image>().overrideSprite = LifeBelowWaterSprite;
+                LifeBelowWaterDoneText.outlineColor = Color.blue;
                 break;
             case 2:
                 SDGImage.GetComponent<Image>().overrideSprite = LifeOnLandSprite;
@@ -85,6 +98,7 @@ public class OutcomeAnimations : MonoBehaviour
                 break;
             case 3:
                 SDGImage.GetComponent<Image>().overrideSprite = ClimateActionSprite;
+                LifeBelowWaterDoneText.outlineColor = Color.green;
                 break;
         }
     }
@@ -108,10 +122,6 @@ public class OutcomeAnimations : MonoBehaviour
                 SDGImage.GetComponent<Image>().overrideSprite = ClimateActionSpriteBlank;
                 break;
         }
-    }
-    // Update is called once per frame
-    void Update()
-    {
     }
     public void SetOutcomes()
     {
@@ -185,50 +195,12 @@ public class OutcomeAnimations : MonoBehaviour
         nextMG();
     }
 
-    public void SetFinalOutcomes()
-    {
-        changeOutcomeImages();
-        int gameStats = 0;
-        switch (MicroGameVariables.MGNum)
-        {
-            case 0:
-                gameStats = MicroGameVariables.game1Stats;
-                break;
-            case 1:
-                gameStats = MicroGameVariables.game2Stats;
-                break;
-            case 2:
-                gameStats = MicroGameVariables.game3Stats;
-                break;
-        }
-        outcomeTransform.localPosition = new Vector3(gameStats * 18424, outcomeTransform.localPosition.y, outcomeTransform.localPosition.z);
-        float percentage = gameStats + 3;
-        percentage = percentage / 6;
-        percentage = percentage * 100;
-        percentageText.text = percentage.ToString("F1") + "%";
-    }
-
+    
     public void changeOutcomeImages()
     {
         switch (MicroGameVariables.SDGNum)
         {
-            case 1:
-                switch (MicroGameVariables.MGNum)
-                {
-                    case 0:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = BadReleaseFishImage;
-                        break;
-                    case 1:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodFilterTrashImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = BadFilterTrashImage;
-                        break;
-                    case 2:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = BadReleaseFishImage;
-                        break;
-                }
-                break;
+            
             case 2:
                 switch (MicroGameVariables.MGNum)
                 {
@@ -250,21 +222,65 @@ public class OutcomeAnimations : MonoBehaviour
                 switch (MicroGameVariables.MGNum)
                 {
                     case 0:
-                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
+                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodSegregateTrashImage;
+                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = BadSegregateTrashImage;
                         break;
                     case 1:
+                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodFillSolarPanelImage;
+                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = BadFillSolarPanelImage;
+                        break;
+                    case 2:
+                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodWoodConstructionImage;
+                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodWoodConstructionImage;
+                        break;
+                }
+                break;
+            default:
+                switch (MicroGameVariables.MGNum)
+                {
+                    case 0:
                         GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
+                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = BadReleaseFishImage;
+                        break;
+                    case 1:
+                        GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodFilterTrashImage;
+                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = BadFilterTrashImage;
                         break;
                     case 2:
                         GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodReleaseFishImage;
+                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = BadReleaseFishImage;
                         break;
                 }
                 break;
         }
     }
+    public void SetFinalOutcomes()
+    {
+        EndFadeInText();
+        changeOutcomeImages();
+        int gameStats = 0;
+        switch (MicroGameVariables.MGNum)
+        {
+            case 0:
+                gameStats = MicroGameVariables.game1Stats;
+                break;
+            case 1:
+                gameStats = MicroGameVariables.game2Stats;
+                break;
+            case 2:
+                gameStats = MicroGameVariables.game3Stats;
+                break;
+        }
+        outcomeTransform.localPosition = new Vector3(gameStats * 12153, outcomeTransform.localPosition.y, outcomeTransform.localPosition.z);
+        float percentage = gameStats + 3;
+        percentage = percentage / 6;
+        percentage = percentage * 100;
+        percentageText.text = percentage.ToString("F1") + "%";
+
+        GoodImage.GetComponent<Image>().color = initialColor1;
+        BadImage.GetComponent<Image>().color = initialColor2;
+    }
+
     private void LevelFinished()
     {
         int gameStats = 0;
@@ -288,8 +304,9 @@ public class OutcomeAnimations : MonoBehaviour
         EndFadeOutText();
         if (percentage > 50)
         {
-            LeanTween.move(outcomeTransform, new Vector2(55272, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad);
-            AnimatePercentage(percentage, 100);
+
+            LeanTween.move(outcomeTransform, new Vector2(55272, outcomeTransform.localPosition.y), 2f).setEase(LeanTweenType.easeInOutQuad);
+            EndAnimatePercentage(percentage, 100);
             StartCoroutine(RunEndDialogue());
 
 
@@ -297,47 +314,22 @@ public class OutcomeAnimations : MonoBehaviour
         else
         {
 
-            LeanTween.move(outcomeTransform, new Vector2(-55272, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad);
-            AnimatePercentage(percentage, 0);
+            LeanTween.move(outcomeTransform, new Vector2(-55272, outcomeTransform.localPosition.y), 2f).setEase(LeanTweenType.easeInOutQuad);
+            EndAnimatePercentage(percentage, 0);
             StartCoroutine(RunEndDialogue());
         }
-
     }
 
 
     IEnumerator RunEndDialogue()
     {
         yield return new WaitForSeconds(1f);
+        Debug.Log(MicroGameVariables.MGNum);
         int gameStats = 0;
         Cursor.visible = true;
         switch (MicroGameVariables.SDGNum)
         {
-            case 1:
-                switch (MicroGameVariables.MGNum)
-                {
-                    case 0:
-
-                        gameStats = MicroGameVariables.game1Stats;
-                        if (gameStats > 0) ReleaseFishSuccessDialog.StartConversation();
-                        else ReleaseFishFailDialog.StartConversation();
-                        nextMG();
-                        break;
-                    case 1:
-                        gameStats = MicroGameVariables.game2Stats;
-                        if (gameStats > 0) FilterTrashSuccessDialog.StartConversation();
-                        else FilterTrashFailDialog.StartConversation();
-                        nextMG();
-                        break;
-                    case 2:
-                        gameStats = MicroGameVariables.game3Stats;
-                        if (gameStats > 0) IllegalFishingSuccessDialog.StartConversation();
-                        else IllegalFishingFailDialog.StartConversation();
-                        GameVariables.city1Finished = true;
-                        GameVariables.dialogStarted = 1;
-                        break;
-
-                }
-                break;
+            
             case 2:
                 switch (MicroGameVariables.MGNum)
                 {
@@ -360,6 +352,8 @@ public class OutcomeAnimations : MonoBehaviour
                         else IllegalFishingFailDialog.StartConversation();
                         GameVariables.city2Finished = true;
                         GameVariables.dialogStarted = 2;
+
+                        MicroGameVariables.restartGameStats();
                         break;
 
                 }
@@ -386,6 +380,36 @@ public class OutcomeAnimations : MonoBehaviour
                         else IllegalFishingFailDialog.StartConversation();
                         GameVariables.city3Finished = true;
                         GameVariables.dialogStarted = 3;
+
+                        MicroGameVariables.restartGameStats();
+                        break;
+
+                }
+                break;
+            default:
+
+                switch (MicroGameVariables.MGNum)
+                {
+                    case 0:
+
+                        gameStats = MicroGameVariables.game1Stats;
+                        if (gameStats > 0) ReleaseFishSuccessDialog.StartConversation();
+                        else ReleaseFishFailDialog.StartConversation();
+                        nextMG();
+                        break;
+                    case 1:
+                        gameStats = MicroGameVariables.game2Stats;
+                        if (gameStats > 0) FilterTrashSuccessDialog.StartConversation();
+                        else FilterTrashFailDialog.StartConversation();
+                        nextMG();
+                        break;
+                    case 2:
+                        gameStats = MicroGameVariables.game3Stats;
+                        if (gameStats > 0) IllegalFishingSuccessDialog.StartConversation();
+                        else IllegalFishingFailDialog.StartConversation();
+                        GameVariables.city1Finished = true;
+                        GameVariables.dialogStarted = 1;
+                        MicroGameVariables.restartGameStats();
                         break;
 
                 }
@@ -408,14 +432,14 @@ public class OutcomeAnimations : MonoBehaviour
         // Wait for 2 seconds
         yield return new WaitForSeconds(.5f);
         switch (MicroGameVariables.MGNum)
-        {
+        { 
             case 0:
                 SDGImageAnimator.Play("LevelClear");
                 break;
             case 1:
                 SDGImageAnimator.Play("Empty");
                 break;
-            case 2:
+            default:
                 SDGImageAnimator.Play("Empty");
                 break;
         }
@@ -464,6 +488,50 @@ public class OutcomeAnimations : MonoBehaviour
         percentageText.text = finalValue.ToString("F1") + "%";
     }
 
+    public void EndAnimatePercentage(float initialValue, float finalValue)
+    {
+        // Start the coroutine to animate the change
+        StartCoroutine(EndAnimateValue(initialValue, finalValue));
+    }
+
+    private IEnumerator EndAnimateValue(float initialValue, float finalValue)
+    {
+        float elapsedTime = 0f;
+
+        while (elapsedTime < 2)
+        {
+            elapsedTime += Time.deltaTime;
+
+            // Calculate interpolated values
+            float currentPercentage = Mathf.Lerp(initialValue, finalValue, elapsedTime / 1);
+            Color currentColor1 = Color.Lerp(initialColor1, Color.white, elapsedTime / 1);
+            Color currentColor2 = Color.Lerp(initialColor2, Color.white, elapsedTime / 1);
+
+            // Update the UI elements
+            percentageText.text = currentPercentage.ToString("F1") + "%";
+            if (GoodImage.GetComponent<Image>() != null)
+            {
+                GoodImage.GetComponent<Image>().color = currentColor1;
+            }
+            if (BadImage.GetComponent<Image>() != null)
+            {
+                BadImage.GetComponent<Image>().color = currentColor2;
+            }
+
+            yield return null;
+        }
+
+        // Set final values
+        percentageText.text = finalValue.ToString("F1") + "%";
+        if (GoodImage.GetComponent<Image>() != null)
+        {
+            GoodImage.GetComponent<Image>().color = Color.white;
+        }
+        if (BadImage.GetComponent<Image>() != null)
+        {
+            BadImage.GetComponent<Image>().color = Color.white;
+        }
+    }
 
     public void EndFadeOutText()
     {
@@ -559,5 +627,28 @@ public class OutcomeAnimations : MonoBehaviour
     public void ChangeTextOnFinish()
     {
         LifeBelowWaterText.text = "Level Clear";
+    }
+
+    public void HideMGUI()
+    {
+
+        GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().ResetTimer();
+        MicroGameVariables.HideUI();
+    }
+
+    public void GetOutcomesPosition()
+    {
+        savedPosition = outcomeTransform.position;
+        savedRotation = outcomeTransform.rotation;
+
+        Debug.Log("Saved Position: " + savedPosition);
+    }
+
+    public void SetOutcomesPosition()
+    {
+        outcomeTransform.position = savedPosition;
+        outcomeTransform.rotation = savedRotation;
+
+        Debug.Log("Restored Position: " + outcomeTransform.position);
     }
 }

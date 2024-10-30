@@ -109,7 +109,6 @@ public class FilterTrashMGManager : MonoBehaviour
 
     IEnumerator SpawnTrash()
     {
-        Debug.Log("WTF");
         float timer = 1;
 
         int index = 0;
@@ -169,16 +168,14 @@ public class FilterTrashMGManager : MonoBehaviour
     {
         MicroGameVariables.setGameStats(2, false);
         SDGText.text = "Fail!";
-        SDGImageAnimator.Play("LifeBelowWaterDone");
-        MicroGameVariables.HideUI();
+        SDGImageAnimator.Play("MGDone");
         MicroGameVariables.DeductLife();
     }
     public void GameWon()
     {
         MicroGameVariables.setGameStats(2, true);
         SDGText.text = "Success!";
-        SDGImageAnimator.Play("LifeBelowWaterDone");
-        MicroGameVariables.HideUI();
+        SDGImageAnimator.Play("MGDone");
     }
 
 }

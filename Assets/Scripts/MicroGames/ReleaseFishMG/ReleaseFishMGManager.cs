@@ -14,7 +14,9 @@ public class ReleaseFishMGManager : MonoBehaviour
 
     void Start()
     {
-       Cursor.visible = true;
+       if(GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().timerbar == null) GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().timerbar = GameObject.Find("TimerBar");
+        MicroGameVariables.ShowUI();
+        Cursor.visible = true;
        MicroGameVariables.gameFailed = false;
        SDGText = GameObject.Find("LifeBelowWaterDoneText").GetComponent<TextMeshProUGUI>();
        SDGImageAnimator = GameObject.Find("UICanvas").GetComponent<Animator>();
@@ -102,7 +104,6 @@ public class ReleaseFishMGManager : MonoBehaviour
         MicroGameVariables.setGameStats(1, false);
         SDGText.text = "Fail!";
         SDGImageAnimator.Play("MGDone");
-        MicroGameVariables.HideUI();
         MicroGameVariables.DeductLife();
     }
     public void GameWon()
@@ -110,7 +111,6 @@ public class ReleaseFishMGManager : MonoBehaviour
         MicroGameVariables.setGameStats(1, true);
         SDGText.text = "Success!";
         SDGImageAnimator.Play("MGDone");
-        MicroGameVariables.HideUI();
         
     }
     void SetLighting()

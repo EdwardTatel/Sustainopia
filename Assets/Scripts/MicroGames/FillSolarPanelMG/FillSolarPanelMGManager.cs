@@ -28,7 +28,7 @@ public class FillSolarPanelMGManager : MonoBehaviour
         pentominoPieces.AddRange(array);
         /*ColorizePentominos();*/
 
-        for (int i = 0; i <= numberOfPieces + 1; i++)
+        for (int i = 0; i < numberOfPieces; i++)
         {
             RemoveRandomObjectFromList();
         }
@@ -37,8 +37,9 @@ public class FillSolarPanelMGManager : MonoBehaviour
     }
     private void Start()
     {
+        Debug.Log(MicroGameVariables.GetDifficulty());
         MicroGameVariables.gameFailed = false;
-        SDGText = GameObject.Find("ClimateActionDoneText").GetComponent<TextMeshProUGUI>();
+        SDGText = GameObject.Find("LifeBelowWaterDoneText").GetComponent<TextMeshProUGUI>();
         SDGImageAnimator = GameObject.Find("UICanvas").GetComponent<Animator>();
         GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();
         MicroGameVariables.ShowUI();
@@ -175,7 +176,6 @@ public class FillSolarPanelMGManager : MonoBehaviour
         MicroGameVariables.setGameStats(2, false);
         SDGText.text = "Fail!";
         SDGImageAnimator.Play("MGDone");
-        MicroGameVariables.HideUI();
         MicroGameVariables.DeductLife();
     }
     public void GameWon()
@@ -183,7 +183,6 @@ public class FillSolarPanelMGManager : MonoBehaviour
         MicroGameVariables.setGameStats(2, true);
         SDGText.text = "Success!";
         SDGImageAnimator.Play("MGDone");
-        MicroGameVariables.HideUI();
 
     }
 }

@@ -61,6 +61,14 @@ public class TimelineSequence : MonoBehaviour
             {
                 GameObject.Find("levelsuccessdialog1").GetComponent<DialogueManager>().StartConversation();
             }
+            else if (GameVariables.dialogStarted == 2)
+            {
+                GameObject.Find("levelsuccessdialog2").GetComponent<DialogueManager>().StartConversation();
+            }
+            else if(GameVariables.dialogStarted == 3)
+            {
+                GameObject.Find("levelsuccessdialog3").GetComponent<DialogueManager>().StartConversation();
+            }
     }
     public void SetSDGGames(int SDGNum)
     {
