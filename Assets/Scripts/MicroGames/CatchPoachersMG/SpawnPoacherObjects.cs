@@ -14,7 +14,6 @@ public class SpawnPoacherObjects : MonoBehaviour
 
     private GameObject parentObject;   // The parent object to store the spawned objects
     private List<Transform> spawnPoints;  // List of available spawn points
-
     private void Start()
     {
         parentObject = GameObject.Find("SpawnedObjects");
@@ -127,4 +126,5 @@ public class SpawnPoacherObjects : MonoBehaviour
             Gizmos.DrawWireSphere(spawnPoint.transform.position, 0.5f); // Draw small spheres at spawn points
         }
     }
+    
 }

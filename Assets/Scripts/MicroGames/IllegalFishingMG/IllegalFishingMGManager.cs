@@ -16,6 +16,7 @@ public class IllegalFishingMGManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
 
         Cursor.visible = false;
         MicroGameVariables.gameFailed = false;
@@ -101,6 +102,7 @@ public class IllegalFishingMGManager : MonoBehaviour
     {
         RenderSettings.skybox = newSkybox;
 
+        RenderSettings.ambientIntensity = 1;
         // Optionally, if you need to update lighting
         DynamicGI.UpdateEnvironment();
     }

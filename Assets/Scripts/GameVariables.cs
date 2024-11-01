@@ -36,6 +36,7 @@ public static class GameVariables {
 
     public static void Save(Transform objectTransform)
     {
+        Debug.Log("saved car position");
         // Save the position and rotation from the transform
         savedPosition = objectTransform.position;
         savedRotation = objectTransform.rotation.eulerAngles;
@@ -44,6 +45,7 @@ public static class GameVariables {
     // Load method
     public static void Load(Transform objectTransform)
     {
+        Debug.Log("loaded car position");
         // Set the position and rotation to the stored values
         objectTransform.position = savedPosition;
         objectTransform.rotation = Quaternion.Euler(savedRotation);

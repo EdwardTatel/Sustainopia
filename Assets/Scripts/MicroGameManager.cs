@@ -6,8 +6,8 @@ using System.Runtime.CompilerServices;
 
 public class MicroGameManager : MonoBehaviour
 {
-    private GameObject bar, heart1, heart2, heart3;
-    public GameObject timerbar;
+    private GameObject bar;
+    public GameObject timerbar,heart1, heart2, heart3;
     private int tweenId;
     // Start is called before the first frame update
 
@@ -15,7 +15,6 @@ public class MicroGameManager : MonoBehaviour
     {
         bar = GameObject.Find("TimerBarUI");
         timerbar = GameObject.Find("TimerBar");
-        Debug.Log(timerbar);
         heart1 = GameObject.Find("Heart1");
         heart2 = GameObject.Find("Heart2");
         heart3 = GameObject.Find("Heart3");
@@ -59,14 +58,14 @@ public class MicroGameManager : MonoBehaviour
         if (!showUI)
         {
             CancelTimerBarAnimate();
-            timerbar.gameObject.SetActive(false);
-            heart1.gameObject.SetActive(false);
-            heart2.gameObject.SetActive(false);
-            heart3.gameObject.SetActive(false);
+            if(timerbar != null) timerbar.gameObject.SetActive(false);
+            if (heart1 != null) heart1.gameObject.SetActive(false);
+            if (heart2 != null) heart2.gameObject.SetActive(false);
+            if (heart3 != null) heart3.gameObject.SetActive(false);
         }
         else
         {
-            timerbar.gameObject.SetActive(true);
+            if (timerbar != null) timerbar.gameObject.SetActive(true);
         }
     }
     public void LivesUI()

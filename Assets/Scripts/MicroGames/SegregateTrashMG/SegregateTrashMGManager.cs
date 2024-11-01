@@ -17,16 +17,22 @@ public class SegregateTrashMGManager : MonoBehaviour
     private bool gameDone = false;
     private bool trashCollected = false;
     private string[] availableTags = { "Ewaste", "Organic", "Recyclable" };
+    public Material newSkybox;
 
     void Start()
     {
+        SetLighting();
         MicroGameVariables.resetTries();
         if (bins.Length != 3)
         {
             return;
         }
 
-        GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().timerbar = GameObject.Find("TimerBar");
+        if (GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().timerbar == null) GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().timerbar = GameObject.Find("TimerBar");
+        if (GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().heart1 == null) GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().heart1 = GameObject.Find("Heart1");
+        if (GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().heart2 == null) GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().heart2 = GameObject.Find("Heart2");
+        if (GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().heart3 == null) GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().heart3 = GameObject.Find("Heart3");
+        MicroGameVariables.ShowUI();
 
         // Randomize the tag assignments
         AssignRandomTags();
@@ -34,7 +40,6 @@ public class SegregateTrashMGManager : MonoBehaviour
         SDGText = GameObject.Find("LifeBelowWaterDoneText").GetComponent<TextMeshProUGUI>();
         SDGImageAnimator = GameObject.Find("UICanvas").GetComponent<Animator>();
         GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();
-        MicroGameVariables.ShowUI();
         StartCoroutine(CollectTrashAfterStart());
     }
 
@@ -159,6 +164,13 @@ public class SegregateTrashMGManager : MonoBehaviour
         SDGText.text = "Success!";
         SDGImageAnimator.Play("MGDone");
 
+    }
+    void SetLighting()
+    {
+        RenderSettings.skybox = newSkybox;
+        RenderSettings.ambientIntensity = 1;
+        // Optionally, if you need to update lighting
+        DynamicGI.UpdateEnvironment();
     }
 
 

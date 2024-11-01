@@ -14,7 +14,12 @@ public class ReleaseFishMGManager : MonoBehaviour
 
     void Start()
     {
-       if(GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().timerbar == null) GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().timerbar = GameObject.Find("TimerBar");
+
+        SetLighting();
+        if (GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().timerbar == null) GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().timerbar = GameObject.Find("TimerBar");
+        if (GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().heart1 == null) GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().heart1 = GameObject.Find("Heart1");
+        if (GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().heart2 == null) GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().heart2 = GameObject.Find("Heart2");
+        if (GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().heart3 == null) GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().heart3 = GameObject.Find("Heart3");
         MicroGameVariables.ShowUI();
         Cursor.visible = true;
        MicroGameVariables.gameFailed = false;
@@ -23,7 +28,6 @@ public class ReleaseFishMGManager : MonoBehaviour
        SetDifficulty();
        GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();
        MicroGameVariables.ShowUI();
-       SetLighting();
     }
 
     void Update()

@@ -31,6 +31,7 @@ public class NetFish : MonoBehaviour
 
     private void OnMouseDown()
     {
+        Cursor.visible = false;
         // Get the initial offset in world space
         offset = transform.position - GetMouseWorldPosition();
     }
@@ -48,6 +49,10 @@ public class NetFish : MonoBehaviour
 
         // Update the object's position
         transform.position = newPosition;
+    }
+    private void OnMouseUp()
+    {
+        Cursor.visible = true;
     }
 
     private Vector3 GetMouseWorldPosition()

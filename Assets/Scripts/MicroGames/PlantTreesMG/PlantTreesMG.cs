@@ -11,13 +11,19 @@ public class PlantTreesMG : MonoBehaviour
     private bool gameDone = false;
     public Sprite soilTree;
     public bool gameWon;
-
+    public Material newSkybox;
     void Start()
     {
+        SetLighting();
+        if (GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().timerbar == null) GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().timerbar = GameObject.Find("TimerBar");
+        if (GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().heart1 == null) GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().heart1 = GameObject.Find("Heart1");
+        if (GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().heart2 == null) GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().heart2 = GameObject.Find("Heart2");
+        if (GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().heart3 == null) GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().heart3 = GameObject.Find("Heart3");
+        MicroGameVariables.ShowUI();
         Cursor.visible = true;
         gameWon = false;
         MicroGameVariables.gameFailed = false;
-        SDGText = GameObject.Find("ClimateActionDoneText").GetComponent<TextMeshProUGUI>();
+        SDGText = GameObject.Find("LifeBelowWaterDoneText").GetComponent<TextMeshProUGUI>();
         SDGImageAnimator = GameObject.Find("UICanvas").GetComponent<Animator>();
         GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();
         MicroGameVariables.ShowUI();
@@ -58,6 +64,12 @@ public class PlantTreesMG : MonoBehaviour
         SDGImageAnimator.Play("MGDone");
 
     }
-
+    void SetLighting()
+    {
+        RenderSettings.skybox = newSkybox;
+        RenderSettings.ambientIntensity = 1;
+        // Optionally, if you need to update lighting
+        DynamicGI.UpdateEnvironment();
+    }
 
 }

@@ -456,6 +456,7 @@ MonoBehaviour:
   ewasteMaterial: {fileID: 2100000, guid: 2cd3ca23db38d5e48acd07268170dfb2, type: 2}
   organicMaterial: {fileID: 2100000, guid: 71aad641d413f6f4a8371226502a1784, type: 2}
   recycleMaterial: {fileID: 2100000, guid: f60871cc66e9f9a439e55456cb5ca792, type: 2}
+  newSkybox: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!4 &702891272
 Transform:
   m_ObjectHideFlags: 0

@@ -11,7 +11,6 @@ public class CarMovement : MonoBehaviour
     {
         if (GameVariables.city1Finished || GameVariables.city2Finished || GameVariables.city3Finished)
         {
-            Debug.Log("Why does it teleport there?");
             GameVariables.Load(transform);
         }
             GameVariables.EnableAllTexts();

@@ -18,6 +18,7 @@ public class SolarPanelScript : MonoBehaviour
 
     void OnMouseDown()
     {
+        Cursor.visible = false;
         // Calculate the offset between the parent's position and the mouse position
         Vector3 mousePosition = Input.mousePosition;
         mousePosition.z = mainCamera.transform.position.y - transform.parent.position.y;
@@ -36,6 +37,6 @@ public class SolarPanelScript : MonoBehaviour
     private void OnMouseUp()
     {
         snapPieceScript.SnapToPlace();
+        Cursor.visible = true;
     }
-
 }       

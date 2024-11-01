@@ -26,6 +26,7 @@ public static class MicroGameVariables
     public static int prevGame1Stats = 0;
     public static int prevGame2Stats = 0;
     public static int prevGame3Stats = 0;
+    public static bool tutorial = true;
 
     public static bool showUI
     {
@@ -161,5 +162,6 @@ public static class MicroGameVariables
         prevGame1Stats = 0;
         prevGame2Stats = 0;
         prevGame3Stats = 0;
+        tutorial = true;
     }
 }

@@ -11,13 +11,15 @@ public class CatchPoachersMG : MonoBehaviour
     private bool gameDone = false;
     private bool list = true;
     private List<GameObject> poachers = new List<GameObject>();
+    public Material newSkybox;
 
     // Start is called before the first frame update
     void Start()
     {
+        SetLighting();
         Cursor.visible = false;
         MicroGameVariables.gameFailed = false;
-        SDGText = GameObject.Find("LifeOnLandDoneText").GetComponent<TextMeshProUGUI>();
+        SDGText = GameObject.Find("LifeBelowWaterDoneText").GetComponent<TextMeshProUGUI>();
         SDGImageAnimator = GameObject.Find("UICanvas").GetComponent<Animator>();
         GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();
         MicroGameVariables.ShowUI();
@@ -88,5 +90,25 @@ public class CatchPoachersMG : MonoBehaviour
         SDGImageAnimator.Play("MGDone");
 
     }
+    void SetLighting()
+    {
+        RenderSettings.skybox = newSkybox;
+        RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Trilight;
 
+        // Convert hex color codes to Color
+        RenderSettings.ambientSkyColor = HexToColor("#363A42");
+        RenderSettings.ambientEquatorColor = HexToColor("#1D2022");
+        RenderSettings.ambientGroundColor = HexToColor("#0C0B09");
+
+        RenderSettings.ambientIntensity = 0.5f;  // Adjust to control brightness
+    }
+
+    private Color HexToColor(string hex)
+    {
+        if (ColorUtility.TryParseHtmlString(hex, out Color color))
+        {
+            return color;
+        }
+        return Color.black; // Default if hex parsing fails
+    }
 }

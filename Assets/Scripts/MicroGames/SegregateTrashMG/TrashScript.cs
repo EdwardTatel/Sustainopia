@@ -18,13 +18,17 @@ public class TrashScript : MonoBehaviour
 
     private void OnMouseDown()
     {
+        Cursor.visible = false;
         // Record the object's Z coordinate for the orthographic camera
         zCoord = transform.position.z;
 
         // Calculate the offset between the object's position and the mouse position
         offset = transform.position - GetMouseWorldPosition();
     }
-
+    private void OnMouseUp()
+    {
+        Cursor.visible = true;
+    }
     private void OnMouseDrag()
     {
         // Update the object's position based on the mouse position and the offset

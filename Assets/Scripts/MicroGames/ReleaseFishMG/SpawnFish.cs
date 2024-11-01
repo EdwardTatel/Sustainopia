@@ -20,22 +20,23 @@ public class SpawnFish : MonoBehaviour
 
     void SpawnObjects()
     {
-        int numberOfObjects = 5;
-
+        int numPrefab1 = 3;
+        int numPrefab2 = 2;
         if (MicroGameVariables.GetDifficulty() == MicroGameVariables.levels.easy)
         {
-            numberOfObjects = 5;
+            numPrefab1 = 3;
+            numPrefab2 = 2;
         }
         else if (MicroGameVariables.GetDifficulty() == MicroGameVariables.levels.medium)
         {
-            numberOfObjects = 8;
+            numPrefab1 = 5;
+            numPrefab2 = 3;
         }
         else
         {
-            numberOfObjects = 10;
+            numPrefab1 = 6;
+            numPrefab2 = 4;
         }
-        int numPrefab1 = (int)(numberOfObjects * 0.7f);
-        int numPrefab2 = numberOfObjects - numPrefab1;
 
         for (int i = 0; i < numPrefab1; i++)
         {

@@ -10,17 +10,20 @@ public class TimelineSequence : MonoBehaviour
     public Material newSkybox;
     private PlayableDirector playableDirector;
     // Start is called before the first frame update
+    private void Awake()
+    {
+        GameVariables.DisableAllTexts();
+        GameVariables.StopControls();
+    }
     void Start()
     {
+        SetLighting();
         Scene dialogueScene = SceneManager.GetSceneByName("Dialogue");
 
         if (!dialogueScene.isLoaded)
         {
             SceneManager.LoadSceneAsync("Dialogue", LoadSceneMode.Additive);
         }
-        SetLighting();
-        GameVariables.StopControls();
-        GameVariables.DisableAllTexts();
         playableDirector = GetComponent<PlayableDirector>();
         StartIntroDialog();
     }
@@ -72,7 +75,6 @@ public class TimelineSequence : MonoBehaviour
     }
     public void SetSDGGames(int SDGNum)
     {
-        Debug.Log("SETTING AT SDG" + SDGNum);
         MicroGameVariables.SDGNum = SDGNum;
     }
 
@@ -85,8 +87,22 @@ public class TimelineSequence : MonoBehaviour
     void SetLighting()
     {
         RenderSettings.skybox = newSkybox;
+        RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Trilight;
 
-        RenderSettings.ambientIntensity = .59F; 
-        DynamicGI.UpdateEnvironment();
+        // Convert hex color codes to Color
+        RenderSettings.ambientSkyColor = HexToColor("#363A42");
+        RenderSettings.ambientEquatorColor = HexToColor("#565E63");
+        RenderSettings.ambientGroundColor = HexToColor("#A6A6A6");
+
+        RenderSettings.ambientIntensity = 0.5f;  // Adjust to control brightness
+    }
+
+    private Color HexToColor(string hex)
+    {
+        if (ColorUtility.TryParseHtmlString(hex, out Color color))
+        {
+            return color;
+        }
+        return Color.black; // Default if hex parsing fails
     }
 }

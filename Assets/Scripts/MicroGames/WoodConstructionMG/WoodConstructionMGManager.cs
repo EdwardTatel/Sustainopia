@@ -33,8 +33,10 @@ public class WoodConstructionMGManager : MonoBehaviour
     private int buildingCounter;
     private int woodCount = 0;
     private int concreteCount = 0;
+    public Material newSkybox;
     void Start()
     {
+        SetLighting();
         SetDifficulty();
         Cursor.visible = true;
         MicroGameVariables.gameFailed = false;
@@ -234,5 +236,16 @@ public class WoodConstructionMGManager : MonoBehaviour
 
     }
 
+    void SetLighting()
+    {
+        Color ambientColor = new Color32(0x00, 0x0A, 0x1D, 0xFF);
+        // Set the ambient lighting mode to use a flat color
+        RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
 
+        // Apply the specified color to the environment lighting
+        RenderSettings.ambientLight = ambientColor;
+
+        // Optionally, adjust ambient intensity if you want to tweak brightness
+        RenderSettings.ambientIntensity = 1.0f; // Default, can adjust if too bright or dim
+    }
 }

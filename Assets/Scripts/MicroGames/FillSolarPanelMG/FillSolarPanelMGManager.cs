@@ -17,10 +17,11 @@ public class FillSolarPanelMGManager : MonoBehaviour
     private Animator SDGImageAnimator;
     private bool gameDone = false;
     private int numberOfPieces;
+    public Material newSkybox;
     // Start is called before the first frame update
     void Awake()
     {
-         
+        SetLighting();
         SetDifficulty();
         Cursor.visible = true;
         enlistPiecesAreas();
@@ -183,6 +184,12 @@ public class FillSolarPanelMGManager : MonoBehaviour
         MicroGameVariables.setGameStats(2, true);
         SDGText.text = "Success!";
         SDGImageAnimator.Play("MGDone");
-
+    }
+    void SetLighting()
+    {
+        RenderSettings.skybox = newSkybox;
+        RenderSettings.ambientIntensity = 1;
+        // Optionally, if you need to update lighting
+        DynamicGI.UpdateEnvironment();
     }
 }

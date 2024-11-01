@@ -12,11 +12,13 @@ public class RemoveInvasiveSpeciesMGManager : MonoBehaviour
     private TextMeshProUGUI SDGText;
     private Animator SDGImageAnimator;
     private bool gameDone = false;
+    public Material newSkybox;
     // Start is called before the first frame update
     void Start()
     {
+        SetLighting();
         MicroGameVariables.gameFailed = false;
-        SDGText = GameObject.Find("LifeOnLandDoneText").GetComponent<TextMeshProUGUI>();
+        SDGText = GameObject.Find("LifeBelowWaterDoneText").GetComponent<TextMeshProUGUI>();
         SDGImageAnimator = GameObject.Find("UICanvas").GetComponent<Animator>();
         GameObject.Find("MicroGameManager").GetComponent<MicroGameManager>().AnimateBar();
         MicroGameVariables.ShowUI();
@@ -87,6 +89,12 @@ public class RemoveInvasiveSpeciesMGManager : MonoBehaviour
 
     }
 
-
+    void SetLighting()
+    {
+        RenderSettings.skybox = newSkybox;
+        RenderSettings.ambientIntensity = 1;
+        // Optionally, if you need to update lighting
+        DynamicGI.UpdateEnvironment();
+    }
 }
 

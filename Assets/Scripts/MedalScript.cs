@@ -14,11 +14,8 @@ public class MedalScript : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        
     }
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (CityNumber == 1)
         {
@@ -32,5 +29,30 @@ public class MedalScript : MonoBehaviour
             }
 
         }
+        if (CityNumber == 2)
+        {
+            if (GameVariables.city2Finished)
+            {
+                animator.SetBool("Solid", true);
+            }
+            else
+            {
+                animator.SetBool("Solid", false);
+            }
+
+        }
+        if (CityNumber == 3)
+        {
+            if (GameVariables.city3Finished)
+            {
+                animator.SetBool("Solid", true);
+            }
+            else
+            {
+                animator.SetBool("Solid", false);
+            }
+
+        }
     }
+
 }

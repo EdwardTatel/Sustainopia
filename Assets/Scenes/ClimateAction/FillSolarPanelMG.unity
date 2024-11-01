@@ -5355,6 +5355,7 @@ MonoBehaviour:
   panelCheckers: []
   pentominoParent: {fileID: 319053752}
   panelChecker: {fileID: 6040782691463171006, guid: 824cb7b06f8c9e341a41c9a4e81931d5, type: 3}
+  newSkybox: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!1 &655293748
 GameObject:
   m_ObjectHideFlags: 0

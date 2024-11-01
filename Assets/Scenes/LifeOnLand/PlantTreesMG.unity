@@ -1263,6 +1263,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soilTree: {fileID: 0}
   gameWon: 0
+  newSkybox: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!1 &993975638
 GameObject:
   m_ObjectHideFlags: 0

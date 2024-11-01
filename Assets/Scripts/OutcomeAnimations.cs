@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class OutcomeAnimations : MonoBehaviour
@@ -12,8 +13,10 @@ public class OutcomeAnimations : MonoBehaviour
     public GameObject GoodImage;
     public GameObject BadImage;
     private Animator SDGImageAnimator;
-    private Vector3 savedPosition;
-    private Quaternion savedRotation;
+    private Vector3 savedAnchoredPosition;
+    private Vector3 savedAnchoredPosition2;
+    private Vector3 savedLocalScale;
+    private Vector3 savedLocalScale2;
     public Sprite GoodReleaseFishImage;
     public Sprite BadReleaseFishImage;
     public Sprite GoodFilterTrashImage;
@@ -35,6 +38,18 @@ public class OutcomeAnimations : MonoBehaviour
     public Sprite GoodWoodConstructionImage;
     public Sprite BadWoodConstructionImage;
 
+    public Sprite ReleaseFishTutorialImage;
+    public Sprite FilterTrashTutorialImage;
+    public Sprite IllegalFishingTutorialImage;
+
+    public Sprite PlantTreesTutorialImage;
+    public Sprite RemoveInvasiveSpeciesTutorialImage;
+    public Sprite CatchPoachersTutorialImage;
+
+    public Sprite SegregateTrashTutorialImage;
+    public Sprite FillSolarPanelTutorialImage;
+    public Sprite WoodConstructionTutorialImage;
+
     public TextMeshProUGUI percentageText;
     private int Difficulty = 1;
     [SerializeField] private TextMeshProUGUI LifeBelowWaterText;
@@ -49,6 +64,10 @@ public class OutcomeAnimations : MonoBehaviour
     [SerializeField] private Sprite ClimateActionSpriteBlank;
     [SerializeField] private Sprite LifeOnLandSpriteBlank;
 
+    private DialogueManager ReleaseFishTutorial;
+    private DialogueManager FilterTrashTutorial;
+    private DialogueManager IllegalFishingTutorial;
+
     private DialogueManager ReleaseFishSuccessDialog;
     private DialogueManager FilterTrashSuccessDialog;
     private DialogueManager IllegalFishingSuccessDialog;
@@ -57,6 +76,7 @@ public class OutcomeAnimations : MonoBehaviour
     private DialogueManager FilterTrashFailDialog;
     private DialogueManager IllegalFishingFailDialog;
 
+    public GameObject tutorialImage;
 
     private Color initialColor1;  // Store the initial color of the first image
     private Color initialColor2;  // Store the initial color of the second image
@@ -67,6 +87,7 @@ public class OutcomeAnimations : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        MicroGameVariables.tutorial = true;
         initialColor1 = GoodImage.GetComponent<Image>().color;
         initialColor2 = BadImage.GetComponent<Image>().color;
         SDGImage = GameObject.Find("SDGImages");
@@ -81,6 +102,11 @@ public class OutcomeAnimations : MonoBehaviour
         ReleaseFishFailDialog = GameObject.Find("ReleaseFishFailDialog").GetComponent<DialogueManager>();
         FilterTrashFailDialog = GameObject.Find("FilterTrashFailDialog").GetComponent<DialogueManager>();
         IllegalFishingFailDialog = GameObject.Find("IllegalFishingFailDialog").GetComponent<DialogueManager>();
+
+
+        ReleaseFishTutorial = GameObject.Find("ReleaseFishTutorial").GetComponent<DialogueManager>();
+        FilterTrashTutorial = GameObject.Find("FilterTrashTutorial").GetComponent<DialogueManager>();
+        IllegalFishingTutorial = GameObject.Find("IllegalFishingTutorial").GetComponent<DialogueManager>();
 
         StartMicroGame();
     }
@@ -105,7 +131,14 @@ public class OutcomeAnimations : MonoBehaviour
 
     void StartMicroGame()
     {
-        SDGImageAnimator.Play("StartMG");
+        if (MicroGameVariables.tutorial)
+        {
+            SDGImageAnimator.Play("Fein");
+        }
+        else if (!MicroGameVariables.tutorial)
+        {
+            SDGImageAnimator.Play("StartMG");
+        }
     }
 
     public void ChangeNormalBG()
@@ -145,7 +178,7 @@ public class OutcomeAnimations : MonoBehaviour
                 prevGameStats = MicroGameVariables.prevGame3Stats;
                 break;
         }
-        outcomeTransform.localPosition = new Vector3(prevGameStats * 90f, outcomeTransform.localPosition.y, outcomeTransform.localPosition.z);
+        outcomeTransform.localPosition = new Vector3(prevGameStats * 12024, outcomeTransform.localPosition.y, outcomeTransform.localPosition.z);
         // Calculate the percentage
         float percentage = prevGameStats + 3;
         percentage = percentage / 6;
@@ -180,16 +213,17 @@ public class OutcomeAnimations : MonoBehaviour
         float prevPercentage = prevGameStats + 3;
         prevPercentage = prevPercentage / 6;
         prevPercentage = prevPercentage * 100;
-        outcomeTransform.localPosition = new Vector3(prevGameStats * 90f, outcomeTransform.localPosition.y, outcomeTransform.localPosition.z);
+        outcomeTransform.localPosition = new Vector3(prevGameStats * 12024, outcomeTransform.localPosition.y, outcomeTransform.localPosition.z);
 
         if (MicroGameVariables.MGNum == 2 && Difficulty == 3)
         {
-            LeanTween.move(outcomeTransform, new Vector2(gameStats * 90f, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(PlayEndAnimation);
+            
+            LeanTween.move(outcomeTransform, new Vector2(gameStats * 12024, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(PlayEndAnimation);
             AnimatePercentage(prevPercentage, percentage);
         }
         else
         {
-            LeanTween.move(outcomeTransform, new Vector2(gameStats * 90f, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(PlaySDGAnimation);
+            LeanTween.move(outcomeTransform, new Vector2(gameStats * 12024, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(PlaySDGAnimation);
             AnimatePercentage(prevPercentage, percentage);
         }
         nextMG();
@@ -231,7 +265,7 @@ public class OutcomeAnimations : MonoBehaviour
                         break;
                     case 2:
                         GoodImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodWoodConstructionImage;
-                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = GoodWoodConstructionImage;
+                        BadImage.GetComponent<UnityEngine.UI.Image>().sprite = BadWoodConstructionImage;
                         break;
                 }
                 break;
@@ -271,7 +305,7 @@ public class OutcomeAnimations : MonoBehaviour
                 gameStats = MicroGameVariables.game3Stats;
                 break;
         }
-        outcomeTransform.localPosition = new Vector3(gameStats * 12153, outcomeTransform.localPosition.y, outcomeTransform.localPosition.z);
+        outcomeTransform.localPosition = new Vector3(gameStats * 12024, outcomeTransform.localPosition.y, outcomeTransform.localPosition.z);
         float percentage = gameStats + 3;
         percentage = percentage / 6;
         percentage = percentage * 100;
@@ -305,7 +339,7 @@ public class OutcomeAnimations : MonoBehaviour
         if (percentage > 50)
         {
 
-            LeanTween.move(outcomeTransform, new Vector2(55272, outcomeTransform.localPosition.y), 2f).setEase(LeanTweenType.easeInOutQuad);
+            LeanTween.move(outcomeTransform, new Vector2(55187, outcomeTransform.localPosition.y), 2f).setEase(LeanTweenType.easeInOutQuad);
             EndAnimatePercentage(percentage, 100);
             StartCoroutine(RunEndDialogue());
 
@@ -314,7 +348,7 @@ public class OutcomeAnimations : MonoBehaviour
         else
         {
 
-            LeanTween.move(outcomeTransform, new Vector2(-55272, outcomeTransform.localPosition.y), 2f).setEase(LeanTweenType.easeInOutQuad);
+            LeanTween.move(outcomeTransform, new Vector2(-55187, outcomeTransform.localPosition.y), 2f).setEase(LeanTweenType.easeInOutQuad);
             EndAnimatePercentage(percentage, 0);
             StartCoroutine(RunEndDialogue());
         }
@@ -324,7 +358,6 @@ public class OutcomeAnimations : MonoBehaviour
     IEnumerator RunEndDialogue()
     {
         yield return new WaitForSeconds(1f);
-        Debug.Log(MicroGameVariables.MGNum);
         int gameStats = 0;
         Cursor.visible = true;
         switch (MicroGameVariables.SDGNum)
@@ -417,10 +450,18 @@ public class OutcomeAnimations : MonoBehaviour
         }
 
     }
-
+    public void PlayBackToLevelSelectAnim()
+    {
+        SDGImageAnimator.Play("BackToLevelSelect");
+    }
     public void BackToLevelSelect()
     {
-        GameObject.Find("SceneManagement").GetComponent<SceneManagement>().BackToLevelSelect();
+        SceneManager.LoadSceneAsync("LevelSelect", LoadSceneMode.Additive);
+    }
+
+    public void RemoveUITransition()
+    {
+        SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName("UITransition"));
     }
     public void PlayEndAnimation()
     {
@@ -445,7 +486,7 @@ public class OutcomeAnimations : MonoBehaviour
         }
     }
 
-    private void PlaySDGAnimation()
+    public void PlaySDGAnimation()
     {
         StartCoroutine(RunAnimationAfterDelay());
     }
@@ -609,9 +650,13 @@ public class OutcomeAnimations : MonoBehaviour
     {
         if (MicroGameVariables.MGNum == 2)
         {
-            MicroGameVariables.DifficultyChange();
-            Difficulty++;
-            MicroGameVariables.MGNum = 0;
+            if (!MicroGameVariables.tutorial)
+            {
+                MicroGameVariables.DifficultyChange();
+                Difficulty++;
+            }
+                MicroGameVariables.MGNum = 0;
+            MicroGameVariables.tutorial = false;
         }
         else
         {
@@ -636,19 +681,158 @@ public class OutcomeAnimations : MonoBehaviour
         MicroGameVariables.HideUI();
     }
 
-    public void GetOutcomesPosition()
-    {
-        savedPosition = outcomeTransform.position;
-        savedRotation = outcomeTransform.rotation;
 
-        Debug.Log("Saved Position: " + savedPosition);
+    public void OutComesUp()
+    {
+        OutComesDown();
+        LeanTween.move(parentOutcomeTransform, new Vector3(0, 0, 0), 1f).setEase(LeanTweenType.easeInOutQuad);
+    }
+    public void OutComesUpNormal()
+    {
+        parentOutcomeTransform.anchoredPosition = new Vector2(0, 0);
+    }
+    public void OutComesDown()
+    {
+        parentOutcomeTransform.anchoredPosition = new Vector2(0, -468);
     }
 
-    public void SetOutcomesPosition()
+    public void ChangePercentagePosition()
     {
-        outcomeTransform.position = savedPosition;
-        outcomeTransform.rotation = savedRotation;
+        percentageText.gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
+    }
 
-        Debug.Log("Restored Position: " + outcomeTransform.position);
+    public void ChangeTutorialImage()
+    {
+        switch (MicroGameVariables.SDGNum)
+        {
+
+            case 2:
+
+                switch (MicroGameVariables.MGNum)
+                {
+                    case 0:
+
+                        tutorialImage.GetComponent<UnityEngine.UI.Image>().sprite = ReleaseFishTutorialImage;
+                        break;
+                    case 1:
+                        tutorialImage.GetComponent<UnityEngine.UI.Image>().sprite = FilterTrashTutorialImage;
+                        break;
+                    case 2:
+                        tutorialImage.GetComponent<UnityEngine.UI.Image>().sprite = IllegalFishingTutorialImage;
+                        break;
+
+                }
+                break;
+            case 3:
+
+                switch (MicroGameVariables.MGNum)
+                {
+                    case 0:
+
+                        tutorialImage.GetComponent<UnityEngine.UI.Image>().sprite = ReleaseFishTutorialImage;
+                        break;
+                    case 1:
+                        tutorialImage.GetComponent<UnityEngine.UI.Image>().sprite = FilterTrashTutorialImage;
+                        break;
+                    case 2:
+                        tutorialImage.GetComponent<UnityEngine.UI.Image>().sprite = IllegalFishingTutorialImage;
+                        break;
+
+                }
+                break;
+            default:
+
+                switch (MicroGameVariables.MGNum)
+                {
+                    case 0:
+
+                        tutorialImage.GetComponent<UnityEngine.UI.Image>().sprite = ReleaseFishTutorialImage;
+                        break;
+                    case 1:
+                        tutorialImage.GetComponent<UnityEngine.UI.Image>().sprite = FilterTrashTutorialImage;
+                        break;
+                    case 2:
+                        tutorialImage.GetComponent<UnityEngine.UI.Image>().sprite = IllegalFishingTutorialImage;
+                        break;
+
+                }
+                break;
+        }
+    }
+
+    public void TutorialImageDown()
+    {
+        tutorialImage.gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -465f);
+    }
+    public void TutorialImageUp()
+    {
+        tutorialImage.gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
+    }
+    public void RunTutorialDialog()
+    {
+        switch (MicroGameVariables.SDGNum)
+        {
+            case 2:
+                switch (MicroGameVariables.MGNum)
+                {
+                    case 0:
+
+                        ReleaseFishTutorial.StartConversation();
+                        nextMG();
+                        break;
+                    case 1:
+                        FilterTrashTutorial.StartConversation();
+                        nextMG();
+                        break;
+                    case 2:
+                        IllegalFishingTutorial.StartConversation();
+                        nextMG();
+
+                        break;
+
+                }
+                break;
+            case 3:
+                switch (MicroGameVariables.MGNum)
+                {
+                    case 0:
+
+                        ReleaseFishTutorial.StartConversation();
+                        nextMG();
+                        break;
+                    case 1:
+                        FilterTrashTutorial.StartConversation();
+                        nextMG();
+                        break;
+                    case 2:
+                        IllegalFishingTutorial.StartConversation();
+                        nextMG();
+
+                        break;
+
+                }
+                break;
+            default:
+
+                switch (MicroGameVariables.MGNum)
+                {
+                    case 0:
+
+                        ReleaseFishTutorial.StartConversation();
+                        nextMG();
+                        break;
+                    case 1:
+                        FilterTrashTutorial.StartConversation();
+                        nextMG();
+                        break;
+                    case 2:
+                        IllegalFishingTutorial.StartConversation();
+                        nextMG();
+
+                        break;
+
+                }
+                break;
+        }
     }
 }
