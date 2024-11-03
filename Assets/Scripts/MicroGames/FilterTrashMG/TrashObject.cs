@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class TrashObject : MonoBehaviour
@@ -10,6 +11,9 @@ public class TrashObject : MonoBehaviour
 
     private Vector3 initialPosition;
     private float swayOffset;
+
+
+    public GameObject cloud;
 
     void Start()
     {
@@ -43,6 +47,8 @@ void Update()
     private void OnTriggerStay(Collider other)
     {
         if (gameObject.name == "TrashFish(Clone)") GameObject.Find("GameManager").GetComponent<FilterTrashMGManager>().gameFailed = true;
+        GameObject Cloud = Instantiate(cloud, transform.position, Quaternion.Euler(new Vector3(0,0,0)));
+        Cloud.transform.Find("Text").GetComponent<TextMeshPro>().text = "CAUGHT";
         Destroy(gameObject);
     }
 }

@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class CarChangeRotation : MonoBehaviour
 {
-    private new Camera camera;
+    [SerializeField] private Camera camera;
 
     private void Start()
     {
-        camera = Camera.main;
     }
 
     private bool hasTriggeredSection1 = false;

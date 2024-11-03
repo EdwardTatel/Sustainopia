@@ -9,6 +9,8 @@ public class TimelineSequence : MonoBehaviour
 
     public Material newSkybox;
     private PlayableDirector playableDirector;
+    private PlayableDirector endTimeLine;
+    private PlayableDirector endTimeLine2;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -18,6 +20,7 @@ public class TimelineSequence : MonoBehaviour
     void Start()
     {
         SetLighting();
+
         Scene dialogueScene = SceneManager.GetSceneByName("Dialogue");
 
         if (!dialogueScene.isLoaded)
@@ -25,6 +28,8 @@ public class TimelineSequence : MonoBehaviour
             SceneManager.LoadSceneAsync("Dialogue", LoadSceneMode.Additive);
         }
         playableDirector = GetComponent<PlayableDirector>();
+        endTimeLine = GameObject.Find("EndTimeLine").GetComponent<PlayableDirector>();
+        endTimeLine2 = GameObject.Find("EndTimeLine2").GetComponent<PlayableDirector>();
         StartIntroDialog();
     }
 
@@ -47,20 +52,46 @@ public class TimelineSequence : MonoBehaviour
     public void EnableCameraFollow()
     {
         GameObject.Find("Main Camera").GetComponent<CameraFollow>().enabled = true;
+
         GameVariables.EnableControls();
-        GameVariables.EnableAllTexts();
+        if (GameVariables.city1Finished && GameVariables.city2Finished && GameVariables.city3Finished)
+        {
+            ResumeEnd();
+        }
+        else
+        {
+            StartCoroutine(EnableTexts());
+        }
+        
     }
 
+    IEnumerator EnableTexts()
+    {
+        yield return new WaitForSeconds(1f);
+
+        GameVariables.EnableAllTexts();
+    }
+    
+    public void ResumeEnd()
+    {
+        endTimeLine.Play();
+    }
+    public void ResumeEnd2()
+    {
+        endTimeLine2.Play();
+    }
+    public void PauseEnd()
+    {
+
+        endTimeLine.Pause();
+    }
     public void StartIntroDialog()
     {
             if (GameVariables.dialogStarted == 0)
             {
-                /*ResumeTimeline();*/
-
-                // Easy Debug
-                EnableCameraFollow();
-            }
-            if (GameVariables.dialogStarted == 1)
+                ResumeTimeline();
+        }
+            else if (GameVariables.dialogStarted == 1)
             {
                 GameObject.Find("levelsuccessdialog1").GetComponent<DialogueManager>().StartConversation();
             }
@@ -72,6 +103,11 @@ public class TimelineSequence : MonoBehaviour
             {
                 GameObject.Find("levelsuccessdialog3").GetComponent<DialogueManager>().StartConversation();
             }
+            else if (GameVariables.dialogStarted == 4)
+            {
+                GameObject.Find("levelsuccessdialog3").GetComponent<DialogueManager>().StartConversation();
+            }
+
     }
     public void SetSDGGames(int SDGNum)
     {

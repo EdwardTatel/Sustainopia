@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public class DisableButton : MonoBehaviour
 {
     private Button myButton;  // Reference to the Button component
-
     void Start()
     {
         myButton = GetComponent<Button>();
@@ -13,7 +12,7 @@ public class DisableButton : MonoBehaviour
 
         // Add listener to the button to disable it permanently after click
         myButton.onClick.AddListener(OnButtonClick);
-    }
+    }   
 
     // This method will be called when the button is clicked
     void OnButtonClick()

@@ -12,11 +12,11 @@ public class SequenceManagement : MonoBehaviour
     private void Start()
     {
 
-        
+        SceneManager.LoadSceneAsync("Audio", LoadSceneMode.Additive);
+
     }
     public void StartTimeline()
     {
-        Debug.Log("Start Dialog");
         // Start the Timeline when this method is called
         playableDirector.Play();
         SceneManager.LoadSceneAsync("Dialogue", LoadSceneMode.Additive);
@@ -35,7 +35,9 @@ public class SequenceManagement : MonoBehaviour
     }
     public void MovetoLevelSelect()
     {
-        SceneManager.LoadScene("LevelSelect");
+        SceneManager.LoadSceneAsync("LevelSelect", LoadSceneMode.Additive);
+        Scene targetScene = SceneManager.GetSceneByName("Main Menu");
+        SceneManager.UnloadSceneAsync(targetScene);
     }
 
 }

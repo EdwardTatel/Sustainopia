@@ -32,7 +32,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8796441900241761088}
   m_Father: {fileID: 0}
@@ -155,7 +155,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 6120265339105655453}
-          m_TargetAssemblyTypeName: 
+          m_TargetAssemblyTypeName: DialogueEditor.UIConversationButton, Assembly-CSharp
           m_MethodName: OnHover
           m_Mode: 6
           m_Arguments:
@@ -171,7 +171,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 6120265339105655453}
-          m_TargetAssemblyTypeName: 
+          m_TargetAssemblyTypeName: DialogueEditor.UIConversationButton, Assembly-CSharp
           m_MethodName: OnHover
           m_Mode: 6
           m_Arguments:
@@ -194,6 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6836ccfe657b620409189dab4cfc5a2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ButtonFont: {fileID: 11400000, guid: b3e954e8f3c169c4eac023455466debb, type: 2}
   TextMesh: {fileID: 7926221421229046063}
   OptionBackgroundImage: {fileID: 170691663405415626}
 --- !u!114 &5777615647031761771
@@ -301,8 +302,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18.67
-  m_fontSizeBase: 18.67
+  m_fontSize: 22.9
+  m_fontSizeBase: 22.9
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 8

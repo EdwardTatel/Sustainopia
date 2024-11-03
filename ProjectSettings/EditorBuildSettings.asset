@@ -44,4 +44,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Dialogue.unity
     guid: a4ca60095201a624eb1232a89693ecc1
+  - enabled: 1
+    path: Assets/Scenes/Audio.unity
+    guid: 06d084127cc12914dad928d8a7d578ce
   m_configObjects: {}

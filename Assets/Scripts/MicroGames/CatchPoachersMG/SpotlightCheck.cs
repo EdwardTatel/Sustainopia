@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class SpotlightCheck : MonoBehaviour
@@ -7,6 +8,7 @@ public class SpotlightCheck : MonoBehaviour
     public Camera mainCamera; // Reference to the main camera
     private Coroutine destructionCoroutine; // To store the destruction coroutine
     public Sprite caughtSprite;
+    public GameObject cloud;
     private void Start()
     {
         mainCamera = GameObject.Find("GameCamera").GetComponent<Camera>();
@@ -55,6 +57,9 @@ public class SpotlightCheck : MonoBehaviour
     IEnumerator DestroyAfterTime()
     {
         yield return new WaitForSeconds(.5f); // Wait for the specified time
+        GameObject Cloud = Instantiate(cloud, transform.position, Quaternion.identity);
+
+        Cloud.transform.Find("Text").GetComponent<TextMeshPro>().text = "CAUGHT";
         gameObject.SetActive(false);
 
     }

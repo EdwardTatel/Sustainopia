@@ -19,4 +19,5 @@ public class StartSequence : MonoBehaviour
         GameVariables.Save(car.transform);
         SceneManager.LoadSceneAsync("UITransition", LoadSceneMode.Additive);
     }
+
 }

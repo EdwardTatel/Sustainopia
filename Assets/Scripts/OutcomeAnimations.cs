@@ -68,6 +68,14 @@ public class OutcomeAnimations : MonoBehaviour
     private DialogueManager FilterTrashTutorial;
     private DialogueManager IllegalFishingTutorial;
 
+    private DialogueManager PlantTreesTutorial;
+    private DialogueManager RemoveInvasiveSpeciesTutorial;
+    private DialogueManager CatchPoachersTutorial;
+
+    private DialogueManager SegregateTrashTutorial;
+    private DialogueManager FillSolarPanelTutorial;
+    private DialogueManager WoodConstructionTutorial;
+
     private DialogueManager ReleaseFishSuccessDialog;
     private DialogueManager FilterTrashSuccessDialog;
     private DialogueManager IllegalFishingSuccessDialog;
@@ -75,6 +83,22 @@ public class OutcomeAnimations : MonoBehaviour
     private DialogueManager ReleaseFishFailDialog;
     private DialogueManager FilterTrashFailDialog;
     private DialogueManager IllegalFishingFailDialog;
+
+    private DialogueManager PlantTreesSuccessDialog;
+    private DialogueManager RemoveInvasiveSpeciesSuccessDialog;
+    private DialogueManager CatchPoachersSuccessDialog;
+
+    private DialogueManager PlantTreesFailDialog;
+    private DialogueManager RemoveInvasiveSpeciesFailDialog;
+    private DialogueManager CatchPoachersFailDialog;
+
+    private DialogueManager SegregateTrashSuccessDialog;
+    private DialogueManager FillSolarPanelSuccessDialog;
+    private DialogueManager WoodConstructionSuccessDialog;
+
+    private DialogueManager SegregateTrashFailDialog;
+    private DialogueManager FillSolarPanelFailDialog;
+    private DialogueManager WoodConstructionFailDialog;
 
     public GameObject tutorialImage;
 
@@ -103,30 +127,58 @@ public class OutcomeAnimations : MonoBehaviour
         FilterTrashFailDialog = GameObject.Find("FilterTrashFailDialog").GetComponent<DialogueManager>();
         IllegalFishingFailDialog = GameObject.Find("IllegalFishingFailDialog").GetComponent<DialogueManager>();
 
+        PlantTreesSuccessDialog = GameObject.Find("PlantTreesSuccessDialog").GetComponent<DialogueManager>();
+        RemoveInvasiveSpeciesSuccessDialog = GameObject.Find("RemoveInvasiveSpeciesSuccessDialog").GetComponent<DialogueManager>();
+        CatchPoachersSuccessDialog = GameObject.Find("CatchPoachersSuccessDialog").GetComponent<DialogueManager>();
+
+        PlantTreesFailDialog = GameObject.Find("PlantTreesFailDialog").GetComponent<DialogueManager>();
+        RemoveInvasiveSpeciesFailDialog = GameObject.Find("RemoveInvasiveSpeciesFailDialog").GetComponent<DialogueManager>();
+        CatchPoachersFailDialog = GameObject.Find("CatchPoachersFailDialog").GetComponent<DialogueManager>();
+
+        SegregateTrashSuccessDialog = GameObject.Find("SegregateTrashSuccessDialog").GetComponent<DialogueManager>();
+        FillSolarPanelSuccessDialog = GameObject.Find("FillSolarPanelSuccessDialog").GetComponent<DialogueManager>();
+        WoodConstructionSuccessDialog = GameObject.Find("WoodConstructionSuccessDialog").GetComponent<DialogueManager>();
+
+        SegregateTrashFailDialog = GameObject.Find("SegregateTrashFailDialog").GetComponent<DialogueManager>();
+        FillSolarPanelFailDialog = GameObject.Find("FillSolarPanelFailDialog").GetComponent<DialogueManager>();
+        WoodConstructionFailDialog = GameObject.Find("WoodConstructionFailDialog").GetComponent<DialogueManager>();
 
         ReleaseFishTutorial = GameObject.Find("ReleaseFishTutorial").GetComponent<DialogueManager>();
         FilterTrashTutorial = GameObject.Find("FilterTrashTutorial").GetComponent<DialogueManager>();
         IllegalFishingTutorial = GameObject.Find("IllegalFishingTutorial").GetComponent<DialogueManager>();
 
+        PlantTreesTutorial = GameObject.Find("PlantTreesTutorial").GetComponent<DialogueManager>();
+        RemoveInvasiveSpeciesTutorial = GameObject.Find("RemoveInvasiveSpeciesTutorial").GetComponent<DialogueManager>();
+        CatchPoachersTutorial = GameObject.Find("CatchPoachersTutorial").GetComponent<DialogueManager>();
+
+        SegregateTrashTutorial = GameObject.Find("SegregateTrashTutorial").GetComponent<DialogueManager>();
+        FillSolarPanelTutorial = GameObject.Find("FillSolarPanelTutorial").GetComponent<DialogueManager>();
+        WoodConstructionTutorial = GameObject.Find("WoodConstructionTutorial").GetComponent<DialogueManager>();
+
         StartMicroGame();
     }
     void SDGImageSet()
     {
+        Color outlineColor;
+
         switch (MicroGameVariables.SDGNum)
         {
             default:
                 SDGImage.GetComponent<Image>().overrideSprite = LifeBelowWaterSprite;
-                LifeBelowWaterDoneText.outlineColor = Color.blue;
+                ColorUtility.TryParseHtmlString("#007DBD", out outlineColor);
                 break;
             case 2:
                 SDGImage.GetComponent<Image>().overrideSprite = LifeOnLandSprite;
-                LifeBelowWaterDoneText.outlineColor = Color.green;
+                ColorUtility.TryParseHtmlString("#0C6F11", out outlineColor);
+
                 break;
             case 3:
                 SDGImage.GetComponent<Image>().overrideSprite = ClimateActionSprite;
-                LifeBelowWaterDoneText.outlineColor = Color.green;
+                ColorUtility.TryParseHtmlString("#48783E", out outlineColor);
                 break;
         }
+        LifeBelowWaterDoneText.outlineColor = outlineColor;
+        percentageText.outlineColor = outlineColor;
     }
 
     void StartMicroGame()
@@ -138,10 +190,40 @@ public class OutcomeAnimations : MonoBehaviour
         else if (!MicroGameVariables.tutorial)
         {
             SDGImageAnimator.Play("StartMG");
+            
         }
     }
 
-    public void ChangeNormalBG()
+    public void ChangeMusic()
+    {
+        if (MicroGameVariables.MGNum == 0)
+        {
+            if (Difficulty == 1) GameObject.Find("Audio").GetComponent<AudioManager>().PlayAudio("gameloop1");
+        }
+    }
+    public void ChangeMusic2()
+    {
+        if (MicroGameVariables.MGNum == 0)
+        {   
+            if (Difficulty == 2 || Difficulty == 3)
+            {
+                GameObject.Find("Audio").GetComponent<AudioManager>().PlayAudio("gameloopescalate");
+
+                StartCoroutine(EscalateSound());
+            }
+        }
+    }
+    public void ChangeMusic3()
+    {
+        GameObject.Find("Audio").GetComponent<AudioManager>().PlayAudio("mainmenu");
+    }
+
+    IEnumerator EscalateSound()
+    {
+        yield return new WaitForSeconds(1.2f);
+        GameObject.Find("Audio").GetComponent<AudioManager>().PlayAudio("gameloop2");
+    }
+public void ChangeNormalBG()
     {
         switch (MicroGameVariables.SDGNum)
         {
@@ -357,7 +439,7 @@ public class OutcomeAnimations : MonoBehaviour
 
     IEnumerator RunEndDialogue()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         int gameStats = 0;
         Cursor.visible = true;
         switch (MicroGameVariables.SDGNum)
@@ -369,20 +451,20 @@ public class OutcomeAnimations : MonoBehaviour
                     case 0:
 
                         gameStats = MicroGameVariables.game1Stats;
-                        if (gameStats > 0) ReleaseFishSuccessDialog.StartConversation();
-                        else ReleaseFishFailDialog.StartConversation();
+                        if (gameStats > 0) PlantTreesSuccessDialog.StartConversation();
+                        else PlantTreesFailDialog.StartConversation();
                         nextMG();
                         break;
                     case 1:
                         gameStats = MicroGameVariables.game2Stats;
-                        if (gameStats > 0) FilterTrashSuccessDialog.StartConversation();
-                        else FilterTrashFailDialog.StartConversation();
+                        if (gameStats > 0) RemoveInvasiveSpeciesSuccessDialog.StartConversation();
+                        else RemoveInvasiveSpeciesFailDialog.StartConversation();
                         nextMG();
                         break;
                     case 2:
                         gameStats = MicroGameVariables.game3Stats;
-                        if (gameStats > 0) IllegalFishingSuccessDialog.StartConversation();
-                        else IllegalFishingFailDialog.StartConversation();
+                        if (gameStats > 0) CatchPoachersSuccessDialog.StartConversation();
+                        else CatchPoachersFailDialog.StartConversation();
                         GameVariables.city2Finished = true;
                         GameVariables.dialogStarted = 2;
 
@@ -397,20 +479,20 @@ public class OutcomeAnimations : MonoBehaviour
                     case 0:
 
                         gameStats = MicroGameVariables.game1Stats;
-                        if (gameStats > 0) ReleaseFishSuccessDialog.StartConversation();
-                        else ReleaseFishFailDialog.StartConversation();
+                        if (gameStats > 0) SegregateTrashSuccessDialog.StartConversation();
+                        else SegregateTrashFailDialog.StartConversation();
                         nextMG();
                         break;
                     case 1:
                         gameStats = MicroGameVariables.game2Stats;
-                        if (gameStats > 0) FilterTrashSuccessDialog.StartConversation();
-                        else FilterTrashFailDialog.StartConversation();
+                        if (gameStats > 0) FillSolarPanelSuccessDialog.StartConversation();
+                        else FillSolarPanelFailDialog.StartConversation();
                         nextMG();
                         break;
                     case 2:
                         gameStats = MicroGameVariables.game3Stats;
-                        if (gameStats > 0) IllegalFishingSuccessDialog.StartConversation();
-                        else IllegalFishingFailDialog.StartConversation();
+                        if (gameStats > 0) WoodConstructionSuccessDialog.StartConversation();
+                        else WoodConstructionFailDialog.StartConversation();
                         GameVariables.city3Finished = true;
                         GameVariables.dialogStarted = 3;
 
@@ -465,6 +547,8 @@ public class OutcomeAnimations : MonoBehaviour
     }
     public void PlayEndAnimation()
     {
+        Debug.Log(MicroGameVariables.SDGNum + "" + MicroGameVariables.MGNum);
+
         StartCoroutine(RunEndAnimationAfterDelay());
     }
 
@@ -712,13 +796,13 @@ public class OutcomeAnimations : MonoBehaviour
                 {
                     case 0:
 
-                        tutorialImage.GetComponent<UnityEngine.UI.Image>().sprite = ReleaseFishTutorialImage;
+                        tutorialImage.GetComponent<UnityEngine.UI.Image>().sprite = PlantTreesTutorialImage;
                         break;
                     case 1:
-                        tutorialImage.GetComponent<UnityEngine.UI.Image>().sprite = FilterTrashTutorialImage;
+                        tutorialImage.GetComponent<UnityEngine.UI.Image>().sprite = RemoveInvasiveSpeciesTutorialImage;
                         break;
                     case 2:
-                        tutorialImage.GetComponent<UnityEngine.UI.Image>().sprite = IllegalFishingTutorialImage;
+                        tutorialImage.GetComponent<UnityEngine.UI.Image>().sprite = CatchPoachersTutorialImage;
                         break;
 
                 }
@@ -729,13 +813,13 @@ public class OutcomeAnimations : MonoBehaviour
                 {
                     case 0:
 
-                        tutorialImage.GetComponent<UnityEngine.UI.Image>().sprite = ReleaseFishTutorialImage;
+                        tutorialImage.GetComponent<UnityEngine.UI.Image>().sprite = SegregateTrashTutorialImage;
                         break;
                     case 1:
-                        tutorialImage.GetComponent<UnityEngine.UI.Image>().sprite = FilterTrashTutorialImage;
+                        tutorialImage.GetComponent<UnityEngine.UI.Image>().sprite = FillSolarPanelTutorialImage;
                         break;
                     case 2:
-                        tutorialImage.GetComponent<UnityEngine.UI.Image>().sprite = IllegalFishingTutorialImage;
+                        tutorialImage.GetComponent<UnityEngine.UI.Image>().sprite = WoodConstructionTutorialImage;
                         break;
 
                 }
@@ -776,40 +860,34 @@ public class OutcomeAnimations : MonoBehaviour
                 switch (MicroGameVariables.MGNum)
                 {
                     case 0:
-
-                        ReleaseFishTutorial.StartConversation();
+                        PlantTreesTutorial.StartConversation();
                         nextMG();
                         break;
                     case 1:
-                        FilterTrashTutorial.StartConversation();
+                        RemoveInvasiveSpeciesTutorial.StartConversation();
                         nextMG();
                         break;
                     case 2:
-                        IllegalFishingTutorial.StartConversation();
+                        CatchPoachersTutorial.StartConversation();
                         nextMG();
-
                         break;
-
                 }
                 break;
             case 3:
                 switch (MicroGameVariables.MGNum)
                 {
                     case 0:
-
-                        ReleaseFishTutorial.StartConversation();
+                        SegregateTrashTutorial.StartConversation();
                         nextMG();
                         break;
                     case 1:
-                        FilterTrashTutorial.StartConversation();
+                        FillSolarPanelTutorial.StartConversation();
                         nextMG();
                         break;
                     case 2:
-                        IllegalFishingTutorial.StartConversation();
+                        WoodConstructionTutorial.StartConversation();
                         nextMG();
-
                         break;
-
                 }
                 break;
             default:

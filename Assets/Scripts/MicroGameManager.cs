@@ -35,7 +35,7 @@ public class MicroGameManager : MonoBehaviour
     }
     public void AnimateBar()
     {
-        tweenId = LeanTween.scaleX(bar, 0, 9).setOnComplete(CheckWinCondition).id;
+        tweenId = LeanTween.scaleX(bar, 0, 9.7f).setOnComplete(CheckWinCondition).id;
     }
 
     public void CancelTimerBarAnimate()

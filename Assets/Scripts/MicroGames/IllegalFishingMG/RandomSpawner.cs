@@ -29,15 +29,15 @@ public class RandomSpawner : MonoBehaviour
         {
             case MicroGameVariables.levels.hard:
                 dynamiteFisherCount = 3;
-                normalFisherCount = 5;
+                normalFisherCount = 0;
                 break;
             case MicroGameVariables.levels.medium:
                 dynamiteFisherCount = 2;
-                normalFisherCount = 4;
+                normalFisherCount = 0;
                 break;
             default:
                 dynamiteFisherCount = 1;
-                normalFisherCount = 3;
+                normalFisherCount = 0;
                 break;
         }
     }

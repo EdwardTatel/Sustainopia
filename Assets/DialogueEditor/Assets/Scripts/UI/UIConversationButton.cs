@@ -20,6 +20,7 @@ namespace DialogueEditor
             End
         }
 
+        public TMPro.TMP_FontAsset ButtonFont;
         // Getters
         public eButtonType ButtonType { get { return m_buttonType; } }
 
@@ -36,7 +37,7 @@ namespace DialogueEditor
         private float m_hoverT = 0.0f;
         private eHoverState m_hoverState;
         private bool Hovering { get { return (m_hoverState == eHoverState.animatingOn || m_hoverState == eHoverState.animatingOff); } }
-        private Vector3 BigSize { get { return Vector3.one * 1.2f; } }
+        private Vector3 BigSize { get { return Vector3.one * 1.05f; } }
 
 
         //--------------------------------------
@@ -45,7 +46,7 @@ namespace DialogueEditor
 
         private void Awake()
         {
-            m_rect = GetComponent<RectTransform>();
+            m_rect = GetComponent<RectTransform>(); m_hoverState = eHoverState.idleOff; // Set the initial hover state to idleOff
         }
 
         private void Update()
@@ -60,17 +61,16 @@ namespace DialogueEditor
                     normalised = 1;
                     done = true;
                 }
-                Vector3 size = Vector3.one;
+                Vector3 size = Vector3.one; // Reset to normal size
                 float ease = EaseOutQuart(normalised);
-                
 
                 switch (m_hoverState)
                 {
                     case eHoverState.animatingOn:
-                        size = Vector3.Lerp(Vector3.one, BigSize, ease);
+                        size = Vector3.Lerp(Vector3.one, BigSize, ease); // Increase size
                         break;
                     case eHoverState.animatingOff:
-                        size = Vector3.Lerp(BigSize, Vector3.one, ease);
+                        size = Vector3.Lerp(BigSize, Vector3.one, ease); // Return to normal size
                         break;
                 }
 
@@ -181,21 +181,21 @@ namespace DialogueEditor
                 case eButtonType.Option:
                     {
                         TextMesh.text = node.Text;
-                        TextMesh.font = node.TMPFont;
+                        TextMesh.font = ButtonFont;
                     }
                     break;
 
                 case eButtonType.Speech:
                     {
                         TextMesh.text = "Continue.";
-                        TextMesh.font = continueFont;
+                        TextMesh.font = ButtonFont;
                     }
                     break;
 
                 case eButtonType.End:
                     {
                         TextMesh.text = "End.";
-                        TextMesh.font = endFont;
+                        TextMesh.font = ButtonFont;
                     }
                     break;
             }

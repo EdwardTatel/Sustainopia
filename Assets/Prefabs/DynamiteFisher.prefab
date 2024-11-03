@@ -151,7 +151,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e6e9518ad7aa594391830c89277eee4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkDuration: 2
+  checkDuration: 1
+  cloud: {fileID: 8878096696828039115, guid: a6cf368301f0c594e8ac56a96a19fa4f, type: 3}
 --- !u!114 &1514869976997972560
 MonoBehaviour:
   m_ObjectHideFlags: 0

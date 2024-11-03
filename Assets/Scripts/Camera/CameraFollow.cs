@@ -1,9 +1,10 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Accessibility;
 
 public class CameraFollow : MonoBehaviour
 {
-    public Transform target; 
+    public Transform target;
     public Vector3 offset; 
     public float smoothTime = 0.3f;
     private bool instaChagePosition = true;

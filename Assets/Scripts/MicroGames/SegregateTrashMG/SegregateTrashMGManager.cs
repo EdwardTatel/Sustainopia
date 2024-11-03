@@ -9,6 +9,7 @@ public class SegregateTrashMGManager : MonoBehaviour
 
     public List<GameObject> trashList = new List<GameObject>();
     public GameObject[] bins; // Assign the three bin GameObjects in the Inspector
+    public GameObject[] binsLabel;
     public Material ewasteMaterial; // Material for EwasteBin
     public Material organicMaterial; // Material for OrganicBin
     public Material recycleMaterial; // Material for RecycleBin
@@ -85,15 +86,20 @@ public class SegregateTrashMGManager : MonoBehaviour
             if (bins[i].tag == "Ewaste")
             {
                 ChangeMaterial(bins[i], ewasteMaterial);
+                binsLabel[i].GetComponent<TextMeshPro>().text = "EWASTE";
             }
             else if (bins[i].tag == "Organic")
             {
                 ChangeMaterial(bins[i], organicMaterial);
+                binsLabel[i].GetComponent<TextMeshPro>().text = "BIO";
             }
             else if (bins[i].tag == "Recyclable")
             {
                 ChangeMaterial(bins[i], recycleMaterial);
+                binsLabel[i].GetComponent<TextMeshPro>().text = "NON BIO";
             }
+
+
         }
     }
 

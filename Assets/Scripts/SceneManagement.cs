@@ -16,14 +16,12 @@ public class SceneManagement : MonoBehaviour
         SceneManager.LoadSceneAsync("LevelSelect", LoadSceneMode.Additive);
         Scene targetScene = SceneManager.GetSceneByName("Main Menu");
         SceneManager.UnloadSceneAsync(targetScene);
-        GameVariables.EnableAllTexts();
     }
     public void BackToLevelSelect()
     {
         SceneManager.LoadSceneAsync("LevelSelect", LoadSceneMode.Additive);
         Scene targetScene = SceneManager.GetSceneByName("UITransition");
         SceneManager.UnloadSceneAsync(targetScene);
-        GameVariables.EnableAllTexts();
     }
 
 }

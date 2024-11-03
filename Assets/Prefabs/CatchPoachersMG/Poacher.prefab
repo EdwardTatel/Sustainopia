@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 0}
   caughtSprite: {fileID: 178329592, guid: fe3542f92ddde4342a98bd9918744863, type: 3}
+  cloud: {fileID: 2822900820989130222, guid: c60a1347538417e48babbaff758b0b05, type: 3}
 --- !u!114 &5490005258049068610
 MonoBehaviour:
   m_ObjectHideFlags: 0

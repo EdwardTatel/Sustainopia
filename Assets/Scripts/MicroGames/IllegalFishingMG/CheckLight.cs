@@ -1,10 +1,12 @@
+using TMPro;
 using UnityEngine;
 
 public class CheckLight : MonoBehaviour
 {
     private Camera mainCamera;        // Reference to the main camera
-    public float checkDuration = 2f;  // Time in seconds before the object disappears
+    public float checkDuration = 1f;  // Time in seconds before the object disappears
     private float timer = 0f;
+    public GameObject cloud;
 
     void Start()
     {
@@ -36,6 +38,9 @@ public class CheckLight : MonoBehaviour
             // If the line is clear for the duration, make the object disappear
             if (timer >= checkDuration)
             {
+                GameObject Cloud = Instantiate(cloud, transform.position, Quaternion.identity);
+
+                Cloud.transform.Find("Text").GetComponent<TextMeshPro>().text = "CAUGHT";
                 gameObject.SetActive(false);
             }
         }
