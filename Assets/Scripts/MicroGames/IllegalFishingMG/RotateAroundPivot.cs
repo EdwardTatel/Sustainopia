@@ -18,17 +18,17 @@ public class RotateAroundPivot : MonoBehaviour
 
     private void Update()
     {
-        // Get the mouse delta along the X axis (left-right movement)
-        float mouseDeltaX = Input.GetAxis("Mouse X");
+        // Get the mouse delta along the Y axis (up-down movement), and invert it
+        float mouseDeltaY = -Input.GetAxis("Mouse Y");
 
         // Rotate the lever based on mouse movement
-        RotateLever(mouseDeltaX);
+        RotateLever(mouseDeltaY);
     }
 
-    private void RotateLever(float mouseDeltaX)
+    private void RotateLever(float mouseDeltaY)
     {
         // Convert mouse delta to rotation amount
-        float rotationAmount = mouseDeltaX * rotationSpeed * Time.deltaTime;
+        float rotationAmount = mouseDeltaY * rotationSpeed * Time.deltaTime;
 
         // Calculate the new rotation angle and clamp it
         currentRotationAngle = Mathf.Clamp(currentRotationAngle + rotationAmount, minRotationAngle, maxRotationAngle);

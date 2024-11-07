@@ -297,9 +297,9 @@ public void ChangeNormalBG()
         prevPercentage = prevPercentage * 100;
         outcomeTransform.localPosition = new Vector3(prevGameStats * 12024, outcomeTransform.localPosition.y, outcomeTransform.localPosition.z);
 
-        if (MicroGameVariables.MGNum == 2 && Difficulty == 3)
+        if ((MicroGameVariables.MGNum == 2 && Difficulty == 3) || (MicroGameVariables.GetLives() <= 0))
         {
-            
+            if ((MicroGameVariables.GetLives() <= 0)) MicroGameVariables.MGNum = 0;
             LeanTween.move(outcomeTransform, new Vector2(gameStats * 12024, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(PlayEndAnimation);
             AnimatePercentage(prevPercentage, percentage);
         }
@@ -308,7 +308,7 @@ public void ChangeNormalBG()
             LeanTween.move(outcomeTransform, new Vector2(gameStats * 12024, outcomeTransform.localPosition.y), 1f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(PlaySDGAnimation);
             AnimatePercentage(prevPercentage, percentage);
         }
-        nextMG();
+        if (!(MicroGameVariables.GetLives() <= 0)) nextMG();
     }
 
     
@@ -462,13 +462,25 @@ public void ChangeNormalBG()
                         nextMG();
                         break;
                     case 2:
-                        gameStats = MicroGameVariables.game3Stats;
-                        if (gameStats > 0) CatchPoachersSuccessDialog.StartConversation();
-                        else CatchPoachersFailDialog.StartConversation();
-                        GameVariables.city2Finished = true;
-                        GameVariables.dialogStarted = 2;
+                        if (MicroGameVariables.GetLives() <= 0)
+                        {
+                            gameStats = MicroGameVariables.game3Stats;
+                            if (gameStats > 0) CatchPoachersSuccessDialog.StartConversation();
+                            else CatchPoachersFailDialog.StartConversation();
+                            GameVariables.dialogStarted = 4;
+                            MicroGameVariables.restartGameStats();
+                        }
+                        else
+                        {
+                            gameStats = MicroGameVariables.game3Stats;
+                            if (gameStats > 0) CatchPoachersSuccessDialog.StartConversation();
+                            else CatchPoachersFailDialog.StartConversation();
+                            GameVariables.city2Finished = true;
+                            GameVariables.dialogStarted = 2;
 
-                        MicroGameVariables.restartGameStats();
+                            MicroGameVariables.restartGameStats();
+                        }
+                        
                         break;
 
                 }
@@ -490,13 +502,25 @@ public void ChangeNormalBG()
                         nextMG();
                         break;
                     case 2:
-                        gameStats = MicroGameVariables.game3Stats;
-                        if (gameStats > 0) WoodConstructionSuccessDialog.StartConversation();
-                        else WoodConstructionFailDialog.StartConversation();
-                        GameVariables.city3Finished = true;
-                        GameVariables.dialogStarted = 3;
+                        if (MicroGameVariables.GetLives() <= 0)
+                        {
+                            gameStats = MicroGameVariables.game3Stats;
+                            if (gameStats > 0) WoodConstructionSuccessDialog.StartConversation();
+                            else WoodConstructionFailDialog.StartConversation();
+                            GameVariables.dialogStarted = 4;
+                            MicroGameVariables.restartGameStats();
+                        }
+                        else
+                        {
+                            gameStats = MicroGameVariables.game3Stats;
+                            if (gameStats > 0) WoodConstructionSuccessDialog.StartConversation();
+                            else WoodConstructionFailDialog.StartConversation();
+                            GameVariables.city3Finished = true;
+                            GameVariables.dialogStarted = 3;
 
-                        MicroGameVariables.restartGameStats();
+                            MicroGameVariables.restartGameStats();
+                        }
+                        
                         break;
 
                 }
@@ -519,12 +543,24 @@ public void ChangeNormalBG()
                         nextMG();
                         break;
                     case 2:
-                        gameStats = MicroGameVariables.game3Stats;
-                        if (gameStats > 0) IllegalFishingSuccessDialog.StartConversation();
-                        else IllegalFishingFailDialog.StartConversation();
-                        GameVariables.city1Finished = true;
-                        GameVariables.dialogStarted = 1;
-                        MicroGameVariables.restartGameStats();
+                        if (MicroGameVariables.GetLives() <= 0)
+                        {
+                            gameStats = MicroGameVariables.game3Stats;
+                            if (gameStats > 0) IllegalFishingSuccessDialog.StartConversation();
+                            else IllegalFishingFailDialog.StartConversation();
+                            GameVariables.dialogStarted = 4;
+                            MicroGameVariables.restartGameStats();
+                        }
+                        else
+                        {
+                            gameStats = MicroGameVariables.game3Stats;
+                            if (gameStats > 0) IllegalFishingSuccessDialog.StartConversation();
+                            else IllegalFishingFailDialog.StartConversation();
+                            GameVariables.city1Finished = true;
+                            GameVariables.dialogStarted = 1;
+                            MicroGameVariables.restartGameStats();
+                        }
+                        
                         break;
 
                 }
@@ -547,7 +583,6 @@ public void ChangeNormalBG()
     }
     public void PlayEndAnimation()
     {
-        Debug.Log(MicroGameVariables.SDGNum + "" + MicroGameVariables.MGNum);
 
         StartCoroutine(RunEndAnimationAfterDelay());
     }
@@ -556,6 +591,7 @@ public void ChangeNormalBG()
     {
         // Wait for 2 seconds
         yield return new WaitForSeconds(.5f);
+        Debug.Log(MicroGameVariables.MGNum);
         switch (MicroGameVariables.MGNum)
         { 
             case 0:
@@ -755,7 +791,8 @@ public void ChangeNormalBG()
 
     public void ChangeTextOnFinish()
     {
-        LifeBelowWaterText.text = "Level Clear";
+        if (MicroGameVariables.GetLives() <= 0) LifeBelowWaterText.text = "Level Failed";
+        else LifeBelowWaterText.text = "Level Clear";
     }
 
     public void HideMGUI()

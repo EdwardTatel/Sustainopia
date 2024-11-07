@@ -40,7 +40,7 @@ public class TrashBinScript : MonoBehaviour
 
             hit.transform.gameObject.GetComponent<Rigidbody>().isKinematic = true;
             RotateLid(trashLid, -44.305f, 0.3f);
-            LeanTween.move(hit.transform.gameObject, new Vector3(transform.position.x, 1.747f, transform.position.z), .7f)
+            LeanTween.move(hit.transform.gameObject, new Vector3(transform.position.x, 1.747f, transform.position.z), .4f)
                 .setEase(LeanTweenType.easeOutQuad)
                 .setOnComplete(() => dropTrash(hit.transform.gameObject, trashLid));
 
@@ -62,7 +62,7 @@ public class TrashBinScript : MonoBehaviour
     private void dropTrash(GameObject trash, GameObject trashLid)
     {
         // Complete the trash drop to its final position
-        LeanTween.move(trash.gameObject, new Vector3(trash.transform.position.x, 0.5f, trash.transform.position.z), 1f)
+        LeanTween.move(trash.gameObject, new Vector3(trash.transform.position.x, 0.5f, trash.transform.position.z), .4f)
             .setEase(LeanTweenType.easeInQuad)
             .setOnComplete(() =>
             {

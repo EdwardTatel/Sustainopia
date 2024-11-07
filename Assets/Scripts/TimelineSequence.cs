@@ -105,7 +105,7 @@ public class TimelineSequence : MonoBehaviour
             }
             else if (GameVariables.dialogStarted == 4)
             {
-                GameObject.Find("levelsuccessdialog3").GetComponent<DialogueManager>().StartConversation();
+                GameObject.Find("levelfaildialog").GetComponent<DialogueManager>().StartConversation();
             }
 
     }

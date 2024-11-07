@@ -20,12 +20,12 @@ public class MedalAnimationScript : MonoBehaviour
     IEnumerator ShowMedal()
     {
         yield return new WaitForSeconds(1f);
-        LeanTween.move(transform.parent.gameObject.GetComponent<RectTransform>(), new Vector3(0, -915f, 0), 1f).setEase(LeanTweenType.easeInOutQuad);
+        LeanTween.move(transform.parent.gameObject.GetComponent<RectTransform>(), new Vector3(0, -336.67f, 0), 1f).setEase(LeanTweenType.easeInOutQuad);
     }
 
     public void MedalUp()
     {
-        LeanTween.move(transform.parent.gameObject.GetComponent<RectTransform>(), new Vector3(0, 236f, 0), 1f).setEase(LeanTweenType.easeInOutQuad);
+        LeanTween.move(transform.parent.gameObject.GetComponent<RectTransform>(), new Vector3(0, 104f, 0), 1f).setEase(LeanTweenType.easeInOutQuad);
     }
 
 }
