@@ -14,6 +14,7 @@ public class RotateAroundPivot : MonoBehaviour
         // Lock the cursor to the center of the screen and make it invisible
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        SimulateMouseClick();
     }
 
     private void Update()
@@ -24,7 +25,17 @@ public class RotateAroundPivot : MonoBehaviour
         // Rotate the lever based on mouse movement
         RotateLever(mouseDeltaY);
     }
+    public void OnMouseClick()
+    {
+        Debug.Log("Mouse click simulated!");
+        // Put your click-related code here
+    }
 
+    // Simulate a mouse click
+    public void SimulateMouseClick()
+    {
+        OnMouseClick();
+    }
     private void RotateLever(float mouseDeltaY)
     {
         // Convert mouse delta to rotation amount

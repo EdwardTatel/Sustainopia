@@ -27,7 +27,6 @@ public class IllegalFishingMGManager : MonoBehaviour
         MicroGameVariables.ShowUI();
         SetLighting();
     }
-
     // Update is called once per frame
     void Update()
     {
