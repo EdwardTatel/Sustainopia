@@ -5,7 +5,7 @@ Sustainopia, is a micro-game compilation for promoting awareness and positive be
 You have just been elected President of Sustainopia, a fictional tropical island country that’s home to different cities with different sustainable development challenges. As a member of the UN, Sustainopia needs your help to meet UN standards and live up to its name. By traveling to different cities and helping solve each region’s unique problems through different micro games, the player brings Sustainopia one step closer to being a sustainable nation. 
 
 # Unity Play Link
-You can play the game here using the Unity Play link: 
+You can play the game here using the Unity Play link: https://play.unity.com/en/games/9fc78247-1d92-4728-bec0-5d8cdc4d5b60/sustainopia
 
 # Screenshots
 Main Menu
